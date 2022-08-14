@@ -22,23 +22,20 @@ public class cmd implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
-
+        Player target;
         Cash cash = new Cash(player);
 
         if (args.length == 0) {
             Main.Cash = new ConfigManager("data/" + player.getUniqueId());
 
-            Main.Cash.getConfig().set("Cash", cash);
-            Main.Cash.saveConfig();
-
             cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-            player.sendMessage(cash.getCash() + " ");
 
+            player.sendMessage(cash.getCash() + " ");
 
         } else if (player.isOp()) {
             switch (args[0]) {
                 case "지급":
-                    Player target = Bukkit.getPlayer(args[1]);
+                    target = Bukkit.getPlayer(args[1]);
                     int amount = Integer.parseInt(args[2]);
                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
 
@@ -54,8 +51,11 @@ public class cmd implements CommandExecutor {
                     break;
 
                 case "뺏기":
+                    target = Bukkit.getPlayer(args[1]);
+                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                    cash.Decrease(Integer.parseInt(args[1]));
+                    cash.Decrease(Integer.parseInt(args[2]));
+
                     Main.Cash.getConfig().set("Cash", cash);
                     Main.Cash.saveConfig();
                     break;

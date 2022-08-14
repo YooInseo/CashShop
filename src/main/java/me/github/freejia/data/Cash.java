@@ -32,7 +32,10 @@ public class Cash implements ConfigurationSerializable {
     }
 
     public void Decrease(int Amount) {
-        Cash -= Amount;
+        if(Cash > 0){
+            Cash -= Amount;
+        }
+
     }
 
     public void setCash(int cash) {
