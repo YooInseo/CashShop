@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-<<<<<<< HEAD
     id 'kr.entree.spigradle' version '2.2.4'
 }
 
@@ -21,7 +20,6 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
-=======
 }
 
 group 'org.example'
@@ -36,7 +34,3 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
-test {
-    useJUnitPlatform()
->>>>>>> 72a7c2adedad00a04729568f403b600f78d57d26
-}
