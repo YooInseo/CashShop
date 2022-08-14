@@ -12,7 +12,7 @@ public class Main extends JavaPlugin {
     public static Main plugin;
 
     public static ConfigManager config;
-
+    public static ConfigManager Cash ;
     public void onEnable() {
         super.onEnable();
         config = new ConfigManager("config");

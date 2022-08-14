@@ -1,6 +1,7 @@
 package me.github.freejia.cmd;
 
 import me.github.freejia.Main;
+import me.github.freejia.data.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,9 +18,21 @@ public class cmd implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player)sender;
-        if(player.isOp()){
-            switch (args[0]){
+        Player player = (Player) sender;
+        Main.Cash = new ConfigManager("data/" + player.getUniqueId());
+
+        if (args.length == 0) {
+
+            if (!Main.Cash.file.exists()) {
+                Main.Cash.getConfig().set("Cash", 0);
+                Main.Cash.saveConfig();
+            } else{
+                player.sendMessage(Main.Cash.getConfig().getInt("Cash") +" ");
+            }
+
+        }
+        if (player.isOp()) {
+            switch (args[0]) {
                 case "뺏기":
 
                     break;
