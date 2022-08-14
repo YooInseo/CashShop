@@ -12,7 +12,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
 
-        Log.info("플러그인이 켜졌다옹");
+        Log.info("on plugin!");
 
         getLogger().info("TEST");
     }
