@@ -14,5 +14,6 @@ public class Main extends JavaPlugin {
 
         Log.info("플러그인이 켜졌다옹");
 
+        getLogger().info("TEST");
     }
 }
