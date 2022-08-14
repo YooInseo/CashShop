@@ -7,22 +7,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class cmd implements CommandExecutor {
+public class cash implements CommandExecutor {
     private Main plugin;
 
-    public cmd(Main plugin) {
-        Bukkit.getPluginCommand("캐쉬").setExecutor(this);
+    public cash(Main plugin) {
+        Bukkit.getPluginCommand("캐시").setExecutor(this);
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         Player target;
+        int amount;
         Cash cash = new Cash(player);
 
         if (args.length == 0) {
@@ -36,7 +35,18 @@ public class cmd implements CommandExecutor {
             switch (args[0]) {
                 case "지급":
                     target = Bukkit.getPlayer(args[1]);
-                    int amount = Integer.parseInt(args[2]);
+                    amount = Integer.parseInt(args[2]);
+                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+
+                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                    cash.increase(amount);
+
+                    Main.Cash.getConfig().set("Cash", cash);
+                    Main.Cash.saveConfig();
+                    break;
+                case "이벤트지급":
+                    target = Bukkit.getPlayer(args[1]);
+                    amount = Integer.parseInt(args[2]);
                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
 
                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
@@ -46,11 +56,13 @@ public class cmd implements CommandExecutor {
                     Main.Cash.saveConfig();
                     break;
                 case "확인":
-                    Main.Cash.getConfig().set("Cash", cash);
-                    Main.Cash.saveConfig();
+                    target = Bukkit.getPlayer(args[1]);
+                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                    player.sendMessage("" + cash.getCash() + "캐쉬 입니다.");
                     break;
 
-                case "뺏기":
+                case "제거":
                     target = Bukkit.getPlayer(args[1]);
                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
@@ -59,6 +71,16 @@ public class cmd implements CommandExecutor {
                     Main.Cash.getConfig().set("Cash", cash);
                     Main.Cash.saveConfig();
                     break;
+                case "설정":
+                    target = Bukkit.getPlayer(args[1]);
+                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                    cash.setCash(Integer.parseInt(args[2]));
+
+                    Main.Cash.getConfig().set("Cash", cash);
+                    Main.Cash.saveConfig();
+                    break;
+
             }
         }
         return false;

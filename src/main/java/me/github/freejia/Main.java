@@ -1,6 +1,7 @@
 package me.github.freejia;
 
-import me.github.freejia.cmd.cmd;
+import me.github.freejia.cmd.cash;
+import me.github.freejia.cmd.cashshop;
 import me.github.freejia.data.Cash;
 import me.github.freejia.data.ConfigManager;
 import org.bukkit.Bukkit;
@@ -20,8 +21,10 @@ public class Main extends JavaPlugin {
         super.onEnable();
         config = new ConfigManager("config");
         plugin = this;
-        new cmd(this);
-        ConfigurationSerialization.registerClass(Cash.class);
 
+        new cash(this);
+        new cashshop(this);
+
+        ConfigurationSerialization.registerClass(Cash.class);
     }
 }

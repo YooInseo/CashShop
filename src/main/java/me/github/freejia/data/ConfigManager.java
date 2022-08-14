@@ -93,7 +93,7 @@ public class ConfigManager {
 
 
     public void newArrayList(String path ){
-        if(getConfig().get(path) == null){
+        if(getConfig().getList(path) == null){
             this.getConfig().set(path, new ArrayList<>());
             this.saveConfig();
         }  else {
@@ -127,6 +127,14 @@ public class ConfigManager {
     }
 
 
+    public boolean setObject(String path, Object obj ){
+        List<Object> list = (List<Object>) this.getConfig().getList(path);
+        if(!list.contains(obj)){
+            list.set(list.indexOf(obj),obj);
+        }
+
+        return this.saveConfig();
+    }
     public boolean setObject(String path, Object obj,int index ){
         List<Object> list = (List<Object>) this.getConfig().getList(path);
         list.set(index,obj);
