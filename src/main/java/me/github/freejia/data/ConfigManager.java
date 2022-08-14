@@ -126,6 +126,7 @@ public class ConfigManager {
         return this.saveConfig();
     }
 
+
     public boolean setObject(String path, Object obj,int index ){
         List<Object> list = (List<Object>) this.getConfig().getList(path);
         list.set(index,obj);
