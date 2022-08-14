@@ -18,7 +18,7 @@ public class ConfigManager {
 
     public ConfigManager(String name){
         this.name = name;
-
+        file = new File(name + ".yml");
     }
     public void reloadConfig(){
         if(this.config == null)

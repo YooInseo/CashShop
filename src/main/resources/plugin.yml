@@ -1,0 +1,9 @@
+name: CashShop
+main: me.github.freejia.Main
+version: 1.0
+api-version: 1.13
+
+author: SkyExcel
+
+commands:
+  캐쉬:
