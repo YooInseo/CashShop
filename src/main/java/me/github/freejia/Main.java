@@ -8,12 +8,11 @@ import java.util.logging.Logger;
 public class Main extends JavaPlugin {
 
     private static final Logger Log = Bukkit.getLogger();
+    public static Main plugin;
 
     public void onEnable() {
         super.onEnable();
 
-        Log.info("on plugin!");
-
-        getLogger().info("TEST");
+        plugin = this;
     }
 }
