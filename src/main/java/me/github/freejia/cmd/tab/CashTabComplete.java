@@ -26,28 +26,31 @@ public class CashTabComplete implements TabCompleter {
         Player player = (Player) sender;
         final List<String> completions = new ArrayList<>();
 
-        if (args.length == 1) {
-            StringUtil.copyPartialMatches(args[0], Arrays.asList("지급", "제거", "설정", "확인"), completions);
-        } else if (args.length == 2) {
-            for (Player online : Bukkit.getOnlinePlayers()) {
-                completions.add(online.getDisplayName());
+        if(player.isOp()){
+            if (args.length == 1) {
+                StringUtil.copyPartialMatches(args[0], Arrays.asList("지급", "제거", "설정", "확인"), completions);
+            } else if (args.length == 2) {
+                for (Player online : Bukkit.getOnlinePlayers()) {
+                    completions.add(online.getDisplayName());
+                }
+
+            } else if (args.length == 3) {
+                switch (args[0]) {
+                    case "지급":
+                        completions.add("<Amount>");
+                        break;
+                    case "제거":
+                        completions.add("<Amount>");
+                        break;
+                    case "설정":
+                        completions.add("<Amount>");
+                        break;
+                }
             }
 
-        } else if (args.length == 3) {
-            switch (args[0]) {
-                case "지급":
-                    completions.add("<Amount>");
-                    break;
-                case "제거":
-                    completions.add("<Amount>");
-                    break;
-                case "설정":
-                    completions.add("<Amount>");
-                    break;
-            }
+            Collections.sort(completions);
         }
 
-        Collections.sort(completions);
 
 
         return completions;
