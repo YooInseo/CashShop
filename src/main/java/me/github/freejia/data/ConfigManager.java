@@ -32,6 +32,11 @@ public class ConfigManager {
         }
     }
 
+    public Object load(String path){
+        this.config = YamlConfiguration.loadConfiguration(this.file);
+        return config.getDefaults().get(path);
+    }
+
     public FileConfiguration getConfig() {
         if(this.config == null) reloadConfig();
         return config;
