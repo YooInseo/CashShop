@@ -80,7 +80,7 @@ public class cash implements CommandExecutor {
 
                         Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                         cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                        player.sendMessage(Util.replace(target, cash.getCash(), "cash_message.check"));
+                        player.sendMessage(Util.replace(target, cash.getCash(), "cash_message.check_user"));
                     }
                     break;
 

@@ -75,6 +75,7 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("shop_message.64_sell","");
 
         config.getConfig().addDefault("cash_message.check","");
+        config.getConfig().addDefault("cash_message.check_user","");
         config.getConfig().addDefault("cash_message.send","");
         config.getConfig().addDefault("cash_message.remove","");
         config.getConfig().addDefault("cash_message.set","");
