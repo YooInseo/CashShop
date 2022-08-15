@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabComplete implements TabCompleter {
+public class CashTabComplete implements TabCompleter {
 
 
     List<String> results = new ArrayList<>();

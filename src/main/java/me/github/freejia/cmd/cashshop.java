@@ -1,7 +1,8 @@
 package me.github.freejia.cmd;
 
 import me.github.freejia.Main;
-import me.github.freejia.cmd.tab.TabComplete;
+import me.github.freejia.cmd.tab.CashShopTabComplete;
+import me.github.freejia.cmd.tab.CashTabComplete;
 import me.github.freejia.data.CashShop;
 import me.github.freejia.data.ConfigManager;
 import org.bukkit.Bukkit;
@@ -11,16 +12,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class cashshop implements CommandExecutor {
 
     private Main plugin;
 
     public cashshop(Main plugin) {
         Bukkit.getPluginCommand("캐시상점").setExecutor(this);
-        Bukkit.getPluginCommand("캐시상점").setTabCompleter(new TabComplete());
+        Bukkit.getPluginCommand("캐시상점").setTabCompleter(new CashShopTabComplete());
     }
 
     @Override
@@ -37,6 +35,7 @@ public class cashshop implements CommandExecutor {
                     case "생성":
                         name = args[1];
                         shop = new ConfigManager("shop/" + name);
+
                         cashShop = new CashShop(name, player);
 
                         shop.getConfig().set("shop",cashShop);
@@ -48,7 +47,7 @@ public class cashshop implements CommandExecutor {
                         int line = Integer.parseInt(args[2]);
                         shop = new ConfigManager("shop/" + name);
 
-                        cashShop = new CashShop(name, player);
+                        cashShop = shop.getConfig().getObject("shop", CashShop.class);
 
                         cashShop.setLine(line);
                         shop.getConfig().set("shop",cashShop);
@@ -56,8 +55,25 @@ public class cashshop implements CommandExecutor {
 
                         break;
 
-                    case "아이템":
+                    case "편집":
+                        name = args[1];
+                        shop = new ConfigManager("shop/" + name);
+                        cashShop = shop.getConfig().getObject("shop", CashShop.class);
+                        cashShop.setPlayer(player);
+                        cashShop.Editor();
+                        break;
 
+                    case "GUI이름":
+                        name = args[1];
+                        String targetname = args[2];
+
+                        shop = new ConfigManager("shop/" + name);
+
+                        cashShop = shop.getConfig().getObject("shop", CashShop.class);
+                        cashShop.setTitle(targetname);
+                        shop.getConfig().set("shop",cashShop);
+                        shop = new ConfigManager("shop/" + targetname);
+                        shop.saveConfig();
                         break;
                 }
             }

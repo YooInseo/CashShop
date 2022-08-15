@@ -25,6 +25,12 @@ public class CashShop implements ConfigurationSerializable {
     }
 
 
+    public CashShop(String name,int line) {
+        this.name = name;
+        this.title = name;
+        this.line = line;
+    }
+
 
     public void Create(){
         Inventory inv = Bukkit.createInventory(null,line + 9, name);
@@ -33,12 +39,21 @@ public class CashShop implements ConfigurationSerializable {
         player.openInventory(inv);
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public void setLine(int line) {
         this.line = line;
     }
     public void Editor(){
-        Inventory inv = Bukkit.createInventory(null,line + 9, "Editor + " + name);
-        this.title = "Editor + " + name;
+        Inventory inv = Bukkit.createInventory(null,line + 9, "Editor : " + name);
+        this.title = "Editor : " + name;
+
 
         player.openInventory(inv);
     }
@@ -46,14 +61,20 @@ public class CashShop implements ConfigurationSerializable {
         return title;
     }
 
+    public CashShop(Map<String, Object> map){
+        this((String) map.get("GUI"),(Integer) map.get("GUI_SIZE"));
+    }
+
+
     @NotNull
     @Override
     public Map<String, Object> serialize() {
         HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("inv",inv);
-        map.put("line",line);
-        map.put("Page",Page);
-        map.put("Title",title);
+        map.put("GUI",title);
+        map.put("GUI_SIZE",line);
+
+//        map.put("inv",inv);
+
         return map;
     }
 }

@@ -26,10 +26,17 @@ public class cash implements CommandExecutor {
 
         if (args.length == 0) {
             Main.Cash = new ConfigManager("data/" + player.getUniqueId());
-
             cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+            if(cash == null){
+                cash = new Cash(player);
+                Main.Cash.getConfig().set("Cash",cash);
+                Main.Cash.saveConfig();
+            } else{
+                player.sendMessage("당신의 캐쉬는 " + cash.getCash() + " 원 입니다.");
+            }
 
-            player.sendMessage(cash.getCash() + " ");
+
+
 
         } else if (player.isOp()) {
             switch (args[0]) {
@@ -44,17 +51,7 @@ public class cash implements CommandExecutor {
                     Main.Cash.getConfig().set("Cash", cash);
                     Main.Cash.saveConfig();
                     break;
-                case "이벤트지급":
-                    target = Bukkit.getPlayer(args[1]);
-                    amount = Integer.parseInt(args[2]);
-                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
 
-                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                    cash.increase(amount);
-
-                    Main.Cash.getConfig().set("Cash", cash);
-                    Main.Cash.saveConfig();
-                    break;
                 case "확인":
                     target = Bukkit.getPlayer(args[1]);
                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());

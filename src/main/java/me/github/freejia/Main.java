@@ -3,6 +3,7 @@ package me.github.freejia;
 import me.github.freejia.cmd.cash;
 import me.github.freejia.cmd.cashshop;
 import me.github.freejia.data.Cash;
+import me.github.freejia.data.CashShop;
 import me.github.freejia.data.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -26,5 +27,6 @@ public class Main extends JavaPlugin {
         new cashshop(this);
 
         ConfigurationSerialization.registerClass(Cash.class);
+        ConfigurationSerialization.registerClass(CashShop.class);
     }
 }
