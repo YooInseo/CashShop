@@ -35,69 +35,110 @@ public class cash implements CommandExecutor {
                 cash = new Cash(player);
                 Main.Cash.getConfig().set("Cash", cash);
                 Main.Cash.saveConfig();
-                player.sendMessage(Util.replace(player, cash.getCash(),"cash_message.check"));
+                player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
             } else {
-                player.sendMessage(Util.replace(player, cash.getCash(),"cash_message.check"));
+                player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
             }
 
         } else if (player.isOp()) {
             switch (args[0]) {
                 case "지급":
-                    target = Bukkit.getPlayer(args[1]);
+                    if (args.length > 1) {
+                        target = Bukkit.getPlayer(args[1]);
 
-                    try {
-                        amount = Integer.parseInt(args[2]);
                         if (target != null) {
-                            Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                            if(args.length > 2){
+                                try {
+                                    amount = Integer.parseInt(args[2]);
+                                    if (target != null) {
+                                        Main.Cash = new ConfigManager("data/" + target.getUniqueId());
 
-                            cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                            cash.increase(amount);
+                                        cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                                        cash.increase(amount);
 
-                            Main.Cash.getConfig().set("Cash", cash);
-                            Main.Cash.saveConfig();
+                                        Main.Cash.getConfig().set("Cash", cash);
+                                        Main.Cash.saveConfig();
 
-                            player.sendMessage(Util.replace(player, amount,"cash_message.send"));
+                                        player.sendMessage(Util.replace(player, amount, "cash_message.send"));
 
+                                    } else {
+                                        return false;
+                                    }
+                                } catch (NumberFormatException e) {
+                                    return false;
+                                }
+                            }
                         }
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
                     }
+
+
                     break;
 
                 case "확인":
-                    target = Bukkit.getPlayer(args[1]);
-                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
-                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                    player.sendMessage(Util.replace(target, cash.getCash(),"cash_message.check"));
+                    if (args.length > 1) {
+                        target = Bukkit.getPlayer(args[1]);
+
+                        Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                        cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                        player.sendMessage(Util.replace(target, cash.getCash(), "cash_message.check"));
+                    }
                     break;
 
                 case "제거":
-                    target = Bukkit.getPlayer(args[1]);
-                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
-                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                    amount = Integer.parseInt(args[2]);
-                    cash.Decrease(amount);
+                    if (args.length > 1) {
+                        target = Bukkit.getPlayer(args[1]);
+                        try {
+                            if (target != null) {
+                                if (args.length > 2) {
+                                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                                    amount = Integer.parseInt(args[2]);
+                                    cash.Decrease(amount);
 
-                    Main.Cash.getConfig().set("Cash", cash);
-                    Main.Cash.saveConfig();
-                    player.sendMessage(Util.replace(player, amount,"cash_message.remove"));
+                                    Main.Cash.getConfig().set("Cash", cash);
+                                    Main.Cash.saveConfig();
+                                    player.sendMessage(Util.replace(player, amount, "cash_message.remove"));
+                                }
+
+                            } else {
+                                return false;
+                            }
+
+                        } catch (NumberFormatException e) {
+                            return false;
+                        }
+                    }
+
+
                     break;
                 case "설정":
-                    target = Bukkit.getPlayer(args[1]);
-                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
-                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                    try{
-                        amount = Integer.parseInt(args[2]);
-                        cash.setCash(amount);
+                    if (args.length > 1) {
+                        target = Bukkit.getPlayer(args[1]);
+
+                        try {
+                            if (target != null) {
+                                if (args.length > 2) {
+                                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                                    amount = Integer.parseInt(args[2]);
+                                    cash.setCash(amount);
 
 
-                        Main.Cash.getConfig().set("Cash", cash);
-                        Main.Cash.saveConfig();
+                                    Main.Cash.getConfig().set("Cash", cash);
+                                    Main.Cash.saveConfig();
 
-                        player.sendMessage(Util.replace(player, amount,"cash_message.set"));
-                    } catch (NumberFormatException e){
-                        e.printStackTrace();
+                                    player.sendMessage(Util.replace(player, amount, "cash_message.set"));
+                                }
+
+                            } else {
+                                return false;
+                            }
+
+                        } catch (NumberFormatException e) {
+                            return false;
+                        }
                     }
+
 
                     break;
 

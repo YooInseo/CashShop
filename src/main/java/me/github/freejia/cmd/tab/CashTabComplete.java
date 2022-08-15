@@ -5,51 +5,48 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class CashTabComplete implements TabCompleter {
 
 
+    private static final String[] COMMANDS = {"지급", "제거", "설정", "확인"};
+
+
     List<String> results = new ArrayList<>();
+
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        Player player = (Player)sender;
+        Player player = (Player) sender;
+        final List<String> completions = new ArrayList<>();
 
-        if(args.length == 1){
-            if(player.isOp()){
-                if(results.isEmpty()){
-                    results.add("지급");
-                    results.add("제거");
-                    results.add("설정");
-                    results.add("확인");
-                }
-            }
-            return results;
-        } else if (args.length == 2 && args.length != 1){
-            results.remove("지급");
-            results.remove("제거");
-            results.remove("설정");
-            results.remove("확인");
-
-            for(Player online : Bukkit.getOnlinePlayers()){
-                results.add(online.getDisplayName());
+        if (args.length == 1) {
+            StringUtil.copyPartialMatches(args[0], Arrays.asList("지급", "제거", "설정", "확인"), completions);
+        } else if (args.length == 2) {
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                completions.add(online.getDisplayName());
             }
 
-            return results;
-        } else if(args.length == 3 && args.length != 2 && args.length != 1){
-            if(!results.isEmpty()){
-                results.removeAll(results);
+        } else if (args.length == 3) {
+            switch (args[0]) {
+                case "지급":
+                    completions.add("<Amount>");
+                    break;
+                case "제거":
+                    completions.add("<Amount>");
+                    break;
             }
-            results.add("int");
         }
 
-        return results;
+        Collections.sort(completions);
+
+
+        return completions;
     }
 }
