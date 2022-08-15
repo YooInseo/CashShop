@@ -41,6 +41,9 @@ public class CashTabComplete implements TabCompleter {
                 case "제거":
                     completions.add("<Amount>");
                     break;
+                case "설정":
+                    completions.add("<Amount>");
+                    break;
             }
         }
 
