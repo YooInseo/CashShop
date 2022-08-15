@@ -7,9 +7,11 @@ import me.github.freejia.data.CashShop;
 import me.github.freejia.data.ConfigManager;
 import me.github.freejia.data.SQL.MySql;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -20,7 +22,6 @@ public class Main extends JavaPlugin {
     public static Main plugin;
 
     public static ConfigManager config;
-
     public static ConfigManager database;
     public static ConfigManager Cash ;
 
@@ -58,11 +59,16 @@ public class Main extends JavaPlugin {
 
         config.getConfig().options().copyDefaults();
 
-        config.getConfig().addDefault("cash_message.check","");
-        config.getConfig().addDefault("cash_message.send","");
-        config.getConfig().addDefault("cash_message.remove","");
-        config.getConfig().addDefault("cash_message.initalization","");
-        config.getConfig().addDefault("cash_message.set","");
+        config.getConfig().addDefault("shop_message.1_buy","");
+        config.getConfig().addDefault("shop_message.1_sell","");
+        config.getConfig().addDefault("shop_message.64_buy","");
+        config.getConfig().addDefault("cash_message.64_sell","");
+
+        config.getConfig().addDefault("shop_price.gui","구매가격/판매가격");
+        config.getConfig().addDefault("shop_price.gui_size",27);
+        config.getConfig().addDefault("shop_price.item","LIME_WOOL");
+        config.getConfig().addDefault("shop_price.slot",13);
+        config.getConfig().addDefault("shop_price.lore",Arrays.asList("","&f[&b!&f] 클릭시 구매가격을 설정합니다!",""));
 
         config.getConfig().options().copyDefaults(true);
         config.saveConfig();

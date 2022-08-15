@@ -31,6 +31,7 @@ public class cash implements CommandExecutor {
                 cash = new Cash(player);
                 Main.Cash.getConfig().set("Cash",cash);
                 Main.Cash.saveConfig();
+                player.sendMessage("당신의 캐쉬는 " + cash.getCash() + " 원 입니다.");
             } else{
                 player.sendMessage("당신의 캐쉬는 " + cash.getCash() + " 원 입니다.");
             }

@@ -38,7 +38,7 @@ public class cashshop implements CommandExecutor {
 
                         cashShop = new CashShop(name, player);
 
-                        shop.getConfig().set("shop",cashShop);
+                        shop.getConfig().set("shop", cashShop);
                         shop.saveConfig();
                         break;
                     case "줄":
@@ -50,7 +50,7 @@ public class cashshop implements CommandExecutor {
                         cashShop = shop.getConfig().getObject("shop", CashShop.class);
 
                         cashShop.setLine(line);
-                        shop.getConfig().set("shop",cashShop);
+                        shop.getConfig().set("shop", cashShop);
                         shop.saveConfig();
 
                         break;
@@ -71,7 +71,7 @@ public class cashshop implements CommandExecutor {
 
                         cashShop = shop.getConfig().getObject("shop", CashShop.class);
                         cashShop.setTitle(targetname);
-                        shop.getConfig().set("shop",cashShop);
+                        shop.getConfig().set("shop", cashShop);
                         shop = new ConfigManager("shop/" + targetname);
                         shop.saveConfig();
                         break;
