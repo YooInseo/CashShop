@@ -10,35 +10,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Cash implements ConfigurationSerializable {
-    private int Cash;
+    private long Cash;
     private Player player;
 
     public Cash(Player player) {
 
         this.player = player;
     }
-    public Cash(Player player,int Cash) {
+    public Cash(Player player,long Cash) {
 
         this.player = player;
         this.Cash = Cash;
     }
-    public int getCash() {
+    public long getCash() {
         return Cash;
     }
 
 
-    public void increase(int Amount) {
+    public void increase(long Amount) {
         Cash = Cash + Amount;
     }
 
-    public void Decrease(int Amount) {
+    public void Decrease(long Amount) {
         if(Cash > 0){
             Cash -= Amount;
         }
 
     }
 
-    public void setCash(int cash) {
+    public void setCash(long cash) {
         Cash = cash;
     }
     public Cash(Map<String, Object> map){

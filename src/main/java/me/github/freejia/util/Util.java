@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 public class Util {
 
-    public static String replace(Player player,int cash, String path){
+    public static String replace(Player player,long cash, String path){
 
         String a = Main.config.getString(path);
 
