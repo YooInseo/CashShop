@@ -75,6 +75,13 @@ public class cashshop implements CommandExecutor {
                         shop = new ConfigManager("shop/" + targetname);
                         shop.saveConfig();
                         break;
+                        
+                    case "리로드":
+                        name = args[1];
+                        shop = new ConfigManager("shop/" + name);
+
+                        shop.reloadConfig();
+                        break;
                 }
             }
 
