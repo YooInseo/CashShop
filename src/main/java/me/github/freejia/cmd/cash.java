@@ -1,6 +1,8 @@
 package me.github.freejia.cmd;
 
 import me.github.freejia.Main;
+import me.github.freejia.cmd.tab.CashShopTabComplete;
+import me.github.freejia.cmd.tab.CashTabComplete;
 import me.github.freejia.data.Cash;
 import me.github.freejia.data.ConfigManager;
 import org.bukkit.Bukkit;
@@ -15,6 +17,7 @@ public class cash implements CommandExecutor {
 
     public cash(Main plugin) {
         Bukkit.getPluginCommand("캐시").setExecutor(this);
+        Bukkit.getPluginCommand("캐시").setTabCompleter(new CashTabComplete());
     }
 
     @Override

@@ -1,9 +1,12 @@
 package me.github.freejia.data;
 
+import me.github.freejia.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -54,6 +57,16 @@ public class CashShop implements ConfigurationSerializable {
         Inventory inv = Bukkit.createInventory(null,line + 9, "Editor : " + name);
         this.title = "Editor : " + name;
 
+
+        player.openInventory(inv);
+    }
+
+    public void PriceGUI(){
+        Inventory inv =  Bukkit.createInventory(null, Main.config.getConfig().getInt("shop_price.gui_size"), Main.config.getConfig().getString("shop_price.gui"));
+
+        ItemStack sell = new ItemStack(Material.valueOf(Main.config.getConfig().getString("shop_price.buy_settings.item")));
+
+//        inv.setItem();
 
         player.openInventory(inv);
     }

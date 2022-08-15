@@ -6,9 +6,12 @@ import me.github.freejia.data.Cash;
 import me.github.freejia.data.CashShop;
 import me.github.freejia.data.ConfigManager;
 import me.github.freejia.data.SQL.MySql;
+import me.github.freejia.events.ClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -34,12 +37,19 @@ public class Main extends JavaPlugin {
         plugin = this;
         MySql mysql = new MySql();
         mysql.Connect();
+
         new cash(this);
         new cashshop(this);
 
         ConfigurationSerialization.registerClass(Cash.class);
         ConfigurationSerialization.registerClass(CashShop.class);
         init();
+
+        Listener[] events = {new ClickEvent()};
+        PluginManager pm = Bukkit.getPluginManager();
+        Arrays.stream(events).forEach(classes -> {
+            pm.registerEvents(classes, this);
+        });
     }
 
     public void init(){
