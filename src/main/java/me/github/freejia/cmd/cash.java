@@ -36,9 +36,6 @@ public class cash implements CommandExecutor {
                 player.sendMessage("당신의 캐쉬는 " + cash.getCash() + " 원 입니다.");
             }
 
-
-
-
         } else if (player.isOp()) {
             switch (args[0]) {
                 case "지급":
