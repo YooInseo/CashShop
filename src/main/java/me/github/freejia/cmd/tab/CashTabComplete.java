@@ -43,7 +43,7 @@ public class CashTabComplete implements TabCompleter {
             }
 
             return results;
-        } else if(args.length == 3 && args.length != 2 ){
+        } else if(args.length == 3 && args.length != 2 && args.length != 1){
             if(!results.isEmpty()){
                 results.removeAll(results);
             }
