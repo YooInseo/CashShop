@@ -20,23 +20,24 @@ public class CashShop implements ConfigurationSerializable {
     private int line; // Max 45
     private int Page;
     private Player player;
+    private int price;
 
-    public CashShop(String name,  Player player) {
+    public CashShop(String name, Player player) {
         this.name = name;
         this.title = name;
         this.player = player;
     }
 
 
-    public CashShop(String name,int line) {
+    public CashShop(String name, int line) {
         this.name = name;
         this.title = name;
         this.line = line;
     }
 
 
-    public void Create(){
-        Inventory inv = Bukkit.createInventory(null,line + 9, name);
+    public void Create() {
+        Inventory inv = Bukkit.createInventory(null, line + 9, name);
         this.title = name;
 
         player.openInventory(inv);
@@ -53,38 +54,49 @@ public class CashShop implements ConfigurationSerializable {
     public void setLine(int line) {
         this.line = line;
     }
-    public void Editor(){
-        Inventory inv = Bukkit.createInventory(null,line + 9, "Editor : " + name);
+
+    public void Editor() {
+        Inventory inv = Bukkit.createInventory(null, line + 9, "Editor : " + name);
         this.title = "Editor : " + name;
 
 
         player.openInventory(inv);
     }
 
-    public void PriceGUI(){
-        Inventory inv =  Bukkit.createInventory(null, Main.config.getConfig().getInt("shop_price.gui_size"), Main.config.getConfig().getString("shop_price.gui"));
+    public void PriceGUI() {
+        Inventory inv = Bukkit.createInventory(null, Main.config.getConfig().getInt("shop_price.gui_size"), Main.config.getConfig().getString("shop_price.gui"));
 
-        ItemStack sell = new ItemStack(Material.valueOf(Main.config.getConfig().getString("shop_price.buy_settings.item")));
+        ItemStack sell = new ItemStack(Material.valueOf(Main.config.getConfig().getString("shop_price.sell_settings.item")));
+        ItemStack buy = new ItemStack(Material.valueOf(Main.config.getConfig().getString("shop_price.buy_settings.item")));
 
-//        inv.setItem();
-
+        inv.setItem(Main.config.getConfig().getInt("shop_price.sell_settings.item"), sell);
+        inv.setItem(Main.config.getConfig().getInt("shop_price.buy_settings.item"), buy);
         player.openInventory(inv);
     }
+
     public String getTitle() {
         return title;
     }
 
-    public CashShop(Map<String, Object> map){
-        this((String) map.get("GUI"),(Integer) map.get("GUI_SIZE"));
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public CashShop(Map<String, Object> map) {
+        this((String) map.get("GUI"), (Integer) map.get("GUI_SIZE"));
     }
 
 
     @NotNull
     @Override
     public Map<String, Object> serialize() {
-        HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("GUI",title);
-        map.put("GUI_SIZE",line);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("GUI", title);
+        map.put("GUI_SIZE", line);
 
 //        map.put("inv",inv);
 

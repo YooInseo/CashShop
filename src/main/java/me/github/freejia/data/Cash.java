@@ -1,11 +1,8 @@
 package me.github.freejia.data;
 
-import me.github.freejia.Main;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +25,7 @@ public class Cash implements ConfigurationSerializable {
 
 
     public void increase(long Amount) {
-        Cash = Cash + Amount;
+        Cash += Amount;
     }
 
     public void Decrease(long Amount) {

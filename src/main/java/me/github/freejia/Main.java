@@ -6,17 +6,16 @@ import me.github.freejia.data.Cash;
 import me.github.freejia.data.CashShop;
 import me.github.freejia.data.ConfigManager;
 import me.github.freejia.data.SQL.MySql;
+import me.github.freejia.events.ChatEvent;
 import me.github.freejia.events.ClickEvent;
+import me.github.freejia.events.CloseEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
@@ -26,7 +25,7 @@ public class Main extends JavaPlugin {
 
     public static ConfigManager config;
     public static ConfigManager database;
-    public static ConfigManager Cash ;
+    public static ConfigManager Cash;
 
 
     public void onEnable() {
@@ -45,58 +44,62 @@ public class Main extends JavaPlugin {
         ConfigurationSerialization.registerClass(CashShop.class);
         init();
 
-        Listener[] events = {new ClickEvent()};
+        Listener[] events = {new ClickEvent(), new CloseEvent(), new ChatEvent()};
         PluginManager pm = Bukkit.getPluginManager();
         Arrays.stream(events).forEach(classes -> {
             pm.registerEvents(classes, this);
         });
+        registerPlaceHolder();
     }
 
-    public void init(){
+    public void registerPlaceHolder() {
+
+    }
+
+    public void init() {
         database.getConfig().options().copyDefaults();
 
-        database.getConfig().addDefault("Mysql.enabled",false);
-        database.getConfig().addDefault("Mysql.type","HeidiSQL");
-        database.getConfig().addDefault("Mysql.mysql.host","localhost");
-        database.getConfig().addDefault("Mysql.mysql.port",3306);
-        database.getConfig().addDefault("Mysql.mysql.database","minecraft");
-        database.getConfig().addDefault("Mysql.mysql.username","admin");
-        database.getConfig().addDefault("Mysql.mysql.password","");
-
+        database.getConfig().addDefault("Mysql.enabled", false);
+        database.getConfig().addDefault("Mysql.type", "HeidiSQL");
+        database.getConfig().addDefault("Mysql.mysql.host", "localhost");
+        database.getConfig().addDefault("Mysql.mysql.port", 3306);
+        database.getConfig().addDefault("Mysql.mysql.database", "minecraft");
+        database.getConfig().addDefault("Mysql.mysql.username", "admin");
+        database.getConfig().addDefault("Mysql.mysql.password", "");
 
         database.getConfig().options().copyDefaults(true);
         database.saveConfig();
 
         config.getConfig().options().copyDefaults();
 
-        config.getConfig().addDefault("shop_message.1_buy","");
-        config.getConfig().addDefault("shop_message.1_sell","");
-        config.getConfig().addDefault("shop_message.64_buy","");
-        config.getConfig().addDefault("shop_message.64_sell","");
+        config.getConfig().addDefault("shop_message.1_buy", "");
+        config.getConfig().addDefault("shop_message.1_sell", "");
+        config.getConfig().addDefault("shop_message.64_buy", "");
+        config.getConfig().addDefault("shop_message.64_sell", "");
 
-        config.getConfig().addDefault("cash_message.check","");
-        config.getConfig().addDefault("cash_message.check_user","");
-        config.getConfig().addDefault("cash_message.send","");
-        config.getConfig().addDefault("cash_message.remove","");
-        config.getConfig().addDefault("cash_message.set","");
+        config.getConfig().addDefault("cash_message.check", "");
+        config.getConfig().addDefault("cash_message.check_user", "");
+        config.getConfig().addDefault("cash_message.send", "");
+        config.getConfig().addDefault("cash_message.remove", "");
+        config.getConfig().addDefault("cash_message.set", "");
 
 
-        config.getConfig().addDefault("error_message.overflow","");
-        config.getConfig().addDefault("error_message.cant_buy_cash","");
-        config.getConfig().addDefault("error_message.cant_buy_item","");
-        config.getConfig().addDefault("error_message.cant_inventory_slot","");
-        config.getConfig().addDefault("error_message.command_none_player","");
-        config.getConfig().addDefault("error_message.command_none_cash","");
+        config.getConfig().addDefault("error_message.overflow", "");
+        config.getConfig().addDefault("error_message.cant_buy_cash", "");
+        config.getConfig().addDefault("error_message.cant_buy_item", "");
+        config.getConfig().addDefault("error_message.cant_inventory_slot", "");
+        config.getConfig().addDefault("error_message.command_none_player", "");
+        config.getConfig().addDefault("error_message.command_none_cash", "");
 
-        config.getConfig().addDefault("shop_price.gui","구매가격/판매가격");
-        config.getConfig().addDefault("shop_price.gui_size",27);
-        config.getConfig().addDefault("shop_price.buy_settings.item","LIME_WOOL");
-        config.getConfig().addDefault("shop_price.buy_settings.slot",13);
-        config.getConfig().addDefault("shop_price.buy_settings.lore", Arrays.asList("","&f[&b!&f] 클릭시 구매가격을 설정합니다!",""));
+        config.getConfig().addDefault("shop_price.gui", "구매가격/판매가격");
+        config.getConfig().addDefault("shop_price.gui_size", 27);
+        config.getConfig().addDefault("shop_price.buy_settings.item", "LIME_WOOL");
+        config.getConfig().addDefault("shop_price.buy_settings.slot", 13);
+        config.getConfig().addDefault("shop_price.buy_settings.lore", Arrays.asList("", "&f[&b!&f] 클릭시 구매가격을 설정합니다!", ""));
 
-        config.getConfig().addDefault("shop_price.sell_settings.item","LIME_WOOL");
-        config.getConfig().addDefault("shop_price.sell_settings.slot",15);
-        config.getConfig().addDefault("shop_price.sell_settings.lore", Arrays.asList("","&f[&b!&f] 클릭시 구매가격을 설정합니다!",""));
+        config.getConfig().addDefault("shop_price.sell_settings.item", "LIME_WOOL");
+        config.getConfig().addDefault("shop_price.sell_settings.slot", 15);
+        config.getConfig().addDefault("shop_price.sell_settings.lore", Arrays.asList("", "&f[&b!&f] 클릭시 구매가격을 설정합니다!", ""));
 
         config.getConfig().options().copyDefaults(true);
         config.saveConfig();
