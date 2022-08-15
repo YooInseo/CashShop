@@ -80,6 +80,14 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("cash_message.remove","");
         config.getConfig().addDefault("cash_message.set","");
 
+
+        config.getConfig().addDefault("error_message.overflow","");
+        config.getConfig().addDefault("error_message.cant_buy_cash","");
+        config.getConfig().addDefault("error_message.cant_buy_item","");
+        config.getConfig().addDefault("error_message.cant_inventory_slot","");
+        config.getConfig().addDefault("error_message.command_none_player","");
+        config.getConfig().addDefault("error_message.command_none_cash","");
+
         config.getConfig().addDefault("shop_price.gui","구매가격/판매가격");
         config.getConfig().addDefault("shop_price.gui_size",27);
         config.getConfig().addDefault("shop_price.buy_settings.item","LIME_WOOL");
@@ -89,8 +97,6 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("shop_price.sell_settings.item","LIME_WOOL");
         config.getConfig().addDefault("shop_price.sell_settings.slot",15);
         config.getConfig().addDefault("shop_price.sell_settings.lore", Arrays.asList("","&f[&b!&f] 클릭시 구매가격을 설정합니다!",""));
-
-
 
         config.getConfig().options().copyDefaults(true);
         config.saveConfig();

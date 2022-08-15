@@ -67,8 +67,12 @@ public class cash implements CommandExecutor {
                                 } catch (NumberFormatException e) {
                                     return false;
                                 }
+                            } else{
+                                player.sendMessage(Main.config.getString("error_message.command_none_cash"));
                             }
                         }
+                    } else{
+                        player.sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
 
 
@@ -97,7 +101,9 @@ public class cash implements CommandExecutor {
 
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
-                                    player.sendMessage(Util.replace(player, amount, "cash_message.remove"));
+                                    player.sendMessage(Util.replace(player, amount, "error_message.remove"));
+                                } else{
+                                    player.sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }
 
                             } else {
@@ -107,6 +113,8 @@ public class cash implements CommandExecutor {
                         } catch (NumberFormatException e) {
                             return false;
                         }
+                    } else{
+                        player.sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
 
 
@@ -128,6 +136,8 @@ public class cash implements CommandExecutor {
                                     Main.Cash.saveConfig();
 
                                     player.sendMessage(Util.replace(player, amount, "cash_message.set"));
+                                } else{
+                                    player.sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }
 
                             } else {
@@ -137,6 +147,8 @@ public class cash implements CommandExecutor {
                         } catch (NumberFormatException e) {
                             return false;
                         }
+                    } else{
+                        player.sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
 
 
