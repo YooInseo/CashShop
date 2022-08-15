@@ -7,14 +7,14 @@ import org.bukkit.entity.Player;
 
 public class Util {
 
-    public static String replace(Player player,String path){
+    public static String replace(Player player,int cash, String path){
 
         String a = Main.config.getString(path);
 
         Main.Cash = new ConfigManager("data/" + player.getUniqueId());
-        Cash cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
 
-        a = a.replaceAll("%cash%",cash.getCash() + "");
+
+        a = a.replaceAll("%cash%",cash + "");
         a = a.replaceAll("%player%",player.getDisplayName());
         return a;
     }

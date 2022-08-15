@@ -35,9 +35,9 @@ public class cash implements CommandExecutor {
                 cash = new Cash(player);
                 Main.Cash.getConfig().set("Cash", cash);
                 Main.Cash.saveConfig();
-                player.sendMessage(Util.replace(player,"cash_message.check"));
+                player.sendMessage(Util.replace(player, cash.getCash(),"cash_message.check"));
             } else {
-                player.sendMessage(Util.replace(player,"cash_message.check"));
+                player.sendMessage(Util.replace(player, cash.getCash(),"cash_message.check"));
             }
 
         } else if (player.isOp()) {
@@ -56,10 +56,10 @@ public class cash implements CommandExecutor {
                             Main.Cash.getConfig().set("Cash", cash);
                             Main.Cash.saveConfig();
 
-                            player.sendMessage(Main.config.getString("cash_message.send"));
+                            player.sendMessage(Util.replace(player, amount,"cash_message.send"));
+
                         }
                     } catch (NumberFormatException e) {
-                        player.sendMessage("§c정수를 입력해 주세요!");
                         e.printStackTrace();
                     }
                     break;
@@ -68,28 +68,37 @@ public class cash implements CommandExecutor {
                     target = Bukkit.getPlayer(args[1]);
                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                    player.sendMessage(Main.config.getString("cash_message.check"));
+                    player.sendMessage(Util.replace(target, cash.getCash(),"cash_message.check"));
                     break;
 
                 case "제거":
                     target = Bukkit.getPlayer(args[1]);
                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                    cash.Decrease(Integer.parseInt(args[2]));
+                    amount = Integer.parseInt(args[2]);
+                    cash.Decrease(amount);
 
                     Main.Cash.getConfig().set("Cash", cash);
                     Main.Cash.saveConfig();
-                    player.sendMessage(Main.config.getString("cash_message.remove"));
+                    player.sendMessage(Util.replace(player, amount,"cash_message.remove"));
                     break;
                 case "설정":
                     target = Bukkit.getPlayer(args[1]);
                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                    cash.setCash(Integer.parseInt(args[2]));
+                    try{
+                        amount = Integer.parseInt(args[2]);
+                        cash.setCash(amount);
 
-                    Main.Cash.getConfig().set("Cash", cash);
-                    Main.Cash.saveConfig();
-                    player.sendMessage(Main.config.getString("cash_message.set"));
+
+                        Main.Cash.getConfig().set("Cash", cash);
+                        Main.Cash.saveConfig();
+
+                        player.sendMessage(Util.replace(player, amount,"cash_message.set"));
+                    } catch (NumberFormatException e){
+                        e.printStackTrace();
+                    }
+
                     break;
 
             }
