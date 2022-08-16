@@ -156,10 +156,14 @@ public class CashShop implements ConfigurationSerializable {
             ItemStack item = EditorInv.getItem(i);
             if (item != null) {
                 Items items = new Items(item, i);
+                if (select != null) {
 
-                cashshop.getItems().add(items);
+                    cashshop.getItems().add(select);
 
-                System.out.println(i + " : " + items);
+                } else {
+                    cashshop.getItems().add(items);
+                }
+
 
             }
         }

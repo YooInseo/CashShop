@@ -18,6 +18,7 @@ public class CloseEvent implements Listener {
             cashshop = Data.cashshop.get(player.getUniqueId());
             if (cashshop != null) {
                 if (cashshop.isPrice()) {
+
                     if (event.getView().getTitle().equals(Main.config.getConfig().getString("shop_price.gui")) && cashshop.isDefualt()) {
                         Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
                             @Override
@@ -25,15 +26,11 @@ public class CloseEvent implements Listener {
                                 cashshop.Editor();
                             }
                         });
-                    } else if (event.getView().getTitle().equals(cashshop.getTitle()) || event.getView().getTitle().equals(cashshop.getEditorTitle())) {
-
-
-
-
                     }
 
                 } else if (cashshop.getEditorInv().equals(event.getInventory())) {
                     cashshop.saveItem();
+                    Data.cashshop.remove(player.getUniqueId());
                 }
             }
         }
