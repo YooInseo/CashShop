@@ -4,6 +4,7 @@ import me.github.freejia.Main;
 import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Data;
+import me.github.freejia.data.Object.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,24 +17,29 @@ public class ChatEvent implements Listener {
     public void onChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
 
-        if(Data.cashshop.containsKey(player.getUniqueId())){
+        if(Data.cashshop.containsKey(player.getUniqueId())  ){
             try{
                 Integer amount = Integer.parseInt(event.getMessage());
 
                 CashShop cashShop = Data.cashshop.get(player.getUniqueId());
-                cashShop.setPlayer(player);
-                cashShop.setPrice(amount);
-                cashShop.getSelect().setBuyprice(amount);
-                cashShop.UpdateItem();
+                if(!cashShop.isDefualt()){
+                    cashShop.setPlayer(player);
+                    cashShop.setPrice(amount);
 
-                Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        cashShop.Editor();
-                    }
-                });
+                    cashShop.getSelect().setBuyprice(amount);
+                    cashShop.UpdateItem();
+                    cashShop.setType(Type.Default);
 
-                event.setCancelled(true);
+                    Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            cashShop.Editor();
+                        }
+                    });
+
+                    event.setCancelled(true);
+                }
+
 
             } catch (NumberFormatException e){
                 return;

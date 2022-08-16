@@ -25,6 +25,11 @@ public class CloseEvent implements Listener {
                                 cashshop.Editor();
                             }
                         });
+                    } else if (event.getView().getTitle().equals(cashshop.getTitle()) || event.getView().getTitle().equals(cashshop.getEditorTitle())) {
+
+
+
+
                     }
 
                 } else if (cashshop.getEditorInv().equals(event.getInventory())) {
