@@ -4,6 +4,7 @@ import me.github.freejia.Main;
 import me.github.freejia.cmd.tab.CashShopTabComplete;
 import me.github.freejia.data.CashShop;
 import me.github.freejia.data.ConfigManager;
+import me.github.freejia.data.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -68,11 +69,17 @@ public class cashshop implements CommandExecutor {
 
                     case "편집":
                         if (args.length > 1) {
-                            name = args[1];
-                            shop = new ConfigManager("shop/" + name);
-                            cashShop = shop.getConfig().getObject("shop", CashShop.class);
-                            cashShop.setPlayer(player);
-                            cashShop.Editor();
+                            if(!Data.cashshop.containsKey(player.getUniqueId())){
+                                name = args[1];
+
+                                shop = new ConfigManager("shop/" + name);
+                                cashShop = shop.getConfig().getObject("shop", CashShop.class);
+                                cashShop.setPlayer(player);
+                                cashShop.Editor();
+
+                                CashShop cashshop = cashShop;
+                                Data.cashshop.put(player.getUniqueId(),cashshop);
+                            }
                         } else{
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
