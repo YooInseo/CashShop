@@ -100,7 +100,8 @@ public class cash implements CommandExecutor {
 
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
-                                    player.sendMessage(Util.replace(player, amount, "error_message.remove"));
+                                    player.sendMessage(Util.replace(player, amount, "cash_message.remove"));
+
                                 } else {
                                     player.sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }

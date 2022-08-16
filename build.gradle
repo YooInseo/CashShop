@@ -11,6 +11,7 @@ apply plugin: 'groovy'
 dependencies {
     compileOnly spigot('1.18.2')
     compileOnly fileTree(dir: 'api', include: ['*.jar'])
+
 }
 
 jar {

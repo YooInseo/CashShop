@@ -90,6 +90,8 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("error_message.cant_inventory_slot", "");
         config.getConfig().addDefault("error_message.command_none_player", "");
         config.getConfig().addDefault("error_message.command_none_cash", "");
+        config.getConfig().addDefault("error_message.shop_none_name", "");
+        config.getConfig().addDefault("error_message.shop_none_line", "");
 
         config.getConfig().addDefault("shop_price.gui", "구매가격/판매가격");
         config.getConfig().addDefault("shop_price.gui_size", 27);

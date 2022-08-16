@@ -2,7 +2,6 @@ package me.github.freejia.cmd;
 
 import me.github.freejia.Main;
 import me.github.freejia.cmd.tab.CashShopTabComplete;
-import me.github.freejia.cmd.tab.CashTabComplete;
 import me.github.freejia.data.CashShop;
 import me.github.freejia.data.ConfigManager;
 import org.bukkit.Bukkit;
@@ -33,54 +32,83 @@ public class cashshop implements CommandExecutor {
                 ConfigManager shop;
                 switch (args[0]) {
                     case "생성":
-                        name = args[1];
-                        shop = new ConfigManager("shop/" + name);
+                        if (args.length > 1) {
+                            name = args[1];
+                            shop = new ConfigManager("shop/" + name);
 
-                        cashShop = new CashShop(name, player);
+                            cashShop = new CashShop(name, player);
 
-                        shop.getConfig().set("shop", cashShop);
-                        shop.saveConfig();
+                            shop.getConfig().set("shop", cashShop);
+                            shop.saveConfig();
+                        } else{
+                            player.sendMessage(Main.config.getString("error_message.shop_none_name"));
+                        }
+
                         break;
                     case "줄":
+                        if (args.length > 1) {
+                            name = args[1];
+                            if (args.length > 2) {
+                                int line = Integer.parseInt(args[2]);
+                                shop = new ConfigManager("shop/" + name);
 
-                        name = args[1];
-                        int line = Integer.parseInt(args[2]);
-                        shop = new ConfigManager("shop/" + name);
+                                cashShop = shop.getConfig().getObject("shop", CashShop.class);
 
-                        cashShop = shop.getConfig().getObject("shop", CashShop.class);
-
-                        cashShop.setLine(line);
-                        shop.getConfig().set("shop", cashShop);
-                        shop.saveConfig();
+                                cashShop.setLine(line);
+                                shop.getConfig().set("shop", cashShop);
+                                shop.saveConfig();
+                            } else{
+                                player.sendMessage(Main.config.getString("error_message.shop_none_line"));
+                            }
+                        } else{
+                            player.sendMessage(Main.config.getString("error_message.shop_none_name"));
+                        }
 
                         break;
 
                     case "편집":
-                        name = args[1];
-                        shop = new ConfigManager("shop/" + name);
-                        cashShop = shop.getConfig().getObject("shop", CashShop.class);
-                        cashShop.setPlayer(player);
-                        cashShop.Editor();
+                        if (args.length > 1) {
+                            name = args[1];
+                            shop = new ConfigManager("shop/" + name);
+                            cashShop = shop.getConfig().getObject("shop", CashShop.class);
+                            cashShop.setPlayer(player);
+                            cashShop.Editor();
+                        } else{
+                            player.sendMessage(Main.config.getString("error_message.shop_none_name"));
+                        }
+
                         break;
 
                     case "GUI이름":
-                        name = args[1];
-                        String targetname = args[2];
+                        if (args.length > 1) {
+                            if (args.length > 2) {
+                                name = args[1];
+                                String targetname = args[2];
 
-                        shop = new ConfigManager("shop/" + name);
+                                shop = new ConfigManager("shop/" + name);
 
-                        cashShop = shop.getConfig().getObject("shop", CashShop.class);
-                        cashShop.setTitle(targetname);
-                        shop.getConfig().set("shop", cashShop);
-                        shop = new ConfigManager("shop/" + targetname);
-                        shop.saveConfig();
+                                cashShop = shop.getConfig().getObject("shop", CashShop.class);
+                                cashShop.setTitle(targetname);
+                                shop.getConfig().set("shop", cashShop);
+                                shop = new ConfigManager("shop/" + targetname);
+                                shop.saveConfig();
+                            }
+                        } else{
+                            player.sendMessage(Main.config.getString("error_message.shop_none_name"));
+                        }
+
                         break;
-                        
-                    case "리로드":
-                        name = args[1];
-                        shop = new ConfigManager("shop/" + name);
 
-                        shop.reloadConfig();
+                    case "리로드":
+                        if (args.length > 1) {
+                            name = args[1];
+                            shop = new ConfigManager("shop/" + name);
+
+                            shop.reloadConfig();
+                        } else{
+                            player.sendMessage(Main.config.getString("error_message.shop_none_name"));
+                        }
+
                         break;
                 }
             }
