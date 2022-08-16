@@ -1,5 +1,7 @@
 package me.github.freejia.data;
 
+import me.github.freejia.data.Object.CashShop;
+
 import java.util.HashMap;
 import java.util.UUID;
 

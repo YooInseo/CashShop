@@ -2,18 +2,15 @@ package me.github.freejia.cmd;
 
 import me.github.freejia.Main;
 import me.github.freejia.cmd.tab.CashShopTabComplete;
-import me.github.freejia.data.CashShop;
+import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Data;
-import me.github.freejia.data.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class cashshop implements CommandExecutor {
 

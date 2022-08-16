@@ -1,6 +1,6 @@
 package me.github.freejia.events;
 
-import me.github.freejia.data.CashShop;
+import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Data;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
