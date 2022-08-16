@@ -24,7 +24,7 @@ public class ChatEvent implements Listener {
                 cashShop.setPlayer(player);
                 cashShop.setPrice(amount);
                 cashShop.getSelect().setBuyprice(amount);
-
+                cashShop.UpdateItem();
 
                 Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
                     @Override

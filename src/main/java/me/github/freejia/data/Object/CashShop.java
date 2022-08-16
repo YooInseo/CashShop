@@ -70,6 +70,8 @@ public class CashShop implements ConfigurationSerializable {
 
     public void setLine(int line) {
         this.line = line;
+        ConfigManager shop = new ConfigManager("shop/" + name);
+        shop.saveConfig();
     }
 
     public void Editor() {
@@ -87,11 +89,8 @@ public class CashShop implements ConfigurationSerializable {
                     }
 
                 }
-
-
                 player.openInventory(inv);
             } else {
-
                 player.openInventory(EditorInv);
             }
         } else {
@@ -168,6 +167,21 @@ public class CashShop implements ConfigurationSerializable {
     }
 
 
+    public void UpdateItem() {
+
+        int index = items.indexOf(select);
+        this.items.set(index, select);
+
+        ConfigManager shop = new ConfigManager("shop/" + name);
+
+        CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
+
+        cashshop.items.set(index, select);
+
+        Main.plugin.getLogger().info(index + "");
+        shop.getConfig().set("shop", cashshop);
+        shop.saveConfig();
+    }
 
     public List<Items> getItems() {
         return items;
