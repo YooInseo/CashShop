@@ -31,7 +31,7 @@ public class Items implements ConfigurationSerializable {
 
     public void setBuyprice(Integer buyprice) {
         this.buyprice = buyprice;
-
+        Main.plugin.getLogger().info(buyprice + " 가격 업데이트됨.");
     }
 
     public void setSellprice(int sellprice) {

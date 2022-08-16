@@ -20,7 +20,6 @@ public class CashShop implements ConfigurationSerializable {
     private Inventory inv;
     private String title;
     private int line; // Max 45
-    private int Page;
     private Player player;
     private long price;
 
