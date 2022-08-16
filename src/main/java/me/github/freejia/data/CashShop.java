@@ -1,6 +1,7 @@
 package me.github.freejia.data;
 
 import me.github.freejia.Main;
+import me.github.freejia.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -28,7 +29,8 @@ public class CashShop implements ConfigurationSerializable {
 
     private boolean isPrice = false;
 
-    private ItemStack[] items = {};
+    private List<Items> items = new ArrayList<>();
+
 
     public CashShop(String name, Player player) {
         this.name = name;
@@ -37,11 +39,11 @@ public class CashShop implements ConfigurationSerializable {
     }
 
 
-    public CashShop(String name, int line, ItemStack[] items) {
+    public CashShop(String name, int line, List<Items> items) {
         this.name = name;
         this.title = name;
         this.line = line;
-        this.items = items;
+
     }
 
 
@@ -70,8 +72,7 @@ public class CashShop implements ConfigurationSerializable {
             Inventory inv = Bukkit.createInventory(null, line * 9, "Editor : " + name);
             this.EditorTitle = "Editor : " + name;
             this.EditorInv = inv;
-
-            player.openInventory(inv);
+             player.openInventory(inv);
         } else {
             player.openInventory(EditorInv);
         }
@@ -82,13 +83,28 @@ public class CashShop implements ConfigurationSerializable {
         ConfigManager shop = new ConfigManager("shop/" + name);
 
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
-        cashshop.setItems(EditorInv.getContents());
+
+
+        for(int i = 0; i < line * 9; i++){
+            ItemStack item = EditorInv.getItem(i);
+            if(item != null){
+
+                Items items = new Items(item);
+                items.setSlot(i);
+                cashshop.getItems().add(items);
+
+                player.sendMessage(EditorInv.getItem(i).getType().toString() + " : " + i);
+            }
+        }
+
+
         shop.getConfig().set("shop",cashshop);
+
         shop.saveConfig();
     }
 
-    public void setItems(ItemStack[] items) {
-        this.items = items;
+    public List<Items> getItems() {
+        return items;
     }
 
     public void setisPrice(boolean price) {
@@ -149,7 +165,7 @@ public class CashShop implements ConfigurationSerializable {
     public CashShop(Map<String, Object> map) {
 
 
-        this((String) map.get("GUI"), (Integer) map.get("GUI_SIZE"), (ItemStack[]) map.get("items"));
+        this((String) map.get("GUI"), (Integer) map.get("GUI_SIZE"), (List<Items>) map.get("items"));
     }
 
 
