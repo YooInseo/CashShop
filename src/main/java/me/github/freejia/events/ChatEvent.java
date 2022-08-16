@@ -1,6 +1,7 @@
 package me.github.freejia.events;
 
 import me.github.freejia.Main;
+import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Data;
 import org.bukkit.Bukkit;
@@ -23,6 +24,8 @@ public class ChatEvent implements Listener {
                 cashShop.setPlayer(player);
                 cashShop.setPrice(amount);
                 cashShop.getSelect().setBuyprice(amount);
+
+
                 Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
                     @Override
                     public void run() {

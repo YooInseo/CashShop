@@ -53,7 +53,6 @@ public class CashShop implements ConfigurationSerializable {
     }
 
 
-
     public void Create() {
         Inventory inv = Bukkit.createInventory(null, line + 9, name);
         this.title = name;
@@ -81,7 +80,7 @@ public class CashShop implements ConfigurationSerializable {
                 this.EditorTitle = "Editor : " + name;
                 this.EditorInv = inv;
                 for (Items items : items) {
-                    if(items != null){
+                    if (items != null) {
                         ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
                         itemStack.setAmount(items.getAmount());
                         inv.setItem(items.getSlot(), itemStack);
@@ -109,11 +108,12 @@ public class CashShop implements ConfigurationSerializable {
         }
     }
 
-    public void setSelect(ItemStack item,int slot) {
-        Items items = new Items(item,slot);
+    public void setSelect(ItemStack item, int slot) {
+        Items items = new Items(item, slot);
         for (Items items1 : this.items) {
-            if(items1.getSlot() == items.getSlot())
-            this.select = items1;
+            if (items1.getSlot() == items.getSlot())
+                this.select = items1;
+            Main.plugin.getLogger().info(items1 + " 선택됨.");
         }
     }
 
@@ -161,16 +161,13 @@ public class CashShop implements ConfigurationSerializable {
                 Items items = new Items(item, i);
                 items.setSlot(i);
                 cashshop.getItems().add(items);
-
-                player.sendMessage(EditorInv.getItem(i).getType().toString() + " : " + i);
             }
         }
-
-
         shop.getConfig().set("shop", cashshop);
-
         shop.saveConfig();
     }
+
+
 
     public List<Items> getItems() {
         return items;

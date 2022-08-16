@@ -1,5 +1,6 @@
 package me.github.freejia.data.Object;
 
+import me.github.freejia.Main;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +31,7 @@ public class Items implements ConfigurationSerializable {
 
     public void setBuyprice(Integer buyprice) {
         this.buyprice = buyprice;
+
     }
 
     public void setSellprice(int sellprice) {
