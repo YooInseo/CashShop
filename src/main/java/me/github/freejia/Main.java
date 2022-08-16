@@ -4,7 +4,7 @@ import me.github.freejia.cmd.cash;
 import me.github.freejia.cmd.cashshop;
 import me.github.freejia.data.Cash;
 import me.github.freejia.data.CashShop;
-import me.github.freejia.data.ConfigManager;
+import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.SQL.MySql;
 import me.github.freejia.events.ChatEvent;
 import me.github.freejia.events.ClickEvent;

@@ -1,4 +1,4 @@
-package me.github.freejia.data;
+package me.github.freejia.data.Config;
 
 import me.github.freejia.Main;
 import org.bukkit.configuration.file.FileConfiguration;

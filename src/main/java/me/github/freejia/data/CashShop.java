@@ -1,7 +1,7 @@
 package me.github.freejia.data;
 
 import me.github.freejia.Main;
-import me.github.freejia.util.Util;
+import me.github.freejia.data.Config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;

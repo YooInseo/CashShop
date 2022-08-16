@@ -1,7 +1,7 @@
 package me.github.freejia.util;
 
 import me.github.freejia.Main;
-import me.github.freejia.data.ConfigManager;
+import me.github.freejia.data.Config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -13,7 +13,6 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Util {

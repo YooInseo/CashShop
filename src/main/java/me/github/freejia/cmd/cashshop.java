@@ -3,7 +3,7 @@ package me.github.freejia.cmd;
 import me.github.freejia.Main;
 import me.github.freejia.cmd.tab.CashShopTabComplete;
 import me.github.freejia.data.CashShop;
-import me.github.freejia.data.ConfigManager;
+import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
