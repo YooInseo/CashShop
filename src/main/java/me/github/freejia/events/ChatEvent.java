@@ -17,11 +17,12 @@ public class ChatEvent implements Listener {
 
         if(Data.cashshop.containsKey(player.getUniqueId())){
             try{
-                long amount = Long.parseLong(event.getMessage());
+                Integer amount = Integer.parseInt(event.getMessage());
 
                 CashShop cashShop = Data.cashshop.get(player.getUniqueId());
                 cashShop.setPlayer(player);
                 cashShop.setPrice(amount);
+                cashShop.getSelect().setBuyprice(amount);
                 Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
                     @Override
                     public void run() {

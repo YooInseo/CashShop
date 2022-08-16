@@ -81,11 +81,14 @@ public class CashShop implements ConfigurationSerializable {
                 this.EditorTitle = "Editor : " + name;
                 this.EditorInv = inv;
                 for (Items items : items) {
-                    ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
-                    itemStack.setAmount(items.getAmount());
-                    inv.setItem(items.getSlot(), itemStack);
+                    if(items != null){
+                        ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+                        itemStack.setAmount(items.getAmount());
+                        inv.setItem(items.getSlot(), itemStack);
+                    }
+
                 }
-                player.sendMessage("test");
+
 
                 player.openInventory(inv);
             } else {
@@ -108,9 +111,10 @@ public class CashShop implements ConfigurationSerializable {
 
     public void setSelect(ItemStack item,int slot) {
         Items items = new Items(item,slot);
-        int indexof = this.items.indexOf(items);
-        Main.plugin.getLogger().info("" + slot);
-
+        for (Items items1 : this.items) {
+            if(items1.getSlot() == items.getSlot())
+            this.select = items1;
+        }
     }
 
     public Items getSelect() {

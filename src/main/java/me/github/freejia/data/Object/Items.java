@@ -28,6 +28,14 @@ public class Items implements ConfigurationSerializable {
 
     private int buyprice;
 
+    public void setBuyprice(Integer buyprice) {
+        this.buyprice = buyprice;
+    }
+
+    public void setSellprice(int sellprice) {
+        this.sellprice = sellprice;
+    }
+
     public Items(ItemStack item, int slot) {
         ItemMeta itemmeta = item.getItemMeta();
         name = itemmeta.getDisplayName();
@@ -54,7 +62,8 @@ public class Items implements ConfigurationSerializable {
     }
 
     public Items(Map<String, Object> map) {
-        this((String) map.get("name"), (String) map.get("type"), (List<String>) map.get("lore"), (ItemMeta) map.get("itemmeta"), (Integer) map.get("slot"), (Integer) map.get("Amount"), (Integer) map.get("sellprice"), (Integer) map.get("buyprice"));
+        this((String) map.get("name"), (String) map.get("type"), (List<String>) map.get("lore"), (ItemMeta) map.get("itemmeta"), (Integer) map.get("slot"), (Integer) map.get("Amount"),
+                (Integer) map.get("sellprice"), (Integer) map.get("buyprice"));
     }
 
     public int getSlot() {
