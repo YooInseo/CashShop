@@ -1,7 +1,9 @@
 package me.github.freejia.events;
 
+import me.github.freejia.Main;
 import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Data;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +20,16 @@ public class ChatEvent implements Listener {
                 long amount = Long.parseLong(event.getMessage());
 
                 CashShop cashShop = Data.cashshop.get(player.getUniqueId());
+                cashShop.setPlayer(player);
                 cashShop.setPrice(amount);
+                Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        cashShop.Editor();
+                    }
+                });
+
+                event.setCancelled(true);
 
             } catch (NumberFormatException e){
                 return;

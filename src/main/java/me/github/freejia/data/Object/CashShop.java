@@ -32,7 +32,7 @@ public class CashShop implements ConfigurationSerializable {
 
     private List<Items> items = new ArrayList<>();
 
-    private Type type;
+    private Type type = Type.Default;
 
     private Items select;
 
