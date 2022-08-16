@@ -4,6 +4,7 @@ import me.github.freejia.Main;
 import me.github.freejia.data.Config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -31,7 +32,7 @@ public class CashShop implements ConfigurationSerializable {
 
     private List<Items> items = new ArrayList<>();
 
-    private List<ItemStack> item = new ArrayList<>();
+
 
     public CashShop(String name, Player player) {
         this.name = name;
@@ -83,24 +84,36 @@ public class CashShop implements ConfigurationSerializable {
             ConfigManager shop = new ConfigManager("shop/" + name);
 
             Inventory inv = Bukkit.createInventory(null, line * 9, "Editor : " + name);
+
+
             this.EditorTitle = "Editor : " + name;
             this.EditorInv = inv;
-
+            for(Items items:  items){
+                ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+                itemStack.setAmount(items.getAmount());
+                inv.setItem(items.getSlot(),itemStack);
+            }
+            player.sendMessage("test");
 
             player.openInventory(inv);
         }
     }
 
     public void Open() {
-        ConfigManager shop = new ConfigManager("shop/" + name);
 
-        CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
-
-        player.sendMessage(cashshop.getItems().get(0).getMaterial().name());
         Inventory inv = Bukkit.createInventory(null, line * 9, name);
+        for(Items items:  items){
+            ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+            itemStack.setAmount(items.getAmount());
+            inv.setItem(items.getSlot(),itemStack);
+        }
 
 
         player.openInventory(inv);
+    }
+
+    public int getLine() {
+        return line;
     }
 
     public void saveItem() {
@@ -113,7 +126,7 @@ public class CashShop implements ConfigurationSerializable {
             ItemStack item = EditorInv.getItem(i);
             if (item != null) {
 
-                this.item.add(item);
+
                 Items items = new Items(item, i);
                 items.setSlot(i);
                 cashshop.getItems().add(items);

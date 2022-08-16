@@ -14,7 +14,7 @@ public class Items implements ConfigurationSerializable {
 
     private String name;
 
-    private Material material;
+    private String material;
 
     private List<String> lore;
 
@@ -22,21 +22,25 @@ public class Items implements ConfigurationSerializable {
 
     private ItemMeta meta;
 
+    private int Amount;
+
     public Items(ItemStack item,int slot ){
         ItemMeta itemmeta = item.getItemMeta();
         name = itemmeta.getDisplayName();
-        material = item.getType();
+        material = item.getType().name();
         lore = itemmeta.getLore();
         meta = itemmeta;
+        this.Amount = item.getAmount();
         this.slot = slot;
     }
 
-    public Items(String name, Material material, List<String> lore,ItemMeta meta,int slot){
+    public Items(String name, String material, List<String> lore,ItemMeta meta,int slot,int Amount){
         this.name = name;
         this.material = material;
         this.lore = lore;
         this.meta = meta;
         this.slot = slot;
+        this.Amount = Amount;
     }
 
     public void setSlot(int slot) {
@@ -44,7 +48,7 @@ public class Items implements ConfigurationSerializable {
     }
 
     public Items(Map<String, Object> map) {
-        this((String)map.get("name"),(Material) map.get("type"),(List<String>)map.get("lore"), (ItemMeta) map.get("itemmeta"), (Integer)map.get("slot"));
+        this((String)map.get("name"),(String) map.get("type"),(List<String>)map.get("lore"), (ItemMeta) map.get("itemmeta"), (Integer)map.get("slot"),(Integer)map.get("Amount"));
     }
 
     public int getSlot() {
@@ -59,12 +63,16 @@ public class Items implements ConfigurationSerializable {
         return lore;
     }
 
-    public Material getMaterial() {
+    public String getMaterial() {
         return material;
     }
 
     public String getName() {
         return name;
+    }
+
+    public int getAmount() {
+        return Amount;
     }
 
     @NotNull
@@ -73,8 +81,10 @@ public class Items implements ConfigurationSerializable {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("name",name);
         map.put("slot",slot);
+        map.put("Amount",Amount);
         map.put("type",material.toString());
         map.put("lore",lore);
+
         map.put("itemmeta",meta);
         return map;
     }

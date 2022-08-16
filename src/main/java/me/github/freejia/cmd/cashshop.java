@@ -5,12 +5,15 @@ import me.github.freejia.cmd.tab.CashShopTabComplete;
 import me.github.freejia.data.CashShop;
 import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Data;
+import me.github.freejia.data.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class cashshop implements CommandExecutor {
 
@@ -124,7 +127,7 @@ public class cashshop implements CommandExecutor {
                             cashShop = shop.getConfig().getObject("shop", CashShop.class);
                             cashShop.setPlayer(player);
                             cashShop.Open();
-                        } else {
+                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
                         break;

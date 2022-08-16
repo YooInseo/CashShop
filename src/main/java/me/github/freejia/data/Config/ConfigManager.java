@@ -3,6 +3,7 @@ package me.github.freejia.data.Config;
 import me.github.freejia.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,34 +17,35 @@ public class ConfigManager {
     public File file;
     private String name;
 
-    public ConfigManager(String name){
+    public ConfigManager(String name) {
         this.name = name;
 
     }
-    public void reloadConfig(){
-        if(this.config == null)
+
+    public void reloadConfig() {
+        if (this.config == null)
             this.file = new File(Main.plugin.getDataFolder(), name + ".yml");
         this.config = YamlConfiguration.loadConfiguration(this.file);
 
         InputStream inputStream = Main.plugin.getResource(name + ".yml");
-        if(inputStream != null) {
+        if (inputStream != null) {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(new InputStreamReader(inputStream));
             this.config.setDefaults(config);
         }
     }
 
-    public Object load(String path){
+    public Object load(String path) {
         this.config = YamlConfiguration.loadConfiguration(this.file);
         return config.getDefaults().get(path);
     }
 
     public FileConfiguration getConfig() {
-        if(this.config == null) reloadConfig();
+        if (this.config == null) reloadConfig();
         return config;
     }
 
-    public boolean saveConfig(){
-        if(this.config == null || this.file == null) return false;
+    public boolean saveConfig() {
+        if (this.config == null || this.file == null) return false;
         try {
             getConfig().save(this.file);
             return true;
@@ -53,10 +55,10 @@ public class ConfigManager {
         return false;
     }
 
-    public void saveDefualtConfig(){
-        if(this.file == null)
+    public void saveDefualtConfig() {
+        if (this.file == null)
             this.file = new File(Main.plugin.getDataFolder(), name + ".yml");
-        if(!this.file.exists()){
+        if (!this.file.exists()) {
             file = new File(Main.plugin.getDataFolder(), name + ".yml");
             try {
                 file.createNewFile();
@@ -66,42 +68,52 @@ public class ConfigManager {
         }
     }
 
-    public void setString(String path,String msg){
-        if(getConfig().get(path) == null){
-            getConfig().set(path,msg);
+    public void setString(String path, String msg) {
+        if (getConfig().get(path) == null) {
+            getConfig().set(path, msg);
             this.saveConfig();
         }
     }
-    public String getString(String path){
+
+    public String getString(String path) {
         return getConfig().getString(path);
     }
-    public boolean Delete(){
+
+    public boolean Delete() {
         this.file = new File(Main.plugin.getDataFolder(), name + ".yml");
 
         return this.file.delete();
     }
 
-    public Object get(String path){
+    public Object get(String path) {
         return this.config.get(path);
     }
 
-    public void removeObject(String path, Object obj ){
+
+    @NotNull
+    public <T extends Object> List<T> getList(@NotNull String path, Class<T> clazz) {
+        List list = getConfig().getList(path);
+
+        return (List<T>) clazz.cast(list);
+    }
+
+    public void removeObject(String path, Object obj) {
         List<Object> list = (List<Object>) this.getConfig().getList(path);
         list.remove(obj);
         this.saveConfig();
     }
 
-    public void Value(String path, Object value){
+    public void Value(String path, Object value) {
         this.getConfig().set(path, value);
         this.saveConfig();
     }
 
 
-    public void newArrayList(String path ){
-        if(getConfig().getList(path) == null){
+    public void newArrayList(String path) {
+        if (getConfig().getList(path) == null) {
             this.getConfig().set(path, new ArrayList<>());
             this.saveConfig();
-        }  else {
+        } else {
             System.out.print("해당 리스트는 이미 생성 되었습니다.");
         }
     }
@@ -122,9 +134,9 @@ public class ConfigManager {
      * }</pre>
      * @return If the object is contained in List from path
      */
-    public boolean addObject(String path, Object obj ){
+    public boolean addObject(String path, Object obj) {
         List<Object> list = (List<Object>) this.getConfig().getList(path);
-        if(!list.contains(obj)){
+        if (!list.contains(obj)) {
             list.add(obj);
         }
 
@@ -132,17 +144,18 @@ public class ConfigManager {
     }
 
 
-    public boolean setObject(String path, Object obj ){
+    public boolean setObject(String path, Object obj) {
         List<Object> list = (List<Object>) this.getConfig().getList(path);
-        if(!list.contains(obj)){
-            list.set(list.indexOf(obj),obj);
+        if (!list.contains(obj)) {
+            list.set(list.indexOf(obj), obj);
         }
 
         return this.saveConfig();
     }
-    public boolean setObject(String path, Object obj,int index ){
+
+    public boolean setObject(String path, Object obj, int index) {
         List<Object> list = (List<Object>) this.getConfig().getList(path);
-        list.set(index,obj);
+        list.set(index, obj);
         return this.saveConfig();
     }
 }
