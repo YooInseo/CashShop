@@ -24,7 +24,11 @@ public class Items implements ConfigurationSerializable {
 
     private int Amount;
 
-    public Items(ItemStack item,int slot ){
+    private int sellprice;
+
+    private int buyprice;
+
+    public Items(ItemStack item, int slot) {
         ItemMeta itemmeta = item.getItemMeta();
         name = itemmeta.getDisplayName();
         material = item.getType().name();
@@ -34,13 +38,15 @@ public class Items implements ConfigurationSerializable {
         this.slot = slot;
     }
 
-    public Items(String name, String material, List<String> lore,ItemMeta meta,int slot,int Amount){
+    public Items(String name, String material, List<String> lore, ItemMeta meta, int slot, int Amount, int sellprice, int buyprice) {
         this.name = name;
         this.material = material;
         this.lore = lore;
         this.meta = meta;
         this.slot = slot;
         this.Amount = Amount;
+        this.sellprice = sellprice;
+        this.buyprice = buyprice;
     }
 
     public void setSlot(int slot) {
@@ -48,7 +54,7 @@ public class Items implements ConfigurationSerializable {
     }
 
     public Items(Map<String, Object> map) {
-        this((String)map.get("name"),(String) map.get("type"),(List<String>)map.get("lore"), (ItemMeta) map.get("itemmeta"), (Integer)map.get("slot"),(Integer)map.get("Amount"));
+        this((String) map.get("name"), (String) map.get("type"), (List<String>) map.get("lore"), (ItemMeta) map.get("itemmeta"), (Integer) map.get("slot"), (Integer) map.get("Amount"), (Integer) map.get("sellprice"), (Integer) map.get("buyprice"));
     }
 
     public int getSlot() {
@@ -79,13 +85,14 @@ public class Items implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("name",name);
-        map.put("slot",slot);
-        map.put("Amount",Amount);
-        map.put("type",material.toString());
-        map.put("lore",lore);
-
-        map.put("itemmeta",meta);
+        map.put("name", name);
+        map.put("slot", slot);
+        map.put("Amount", Amount);
+        map.put("type", material.toString());
+        map.put("lore", lore);
+        map.put("sellprice", sellprice);
+        map.put("buyprice", sellprice);
+        map.put("itemmeta", meta);
         return map;
     }
 }

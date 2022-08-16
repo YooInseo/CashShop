@@ -119,12 +119,16 @@ public class cashshop implements CommandExecutor {
                         break;
                     case "열기":
                         if (args.length > 1) {
-                            name = args[1];
-                            shop = new ConfigManager("shop/" + name);
-                            cashShop = shop.getConfig().getObject("shop", CashShop.class);
-                            cashShop.setPlayer(player);
-                            cashShop.Open();
-                         } else {
+                            if (!Data.cashshop.containsKey(player.getUniqueId())) {
+                                name = args[1];
+                                shop = new ConfigManager("shop/" + name);
+                                cashShop = shop.getConfig().getObject("shop", CashShop.class);
+                                cashShop.setPlayer(player);
+                                cashShop.Open();
+                                Data.cashshop.put(player.getUniqueId(), cashShop);
+                            }
+
+                        } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
                         break;

@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class CashShop implements ConfigurationSerializable {
 
@@ -31,6 +32,9 @@ public class CashShop implements ConfigurationSerializable {
 
     private List<Items> items = new ArrayList<>();
 
+    private Type type;
+
+    private Items select;
 
 
     public CashShop(String name, Player player) {
@@ -47,6 +51,7 @@ public class CashShop implements ConfigurationSerializable {
         this.items = items;
 
     }
+
 
 
     public void Create() {
@@ -75,38 +80,58 @@ public class CashShop implements ConfigurationSerializable {
                 Inventory inv = Bukkit.createInventory(null, line * 9, "Editor : " + name);
                 this.EditorTitle = "Editor : " + name;
                 this.EditorInv = inv;
+                for (Items items : items) {
+                    ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+                    itemStack.setAmount(items.getAmount());
+                    inv.setItem(items.getSlot(), itemStack);
+                }
+                player.sendMessage("test");
+
                 player.openInventory(inv);
             } else {
+
                 player.openInventory(EditorInv);
             }
         } else {
-            ConfigManager shop = new ConfigManager("shop/" + name);
 
             Inventory inv = Bukkit.createInventory(null, line * 9, "Editor : " + name);
 
 
             this.EditorTitle = "Editor : " + name;
             this.EditorInv = inv;
-            for(Items items:  items){
-                ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
-                itemStack.setAmount(items.getAmount());
-                inv.setItem(items.getSlot(),itemStack);
-            }
+
             player.sendMessage("test");
 
             player.openInventory(inv);
         }
     }
 
+    public void setSelect(int slot) {
+
+        this.select = this.items.get(0);
+    }
+
+    public Items getSelect() {
+        return select;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+        Main.plugin.getLogger().info("" + type + isDefualt());
+    }
+
+    public boolean isDefualt() {
+        return this.type.equals(Type.Default);
+    }
+
     public void Open() {
 
         Inventory inv = Bukkit.createInventory(null, line * 9, name);
-        for(Items items:  items){
+        for (Items items : items) {
             ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
             itemStack.setAmount(items.getAmount());
-            inv.setItem(items.getSlot(),itemStack);
+            inv.setItem(items.getSlot(), itemStack);
         }
-
 
         player.openInventory(inv);
     }
@@ -122,6 +147,8 @@ public class CashShop implements ConfigurationSerializable {
 
 
         for (int i = 0; i < line * 9; i++) {
+
+
             ItemStack item = EditorInv.getItem(i);
             if (item != null) {
 
