@@ -150,20 +150,37 @@ public class CashShop implements ConfigurationSerializable {
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
 
 
-        for (int i = 0; i < line * 9; i++) {
+        cashshop.getItems().clear();
 
+        for (int i = 0; i < line * 9; i++) {
             ItemStack item = EditorInv.getItem(i);
             if (item != null) {
-
                 Items items = new Items(item, i);
-                if (!cashshop.getItems().contains(items)) {
-                    items.setSlot(i);
 
-                    cashshop.getItems().add(items);
-                }
+                cashshop.getItems().add(items);
+
+                System.out.println(i + " : " + items);
 
             }
         }
+        shop.getConfig().set("shop", cashshop);
+        shop.saveConfig();
+
+//        for (int i = 0; i < line * 9; i++) {
+//
+//            ItemStack item = EditorInv.getItem(i);
+//            if (item != null) {
+//
+//                Items items = new Items(item, i);
+//                items.setSlot(i);
+//                if (!cashshop.getItems().contains(items) || items.getSlot() != i) {
+//
+//
+//                    cashshop.getItems().add(items);
+//                }
+//
+//            }
+//        }
         shop.getConfig().set("shop", cashshop);
         shop.saveConfig();
     }

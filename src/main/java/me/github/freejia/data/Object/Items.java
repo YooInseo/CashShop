@@ -35,6 +35,14 @@ public class Items implements ConfigurationSerializable {
         
     }
 
+    public int getBuyprice() {
+        return buyprice;
+    }
+
+    public int getSellprice() {
+        return sellprice;
+    }
+
     public void setSellprice(int sellprice) {
         this.sellprice = sellprice;
     }
