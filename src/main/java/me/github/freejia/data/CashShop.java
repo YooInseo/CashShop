@@ -31,6 +31,7 @@ public class CashShop implements ConfigurationSerializable {
 
     private List<Items> items = new ArrayList<>();
 
+    private List<ItemStack> item = new ArrayList<>();
 
     public CashShop(String name, Player player) {
         this.name = name;
@@ -43,6 +44,7 @@ public class CashShop implements ConfigurationSerializable {
         this.name = name;
         this.title = name;
         this.line = line;
+        this.items = items;
 
     }
 
@@ -68,15 +70,37 @@ public class CashShop implements ConfigurationSerializable {
 
     public void Editor() {
         isPrice = false;
-        if (EditorInv == null) {
+        if (items != null) {
+            if (EditorInv == null) {
+                Inventory inv = Bukkit.createInventory(null, line * 9, "Editor : " + name);
+                this.EditorTitle = "Editor : " + name;
+                this.EditorInv = inv;
+                player.openInventory(inv);
+            } else {
+                player.openInventory(EditorInv);
+            }
+        } else {
+            ConfigManager shop = new ConfigManager("shop/" + name);
+
             Inventory inv = Bukkit.createInventory(null, line * 9, "Editor : " + name);
             this.EditorTitle = "Editor : " + name;
             this.EditorInv = inv;
-             player.openInventory(inv);
-        } else {
-            player.openInventory(EditorInv);
-        }
 
+
+            player.openInventory(inv);
+        }
+    }
+
+    public void Open() {
+        ConfigManager shop = new ConfigManager("shop/" + name);
+
+        CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
+
+        player.sendMessage(cashshop.getItems().get(0).getMaterial().name());
+        Inventory inv = Bukkit.createInventory(null, line * 9, name);
+
+
+        player.openInventory(inv);
     }
 
     public void saveItem() {
@@ -85,11 +109,12 @@ public class CashShop implements ConfigurationSerializable {
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
 
 
-        for(int i = 0; i < line * 9; i++){
+        for (int i = 0; i < line * 9; i++) {
             ItemStack item = EditorInv.getItem(i);
-            if(item != null){
+            if (item != null) {
 
-                Items items = new Items(item);
+                this.item.add(item);
+                Items items = new Items(item, i);
                 items.setSlot(i);
                 cashshop.getItems().add(items);
 
@@ -98,7 +123,7 @@ public class CashShop implements ConfigurationSerializable {
         }
 
 
-        shop.getConfig().set("shop",cashshop);
+        shop.getConfig().set("shop", cashshop);
 
         shop.saveConfig();
     }

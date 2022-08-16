@@ -5,6 +5,7 @@ import me.github.freejia.cmd.cashshop;
 import me.github.freejia.data.Cash;
 import me.github.freejia.data.CashShop;
 import me.github.freejia.data.Config.ConfigManager;
+import me.github.freejia.data.Items;
 import me.github.freejia.data.SQL.MySql;
 import me.github.freejia.events.ChatEvent;
 import me.github.freejia.events.ClickEvent;
@@ -42,6 +43,7 @@ public class Main extends JavaPlugin {
 
         ConfigurationSerialization.registerClass(Cash.class);
         ConfigurationSerialization.registerClass(CashShop.class);
+        ConfigurationSerialization.registerClass(Items.class);
         init();
 
         Listener[] events = {new ClickEvent(), new CloseEvent(), new ChatEvent()};

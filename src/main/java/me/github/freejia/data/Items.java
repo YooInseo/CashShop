@@ -22,12 +22,13 @@ public class Items implements ConfigurationSerializable {
 
     private ItemMeta meta;
 
-    public Items(ItemStack item){
+    public Items(ItemStack item,int slot ){
         ItemMeta itemmeta = item.getItemMeta();
         name = itemmeta.getDisplayName();
         material = item.getType();
         lore = itemmeta.getLore();
         meta = itemmeta;
+        this.slot = slot;
     }
 
     public Items(String name, Material material, List<String> lore,ItemMeta meta,int slot){
@@ -44,6 +45,26 @@ public class Items implements ConfigurationSerializable {
 
     public Items(Map<String, Object> map) {
         this((String)map.get("name"),(Material) map.get("type"),(List<String>)map.get("lore"), (ItemMeta) map.get("itemmeta"), (Integer)map.get("slot"));
+    }
+
+    public int getSlot() {
+        return slot;
+    }
+
+    public ItemMeta getMeta() {
+        return meta;
+    }
+
+    public List<String> getLore() {
+        return lore;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @NotNull

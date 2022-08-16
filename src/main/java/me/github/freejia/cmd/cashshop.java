@@ -41,7 +41,7 @@ public class cashshop implements CommandExecutor {
 
                             shop.getConfig().set("shop", cashShop);
                             shop.saveConfig();
-                        } else{
+                        } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
 
@@ -58,10 +58,10 @@ public class cashshop implements CommandExecutor {
                                 cashShop.setLine(line);
                                 shop.getConfig().set("shop", cashShop);
                                 shop.saveConfig();
-                            } else{
+                            } else {
                                 player.sendMessage(Main.config.getString("error_message.shop_none_line"));
                             }
-                        } else{
+                        } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
 
@@ -69,7 +69,7 @@ public class cashshop implements CommandExecutor {
 
                     case "편집":
                         if (args.length > 1) {
-                            if(!Data.cashshop.containsKey(player.getUniqueId())){
+                            if (!Data.cashshop.containsKey(player.getUniqueId())) {
                                 name = args[1];
 
                                 shop = new ConfigManager("shop/" + name);
@@ -78,9 +78,9 @@ public class cashshop implements CommandExecutor {
                                 cashShop.Editor();
 
                                 CashShop cashshop = cashShop;
-                                Data.cashshop.put(player.getUniqueId(),cashshop);
+                                Data.cashshop.put(player.getUniqueId(), cashshop);
                             }
-                        } else{
+                        } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
 
@@ -100,7 +100,7 @@ public class cashshop implements CommandExecutor {
                                 shop = new ConfigManager("shop/" + targetname);
                                 shop.saveConfig();
                             }
-                        } else{
+                        } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
 
@@ -112,11 +112,26 @@ public class cashshop implements CommandExecutor {
                             shop = new ConfigManager("shop/" + name);
 
                             shop.reloadConfig();
-                        } else{
+                        } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
 
                         break;
+                    case "열기":
+                        if (args.length > 1) {
+                            name = args[1];
+                            shop = new ConfigManager("shop/" + name);
+                            cashShop = shop.getConfig().getObject("shop", CashShop.class);
+                            cashShop.setPlayer(player);
+                            cashShop.Open();
+                        } else {
+                            player.sendMessage(Main.config.getString("error_message.shop_none_name"));
+                        }
+                        break;
+                }
+            } else {
+                switch (args[0]) {
+
                 }
             }
 
