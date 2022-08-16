@@ -27,7 +27,7 @@ public class ClickEvent implements Listener {
 
                     if (event.getClick().isShiftClick()) {
                         event.setCancelled(true);
-                        cashShop.setSelect( 0);
+                        cashShop.setSelect( event.getCurrentItem(), event.getSlot());
                         cashShop.PriceGUI();
                     }
                 }

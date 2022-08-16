@@ -106,9 +106,11 @@ public class CashShop implements ConfigurationSerializable {
         }
     }
 
-    public void setSelect(int slot) {
+    public void setSelect(ItemStack item,int slot) {
+        Items items = new Items(item,slot);
+        int indexof = this.items.indexOf(items);
+        Main.plugin.getLogger().info("" + slot);
 
-        this.select = this.items.get(0);
     }
 
     public Items getSelect() {
@@ -147,7 +149,6 @@ public class CashShop implements ConfigurationSerializable {
 
 
         for (int i = 0; i < line * 9; i++) {
-
 
             ItemStack item = EditorInv.getItem(i);
             if (item != null) {

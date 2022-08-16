@@ -18,15 +18,17 @@ public class CloseEvent implements Listener {
             cashshop = Data.cashshop.get(player.getUniqueId());
             if (cashshop != null) {
                 if (cashshop.isPrice()) {
-                    if (cashshop.getPriceInv().equals(event.getInventory()) && event.getView().getTitle().equals(Main.config.getConfig().getString("shop_price.gui")) && cashshop.isDefualt()) {
-                        Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                cashshop.Editor();
+                        if (event.getView().getTitle().equals(Main.config.getConfig().getString("shop_price.gui")) && cashshop.isDefualt()) {
+                            Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+                                @Override
+                                public void run() {
+                                    cashshop.Editor();
 
-                            }
-                        });
+                                }
+                            });
+
                     }
+
                 } else if (cashshop.getEditorInv().equals(event.getInventory())) {
                     cashshop.saveItem();
                 }
