@@ -3,6 +3,7 @@ package me.github.freejia.events;
 import me.github.freejia.Main;
 import me.github.freejia.data.Data;
 import me.github.freejia.data.Object.CashShop;
+import me.github.freejia.data.Object.Items;
 import me.github.freejia.data.Object.Type;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,7 +29,13 @@ public class ClickEvent implements Listener {
                     if (event.getClick().isShiftClick()) {
                         event.setCancelled(true);
 
-                        cashShop.setSelect(event.getCurrentItem(), event.getSlot());
+                        for(Items items : cashShop.getItems()){
+                            if(items.getSlot() == event.getSlot()){
+                                int i  = cashShop.getItems().indexOf(items);
+                                Data.select.put(player.getUniqueId(),i);
+                            }
+                        }
+
                         cashShop.PriceGUI();
                     }
                 }

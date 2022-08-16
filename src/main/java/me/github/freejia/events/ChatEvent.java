@@ -24,12 +24,11 @@ public class ChatEvent implements Listener {
                     CashShop cashShop = Data.cashshop.get(player.getUniqueId());
 
                     if(!cashShop.isDefualt()){
+
                         cashShop.setPlayer(player);
-                        cashShop.setPrice(amount);
 
-                        cashShop.getSelect().setBuyprice(amount);
+                        cashShop.setPrice(amount, Data.select.get(player.getUniqueId()));
 
-                        cashShop.setType(Type.Default);
 
                         Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
                             @Override

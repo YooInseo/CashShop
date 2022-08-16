@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public class Data {
     public static HashMap<UUID, CashShop> cashshop = new HashMap<>();
+
+    public static HashMap<UUID, Integer> select = new HashMap<>();
 }

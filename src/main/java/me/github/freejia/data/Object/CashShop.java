@@ -21,7 +21,7 @@ public class CashShop implements ConfigurationSerializable {
     private String title;
     private int line; // Max 45
     private Player player;
-    private long price;
+    private int price;
 
     private Inventory EditorInv;
     private String EditorTitle;
@@ -157,14 +157,12 @@ public class CashShop implements ConfigurationSerializable {
             if (item != null) {
                 Items items = new Items(item, i);
                 if (select != null) {
-
                     cashshop.getItems().add(select);
+                    select = null;
 
                 } else {
                     cashshop.getItems().add(items);
                 }
-
-
             }
         }
         shop.getConfig().set("shop", cashshop);
@@ -264,8 +262,19 @@ public class CashShop implements ConfigurationSerializable {
         return price;
     }
 
-    public void setPrice(long price) {
-        this.price = price;
+    public void setPrice(int price,int i) {
+
+        ConfigManager shop = new ConfigManager("shop/" + name);
+
+        CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
+
+
+        cashshop.price = price;
+        Items item = getItems().get(i);
+        item.setSellprice(price);
+        cashshop.items.set(i,item);
+        System.out.println("test " + item);
+        shop.saveConfig();
     }
 
     public CashShop(Map<String, Object> map) {

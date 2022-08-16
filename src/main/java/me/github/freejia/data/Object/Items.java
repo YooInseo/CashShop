@@ -29,10 +29,10 @@ public class Items implements ConfigurationSerializable {
 
     private int buyprice;
 
-    public void setBuyprice(Integer buyprice) {
+    public void setBuyprice(int buyprice) {
         this.buyprice = buyprice;
         Main.plugin.getLogger().info(buyprice + " 가격 업데이트됨.");
-        
+
     }
 
     public int getBuyprice() {
