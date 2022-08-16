@@ -74,10 +74,10 @@ public class Main extends JavaPlugin {
 
         config.getConfig().options().copyDefaults();
 
-        config.getConfig().addDefault("shop_message.1_buy", "");
-        config.getConfig().addDefault("shop_message.1_sell", "");
-        config.getConfig().addDefault("shop_message.64_buy", "");
-        config.getConfig().addDefault("shop_message.64_sell", "");
+        config.getConfig().addDefault("shop_message.1_buy", "%item_order%을 1개를 %buy_price%캐시로 구매하였습니다!");
+        config.getConfig().addDefault("shop_message.1_sell", "%item_order% 1개를 %sell_price%캐시로 구매하였습니다!");
+        config.getConfig().addDefault("shop_message.64_buy", "%item_order%을 64개를 %buy_price%캐시로 판매하였습니다!");
+        config.getConfig().addDefault("shop_message.64_sell", "%item_order% 64개를 %sell_price%캐시로 판매하였습니다!");
 
         config.getConfig().addDefault("cash_message.check", "보유중인 캐시: %cash%");
         config.getConfig().addDefault("cash_message.check_user", "%player%님의 보유중인 캐시: %cash%");
@@ -86,14 +86,13 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("cash_message.set", "%player%님의 캐시를 %cash%로 설정하였습니다!");
 
 
-        config.getConfig().addDefault("error_message.overflow", "");
-        config.getConfig().addDefault("error_message.cant_buy_cash", "");
-        config.getConfig().addDefault("error_message.cant_buy_item", "");
-        config.getConfig().addDefault("error_message.cant_inventory_slot", "");
-        config.getConfig().addDefault("error_message.command_none_player", "");
-        config.getConfig().addDefault("error_message.command_none_cash", "");
-        config.getConfig().addDefault("error_message.shop_none_name", "");
-        config.getConfig().addDefault("error_message.shop_none_line", "");
+        config.getConfig().addDefault("error_message.cant_buy_cash", "당신은 캐시가 부족하여 구매가 불가능합니다!");
+        config.getConfig().addDefault("error_message.cant_buy_item", "당신은 아이템이 부족하여 판매가 불가능합니다!");
+        config.getConfig().addDefault("error_message.cant_inventory_slot", "인벤토리에 빈공간이 없어, 구매가 불가능합니다!");
+        config.getConfig().addDefault("error_message.command_none_player", "플레이어 닉네임을 입력해주세요!");
+        config.getConfig().addDefault("error_message.command_none_cash", "금액을 입력해주세요!");
+        config.getConfig().addDefault("error_message.shop_none_name", "상점 이름을 입력해주세요!");
+        config.getConfig().addDefault("error_message.shop_none_line", "줄을 입력해 주세요!");
 
         config.getConfig().addDefault("shop_price.gui", "구매가격/판매가격");
         config.getConfig().addDefault("shop_price.gui_size", 27);

@@ -22,6 +22,7 @@ public class ChatEvent implements Listener {
                 Integer amount = Integer.parseInt(event.getMessage());
 
                 CashShop cashShop = Data.cashshop.get(player.getUniqueId());
+
                 if(!cashShop.isDefualt()){
                     cashShop.setPlayer(player);
                     cashShop.setPrice(amount);
