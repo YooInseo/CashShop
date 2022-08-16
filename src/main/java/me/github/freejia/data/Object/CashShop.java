@@ -155,10 +155,13 @@ public class CashShop implements ConfigurationSerializable {
             ItemStack item = EditorInv.getItem(i);
             if (item != null) {
 
-
                 Items items = new Items(item, i);
-                items.setSlot(i);
-                cashshop.getItems().add(items);
+                if (!cashshop.getItems().contains(items)) {
+                    items.setSlot(i);
+
+                    cashshop.getItems().add(items);
+                }
+
             }
         }
         shop.getConfig().set("shop", cashshop);
@@ -167,19 +170,22 @@ public class CashShop implements ConfigurationSerializable {
 
 
     public void UpdateItem() {
-
-        int index = items.indexOf(select);
-        this.items.set(index, select);
-
         ConfigManager shop = new ConfigManager("shop/" + name);
 
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
 
+        int index = items.indexOf(select);
+        this.items.set(index, select);
+
+
+        cashshop.getItems().set(index, select);
+
         cashshop.items.set(index, select);
 
-        Main.plugin.getLogger().info(index + "");
+
         shop.getConfig().set("shop", cashshop);
         shop.saveConfig();
+        Main.plugin.getLogger().info("" + index + cashshop.getItems().get(index) + "  : " + select + "값으로 변경 완료");
     }
 
     public List<Items> getItems() {

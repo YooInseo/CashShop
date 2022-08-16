@@ -1,7 +1,7 @@
 package me.github.freejia;
 
-import me.github.freejia.cmd.cash;
-import me.github.freejia.cmd.cashshop;
+import me.github.freejia.cmd.Cashcmd;
+import me.github.freejia.cmd.CashShopCmd;
 import me.github.freejia.data.Object.Cash;
 import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Config.ConfigManager;
@@ -38,8 +38,8 @@ public class Main extends JavaPlugin {
         MySql mysql = new MySql();
         mysql.Connect();
 
-        new cash(this);
-        new cashshop(this);
+        new Cashcmd(this);
+        new CashShopCmd(this);
 
         ConfigurationSerialization.registerClass(Cash.class);
         ConfigurationSerialization.registerClass(CashShop.class);
@@ -98,11 +98,11 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("shop_price.gui", "구매가격/판매가격");
         config.getConfig().addDefault("shop_price.gui_size", 27);
         config.getConfig().addDefault("shop_price.buy_settings.item", "LIME_WOOL");
-        config.getConfig().addDefault("shop_price.buy_settings.slot", 11);
+        config.getConfig().addDefault("shop_price.buy_settings.slot", 12);
         config.getConfig().addDefault("shop_price.buy_settings.lore", Arrays.asList("", "&f[&b!&f] 클릭시 구매가격을 설정합니다!", ""));
 
         config.getConfig().addDefault("shop_price.sell_settings.item", "RED_WOOL");
-        config.getConfig().addDefault("shop_price.sell_settings.slot", 13);
+        config.getConfig().addDefault("shop_price.sell_settings.slot", 14);
         config.getConfig().addDefault("shop_price.sell_settings.lore", Arrays.asList("", "&f[&b!&f] 클릭시 구매가격을 설정합니다!", ""));
 
         config.getConfig().options().copyDefaults(true);

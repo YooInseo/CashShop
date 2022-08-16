@@ -12,11 +12,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class cashshop implements CommandExecutor {
+public class CashShopCmd implements CommandExecutor {
 
     private Main plugin;
 
-    public cashshop(Main plugin) {
+    public CashShopCmd(Main plugin) {
         Bukkit.getPluginCommand("캐시상점").setExecutor(this);
         Bukkit.getPluginCommand("캐시상점").setTabCompleter(new CashShopTabComplete());
     }
