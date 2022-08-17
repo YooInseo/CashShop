@@ -1,16 +1,20 @@
 package me.github.freejia.events;
 
 import me.github.freejia.Main;
+import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Data;
 import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Object.Items;
 import me.github.freejia.data.Object.Type;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,26 +25,71 @@ public class ClickEvent implements Listener {
         Player player = (Player) event.getWhoClicked();
         Inventory inv = event.getClickedInventory();
         CashShop cashShop;
+
+
         if (Data.cashshop.containsKey(player.getUniqueId())) {
             if (inv.equals(Data.cashshop.get(player.getUniqueId()).getEditorInv())) {
-                if (event.getCurrentItem() != null || event.getCurrentItem().getType() != Material.AIR) {
+                cashShop = Data.cashshop.get(player.getUniqueId());
+
+                if (event.getClick().equals(ClickType.RIGHT) || event.getClick().equals(ClickType.LEFT)) {
+
                     cashShop = Data.cashshop.get(player.getUniqueId());
 
-                    if (event.getClick().isShiftClick()) {
-                        event.setCancelled(true);
+                    ConfigManager shop = new ConfigManager("shop/" + cashShop.getName());
 
-                        for(Items items : cashShop.getItems()){
-                            if(items.getSlot() == event.getSlot()){
-                                int i  = cashShop.getItems().indexOf(items);
-                                Data.select.put(player.getUniqueId(),i);
-                            }
-                        }
+                    CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
+                    Items items = new Items(event.getCursor(), event.getSlot());
+                    if(!cashshop.getItems().contains(items)){
 
-                        cashShop.PriceGUI();
                     }
+//                    if (event.getCurrentItem() != null) {
+//                        inv.getItem(event.getSlot());
+//                        if (event.getView().getCursor().getType().equals(Material.AIR)) {
+//
+//                            player.sendMessage("test");
+//                        } else {
+//
+//                        }
+//
+//                    }
+//
+//                    for (Items items2 : cashshop.getItems()) {
+//                        int i = cashshop.getItems().indexOf(items2);
+//                        Data.select.put(player.getUniqueId(), i);
+//                        if (items2.getSlot() == event.getSlot()) {
+//                            cashshop.getItems().remove(i);
+//                            cashshop.getItems().add(i,items2);
+//                        } else {
+//                            player.sendMessage("test" + event.getSlot());
+//
+//                            items2.setSlot(event.getSlot());
+//
+//                            cashshop.getItems().set(i,items2);
+//
+//                            shop.getConfig().set("shop", cashshop);
+//                            shop.saveConfig();
+//                        }
+//
+//                    }
+
+
+
                 }
+                if (event.getClick().isShiftClick()) {
+                    event.setCancelled(true);
+
+                    for (Items items : cashShop.getItems()) {
+                        if (items.getSlot() == event.getSlot()) {
+                            int i = cashShop.getItems().indexOf(items);
+                            Data.select.put(player.getUniqueId(), i);
+                        }
+                    }
+                    cashShop.PriceGUI();
+                }
+
+
             } else if (event.getView().getTitle().equals(Main.config.getConfig().getString("shop_price.gui"))) {
-                 cashShop = Data.cashshop.get(player.getUniqueId());
+                cashShop = Data.cashshop.get(player.getUniqueId());
                 switch (event.getSlot()) {
                     case 12:
                         cashShop.setType(Type.BUY);
@@ -57,7 +106,7 @@ public class ClickEvent implements Listener {
             } else if (event.getView().getTitle().equals(Data.cashshop.get(player.getUniqueId()).getTitle())) {
                 if (event.getCurrentItem() != null || event.getCurrentItem().getType() != Material.AIR) {
                     event.setCancelled(true);
-                } else{
+                } else {
                     return;
                 }
 

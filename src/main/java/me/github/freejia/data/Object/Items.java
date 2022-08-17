@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,11 +49,16 @@ public class Items implements ConfigurationSerializable {
     }
 
     public Items(ItemStack item, int slot) {
-        ItemMeta itemmeta = item.getItemMeta();
-        name = itemmeta.getDisplayName();
+        if(item.hasItemMeta()){
+            ItemMeta itemmeta = item.getItemMeta();
+            name = itemmeta.getDisplayName();
+            lore = itemmeta.getLore();
+            meta = itemmeta;
+        }
+
+
         material = item.getType().name();
-        lore = itemmeta.getLore();
-        meta = itemmeta;
+
         this.Amount = item.getAmount();
         this.slot = slot;
     }
@@ -111,8 +117,9 @@ public class Items implements ConfigurationSerializable {
         map.put("type", material.toString());
         map.put("lore", lore);
         map.put("sellprice", sellprice);
-        map.put("buyprice", sellprice);
+        map.put("buyprice", buyprice);
         map.put("itemmeta", meta);
+
         return map;
     }
 }

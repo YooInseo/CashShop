@@ -2,6 +2,7 @@ package me.github.freejia.data.Object;
 
 import me.github.freejia.Main;
 import me.github.freejia.data.Config.ConfigManager;
+import me.github.freejia.data.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -33,8 +34,6 @@ public class CashShop implements ConfigurationSerializable {
 
     private Type type = Type.Default;
 
-    private Items select;
-
 
     public CashShop(String name, Player player) {
         this.name = name;
@@ -51,6 +50,10 @@ public class CashShop implements ConfigurationSerializable {
 
     }
 
+
+    public Type getType() {
+        return type;
+    }
 
     public void Create() {
         Inventory inv = Bukkit.createInventory(null, line + 9, name);
@@ -80,6 +83,7 @@ public class CashShop implements ConfigurationSerializable {
                 Inventory inv = Bukkit.createInventory(null, line * 9, "Editor : " + name);
                 this.EditorTitle = "Editor : " + name;
                 this.EditorInv = inv;
+
                 for (Items items : items) {
                     if (items != null) {
                         ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
@@ -106,17 +110,9 @@ public class CashShop implements ConfigurationSerializable {
         }
     }
 
-    public void setSelect(ItemStack item, int slot) {
-        Items items = new Items(item, slot);
-        for (Items items1 : this.items) {
-            if (items1.getSlot() == items.getSlot())
-                this.select = items1;
-            Main.plugin.getLogger().info(items1 + " 선택됨.");
-        }
-    }
 
-    public Items getSelect() {
-        return select;
+    public String getName() {
+        return name;
     }
 
     public void setType(Type type) {
@@ -150,41 +146,98 @@ public class CashShop implements ConfigurationSerializable {
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
 
 
-        cashshop.getItems().clear();
-
         for (int i = 0; i < line * 9; i++) {
-            ItemStack item = EditorInv.getItem(i);
-            if (item != null) {
-                Items items = new Items(item, i);
-                if (select != null) {
-                    cashshop.getItems().add(select);
-                    select = null;
+            ItemStack itemStack = EditorInv.getItem(i);
+            if (itemStack != null) {
 
-                } else {
-                    cashshop.getItems().add(items);
+
+                for (Items items : cashshop.getItems()) {
+                    if(items == null){
+                        player.sendMessage("아이템 값이 없습니다");
+                    }
+                    if(items.getSlot() != i){
+                        Items item = new Items(itemStack, i);
+                        cashshop.items.add(item);
+                        player.sendMessage("Test");
+                        shop.getConfig().set("shop", cashshop);
+                        shop.saveConfig();
+                    }
                 }
+
+                Items item = new Items(itemStack,i);
+                cashshop.items.clear();
+                cashshop.items.add(item);
+                shop.getConfig().set("shop", cashshop);
+                shop.saveConfig();
+                player.sendMessage("test");
+
+            } else {
+                player.sendMessage("null");
+                for (Items items : cashshop.getItems()) {
+                    if (items.getSlot() != i) {
+                        Items item = new Items(itemStack, i);
+
+                        item.setBuyprice(items.getBuyprice());
+                        item.setSellprice(items.getSellprice());
+
+                        cashshop.items.clear();
+                        cashshop.items.add(item);
+                        shop.saveConfig();
+                    }
+                }
+
             }
         }
-        shop.getConfig().set("shop", cashshop);
-        shop.saveConfig();
-
-//        for (int i = 0; i < line * 9; i++) {
+//        for (Items items : cashshop.getItems()) {
+//            if (items != null) {
+//                int indeex = cashshop.getItems().indexOf(items);
 //
-//            ItemStack item = EditorInv.getItem(i);
-//            if (item != null) {
+//                for (int i = 0; i < line * 9; i++) {
 //
-//                Items items = new Items(item, i);
-//                items.setSlot(i);
-//                if (!cashshop.getItems().contains(items) || items.getSlot() != i) {
+//                    if (items.getSlot() == i) {
 //
+//                        Items item = new Items(EditorInv.getItem(i), i);
 //
-//                    cashshop.getItems().add(items);
+//                        item.setSellprice(items.getSellprice());
+//
+//                        cashshop.items.clear();
+//                        cashshop.items.add(item);
+//                        shop.getConfig().set("shop", cashshop);
+//                        shop.saveConfig();
+//                        player.sendMessage("test");
+//                    }
 //                }
-//
+//            } else {
+//                player.sendMessage("test");
 //            }
 //        }
-        shop.getConfig().set("shop", cashshop);
-        shop.saveConfig();
+////
+//        for (int i = 0; i < line * 9; i++) {
+//            ItemStack itemstack = EditorInv.getItem(i);
+//
+//            if(itemstack != null){
+//
+//                Items item = new Items(itemstack, i);
+//
+//                player.sendMessage(getItems().get(0) + "");
+//
+//                if(!this.getItems().contains(item)){
+//                    cashshop.items.clear();
+//                    cashshop.items.add(item);
+//                }
+//                shop.getConfig().set("shop", cashshop);
+//                shop.saveConfig();
+//            }
+//
+//        }
+    }
+
+    public CashShop getCashShop() {
+        ConfigManager shop = new ConfigManager("shop/" + name);
+
+        CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
+
+        return cashshop;
     }
 
 
@@ -193,18 +246,10 @@ public class CashShop implements ConfigurationSerializable {
 
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
 
-        int index = items.indexOf(select);
-        this.items.set(index, select);
-
-
-        cashshop.getItems().set(index, select);
-
-        cashshop.items.set(index, select);
-
 
         shop.getConfig().set("shop", cashshop);
         shop.saveConfig();
-        Main.plugin.getLogger().info("" + index + cashshop.getItems().get(index) + "  : " + select + "값으로 변경 완료");
+
     }
 
     public List<Items> getItems() {
@@ -262,7 +307,7 @@ public class CashShop implements ConfigurationSerializable {
         return price;
     }
 
-    public void setPrice(int price,int i) {
+    public void setPrice(int price, int i) {
 
         ConfigManager shop = new ConfigManager("shop/" + name);
 
@@ -272,8 +317,8 @@ public class CashShop implements ConfigurationSerializable {
         cashshop.price = price;
         Items item = getItems().get(i);
         item.setSellprice(price);
-        cashshop.items.set(i,item);
-        System.out.println("test " + item);
+        cashshop.items.set(i, item);
+
         shop.saveConfig();
     }
 
