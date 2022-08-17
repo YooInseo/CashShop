@@ -15,26 +15,25 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class ChatEvent implements Listener {
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event){
+    public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
 
-        if(Data.cashshop.containsKey(player.getUniqueId())){
-            try{
+        if (Data.cashshop.containsKey(player.getUniqueId())) {
+            try {
                 Integer amount = Integer.parseInt(event.getMessage());
-                if(amount > 0){
+                if (amount > 0) {
                     CashShop cashShop = Data.cashshop.get(player.getUniqueId());
 
-                    if(!cashShop.isDefualt()){
+                    if (!cashShop.isDefualt()) {
 
                         cashShop.setPlayer(player);
                         Items item = cashShop.getItems().get(Data.select.get(player.getUniqueId()));
 
-                        if(cashShop.getType().equals(Type.BUY)){
+                        if (cashShop.getType().equals(Type.BUY)) {
                             item.setBuyprice(amount);
-                        } else if(cashShop.getType().equals(Type.SELL)){
+                        } else if (cashShop.getType().equals(Type.SELL)) {
                             item.setSellprice(amount);
                         }
-
 
                         cashShop.getCashShop().getItems().set(Data.select.get(player.getUniqueId()), item);
 
@@ -52,13 +51,12 @@ public class ChatEvent implements Listener {
 
                         event.setCancelled(true);
                     }
-                } else{
+                } else {
                     event.setCancelled(true);
                 }
 
 
-
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 return;
             }
         }

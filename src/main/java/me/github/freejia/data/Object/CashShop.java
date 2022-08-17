@@ -148,45 +148,83 @@ public class CashShop implements ConfigurationSerializable {
 
         for (int i = 0; i < line * 9; i++) {
             ItemStack itemStack = EditorInv.getItem(i);
+
             if (itemStack != null) {
+                player.sendMessage("test" + i);
 
 
-                for (Items items : cashshop.getItems()) {
-                    if(items == null){
-                        player.sendMessage("아이템 값이 없습니다");
+                if (cashshop.getItems().size() != 0) {
+                    player.sendMessage(cashshop.getItems().equals(null) + "");
+                    player.sendMessage("눌 아님");
+
+                    for (int size = 0; size < cashshop.getItems().size(); size++) {
+                        Items item = cashshop.getItems().get(size);
+
+                        cashshop.items.set(size, item);
+                        shop.getConfig().set("shop", cashshop);
+                        shop.saveConfig();
+
+                        player.sendMessage("test" + item.getBuyprice());
                     }
-                    if(items.getSlot() != i){
-                        Items item = new Items(itemStack, i);
-                        cashshop.items.add(item);
-                        player.sendMessage("Test");
+                } else {
+                    Items item = new Items(itemStack, i);
+                    cashshop.items.add(item);
+                    shop.getConfig().set("shop", cashshop);
+                    shop.saveConfig();
+                    player.sendMessage("test");
+                }
+
+            } else { // 슬롯 삭제
+                for (int size = 0; size < cashshop.getItems().size(); size++) {
+                    Items item = cashshop.getItems().get(size);
+                    if(i == item.getSlot()){
+                        cashshop.items.remove(item);
                         shop.getConfig().set("shop", cashshop);
                         shop.saveConfig();
                     }
                 }
 
-                Items item = new Items(itemStack,i);
-                cashshop.items.clear();
-                cashshop.items.add(item);
-                shop.getConfig().set("shop", cashshop);
-                shop.saveConfig();
-                player.sendMessage("test");
-
-            } else {
-                player.sendMessage("null");
-                for (Items items : cashshop.getItems()) {
-                    if (items.getSlot() != i) {
-                        Items item = new Items(itemStack, i);
-
-                        item.setBuyprice(items.getBuyprice());
-                        item.setSellprice(items.getSellprice());
-
-                        cashshop.items.clear();
-                        cashshop.items.add(item);
-                        shop.saveConfig();
-                    }
-                }
-
             }
+
+//            if (itemStack != null) {
+//
+//
+//                for (Items items : cashshop.getItems()) {
+//                    if(items == null){
+//                        player.sendMessage("아이템 값이 없습니다");
+//                    }
+//                    if(items.getSlot() != i){
+//                        Items item = new Items(itemStack, i);
+//                        cashshop.items.add(item);
+//                        player.sendMessage("Test");
+//                        shop.getConfig().set("shop", cashshop);
+//                        shop.saveConfig();
+//                    }
+//                }
+//
+//                Items item = new Items(itemStack,i);
+//                cashshop.items.clear();
+//                cashshop.items.add(item);
+//                shop.getConfig().set("shop", cashshop);
+//                shop.saveConfig();
+//                player.sendMessage("test");
+//
+//            } else {
+//                player.sendMessage("null");
+//                for (Items items : cashshop.getItems()) {
+//                    if (items.getSlot() != i) {
+//                        Items item = new Items(itemStack, i);
+//
+//                        item.setBuyprice(items.getBuyprice());
+//                        item.setSellprice(items.getSellprice());
+//
+//                        cashshop.items.clear();
+//                        cashshop.items.add(item);
+//                        shop.saveConfig();
+//                    }
+//                }
+//
+//            }
         }
 //        for (Items items : cashshop.getItems()) {
 //            if (items != null) {
