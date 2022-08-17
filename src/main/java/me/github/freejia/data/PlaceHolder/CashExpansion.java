@@ -52,7 +52,7 @@ public class CashExpansion extends PlaceholderExpansion implements Cacheable, Co
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        if(params.equalsIgnoreCase("cash")){
+        if(params.equalsIgnoreCase("Cash")){
             ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
             Cash cash = config.getConfig().getObject("Cash", Cash.class);
 
