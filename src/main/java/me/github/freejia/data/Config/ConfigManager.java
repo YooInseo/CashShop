@@ -33,6 +33,10 @@ public class ConfigManager {
             this.config.setDefaults(config);
         }
     }
+    public boolean isExist(){
+        this.file = new File(Main.plugin.getDataFolder(), name + ".yml");
+        return this.file.exists();
+    }
 
     public Object load(String path) {
         this.config = YamlConfiguration.loadConfiguration(this.file);

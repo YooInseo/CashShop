@@ -11,6 +11,7 @@ import me.github.freejia.data.SQL.MySql;
 import me.github.freejia.events.ChatEvent;
 import me.github.freejia.events.ClickEvent;
 import me.github.freejia.events.CloseEvent;
+import me.github.freejia.events.JoinEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
@@ -55,7 +56,7 @@ public class Main extends JavaPlugin {
 
         init();
 
-        Listener[] events = {new ClickEvent(), new CloseEvent(), new ChatEvent()};
+        Listener[] events = {new ClickEvent(), new CloseEvent(), new ChatEvent(),new JoinEvent()};
         PluginManager pm = Bukkit.getPluginManager();
         Arrays.stream(events).forEach(classes -> {
             pm.registerEvents(classes, this);

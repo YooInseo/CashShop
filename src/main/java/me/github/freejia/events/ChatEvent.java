@@ -63,15 +63,5 @@ public class ChatEvent implements Listener {
             }
         }
     }
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event){
-        Player player = event.getPlayer();
-        String test = "%Cash%";
 
-
-        test = PlaceholderAPI.setPlaceholders(event.getPlayer(), test);
-
-        player.sendMessage(PlaceholderAPI.setPlaceholders(event.getPlayer(), "%CashShop_name%"));
-
-    }
 }
