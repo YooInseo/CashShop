@@ -3,7 +3,11 @@ package me.github.freejia.util;
 import me.github.freejia.Main;
 import me.github.freejia.data.Config.ConfigManager;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Util {
 
@@ -44,5 +48,19 @@ public class Util {
         a = a.replaceAll("%shopname%",name);
         a = a.replaceAll("%changename%",target + "");
         return a;
+    }
+
+
+    public static List<String> replace(List<String> arrays,int buy,int sell){
+
+        List<String> newArray = new ArrayList<>();
+        for(String array : arrays){
+            array = array.replaceAll("%buy_price%",buy + "");
+            array = array.replaceAll("%sell_price%",sell + "");
+            array = ChatColor.translateAlternateColorCodes('&',array);
+            newArray.add(array);
+        }
+
+        return newArray;
     }
 }

@@ -35,44 +35,6 @@ public class ClickEvent implements Listener {
 
                     cashShop = Data.cashshop.get(player.getUniqueId());
 
-                    ConfigManager shop = new ConfigManager("shop/" + cashShop.getName());
-
-                    CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
-                    Items items = new Items(event.getCursor(), event.getSlot());
-                    if(!cashshop.getItems().contains(items)){
-
-                    }
-//                    if (event.getCurrentItem() != null) {
-//                        inv.getItem(event.getSlot());
-//                        if (event.getView().getCursor().getType().equals(Material.AIR)) {
-//
-//                            player.sendMessage("test");
-//                        } else {
-//
-//                        }
-//
-//                    }
-//
-//                    for (Items items2 : cashshop.getItems()) {
-//                        int i = cashshop.getItems().indexOf(items2);
-//                        Data.select.put(player.getUniqueId(), i);
-//                        if (items2.getSlot() == event.getSlot()) {
-//                            cashshop.getItems().remove(i);
-//                            cashshop.getItems().add(i,items2);
-//                        } else {
-//                            player.sendMessage("test" + event.getSlot());
-//
-//                            items2.setSlot(event.getSlot());
-//
-//                            cashshop.getItems().set(i,items2);
-//
-//                            shop.getConfig().set("shop", cashshop);
-//                            shop.saveConfig();
-//                        }
-//
-//                    }
-
-
 
                 }
                 if (event.getClick().isShiftClick()) {
