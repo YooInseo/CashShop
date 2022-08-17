@@ -133,19 +133,28 @@ public class Util {
         return slot == -1;
     }
 
-    public static void removeOne(Inventory inventory, ItemStack item, int amount) {
+    public static boolean removeOne(Inventory inventory, ItemStack item, int amount) {
         int size = inventory.getSize();
         for (int i = 0; i < size; i ++) {
             ItemStack other = inventory.getItem(i);
             if (item.isSimilar(other)) {
-                if (amount > 1) {
+
+                if (amount == 64) {
+                    if(other.getAmount() == 64){
+                        other.setAmount(other.getAmount() - amount);
+                        return true;
+                    } else{
+                        return false;
+                    }
+
+                } else if(amount == 1){
                     other.setAmount(other.getAmount() - amount);
-                } else {
-                    other = null;
+                    return true;
                 }
                 inventory.setItem(i, other);
                 break;
             }
         }
+        return false;
     }
 }

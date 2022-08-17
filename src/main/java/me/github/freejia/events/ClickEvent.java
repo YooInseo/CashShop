@@ -99,16 +99,32 @@ public class ClickEvent implements Listener {
                                 player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
                             }
                         } else if (event.getClick().isLeftClick()) {
+                            if (cash.Decrease(item.getBuyprice())) {
+                                Main.Cash.getConfig().set("Cash", cash);
+                                Main.Cash.saveConfig();
+                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                itemStack.setAmount(1);
+                                player.getInventory().addItem(itemStack);
+                            } else {
+                                player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+                            }
 
                         } else if (event.getClick().isRightClick() && event.getClick().isShiftClick()) {
-                            cash.increase(item.getSellprice() * 64);
-                            Main.Cash.getConfig().set("Cash", cash);
-                            Main.Cash.saveConfig();
-
-                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()),64);
-                            Util.removeOne(player.getInventory(),itemStack,64);
-
-
+                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                            if (Util.removeOne(player.getInventory(), itemStack, 64)) {
+                                cash.increase(item.getSellprice() * 64);
+                                Main.Cash.getConfig().set("Cash", cash);
+                                Main.Cash.saveConfig();
+                            } else{
+                                player.sendMessage(Main.config.getString("error_message.cant_buy_item"));
+                            }
+                        } else if (event.getClick().isRightClick()) {
+                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                            if (Util.removeOne(player.getInventory(), itemStack, 1)) {
+                                cash.increase(item.getSellprice());
+                                Main.Cash.getConfig().set("Cash", cash);
+                                Main.Cash.saveConfig();
+                            }
                         }
                     }
 
