@@ -38,7 +38,7 @@ public class CashShopCmd implements CommandExecutor {
                             shop = new ConfigManager("shop/" + name);
 
                             cashShop = new CashShop(name, player);
-
+                            cashShop.setLine(6);
                             shop.getConfig().set("shop", cashShop);
                             shop.saveConfig();
                         } else {

@@ -145,39 +145,47 @@ public class CashShop implements ConfigurationSerializable {
 
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
 
-
+        List<Items> items = new ArrayList<>();
         for (int i = 0; i < line * 9; i++) {
             ItemStack itemStack = EditorInv.getItem(i);
 
             if (itemStack != null) {
-                player.sendMessage("test" + i);
+                Items item = new Items(itemStack, i);
+                items.clear();
+                if (!items.contains(item)) {
+                    items.add(item);
+                }
 
+                for (Items newitems : items) {
+                    System.out.println( cashshop.items.add(newitems)  + " :  "+ newitems.getMaterial() );
+
+                }
 
                 if (cashshop.getItems().size() != 0) {
-                    player.sendMessage(cashshop.getItems().equals(null) + "");
+
                     player.sendMessage("눌 아님");
 
-                    for (int size = 0; size < cashshop.getItems().size(); size++) {
-                        Items item = cashshop.getItems().get(size);
-
-                        cashshop.items.set(size, item);
-                        shop.getConfig().set("shop", cashshop);
-                        shop.saveConfig();
-
-                        player.sendMessage("test" + item.getBuyprice());
-                    }
+//                    for (int size = 0; size < cashshop.getItems().size(); size++) {
+//                        Items newitem = cashshop.getItems().get(size);
+//
+//                        cashshop.items.set(size, newitem);
+//                        shop.getConfig().set("shop", newitem);
+//                        shop.saveConfig();
+//
+//                        player.sendMessage("test" + newitem.getBuyprice());
+//                    }
                 } else {
-                    Items item = new Items(itemStack, i);
-                    cashshop.items.add(item);
+
+
                     shop.getConfig().set("shop", cashshop);
                     shop.saveConfig();
-                    player.sendMessage("test");
+
                 }
 
             } else { // 슬롯 삭제
                 for (int size = 0; size < cashshop.getItems().size(); size++) {
                     Items item = cashshop.getItems().get(size);
-                    if(i == item.getSlot()){
+                    if (i == item.getSlot()) {
                         cashshop.items.remove(item);
                         shop.getConfig().set("shop", cashshop);
                         shop.saveConfig();
