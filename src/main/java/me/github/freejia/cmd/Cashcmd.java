@@ -60,7 +60,7 @@ public class Cashcmd implements CommandExecutor {
                             try {
                                 cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
                                 amount = Integer.parseInt(args[2]);
-                                if(amount + cash.getCash()  <= Integer.MAX_VALUE) {
+                                if(amount + cash.getCash()  <= Integer.MAX_VALUE - 1) {
                                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
 
 
@@ -145,11 +145,9 @@ public class Cashcmd implements CommandExecutor {
                                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
                                     amount = Integer.parseInt(args[2]);
-                                    player.sendMessage(Integer.MAX_VALUE + "");
-                                    if(amount <= Integer.MAX_VALUE){
+
+                                    if(amount <= Integer.MAX_VALUE - 1){
                                         cash.setCash(amount);
-
-
                                         Main.Cash.getConfig().set("Cash", cash);
                                         Main.Cash.saveConfig();
 

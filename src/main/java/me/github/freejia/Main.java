@@ -120,7 +120,7 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("cash_message.remove", "%player%님의 캐시를 %cash%만큼 제거하였습니다!%");
         config.getConfig().addDefault("cash_message.set", "%player%님의 캐시를 %cash%로 설정하였습니다!");
 
-        config.getConfig().addDefault("error_message.overflow", "캐시가 2147483648이상이 될 수 없습니다!");
+        config.getConfig().addDefault("error_message.overflow", "캐시가 2147483647이상이 될 수 없습니다!");
         config.getConfig().addDefault("error_message.cant_buy_cash", "당신은 캐시가 부족하여 구매가 불가능합니다!");
         config.getConfig().addDefault("error_message.cant_buy_item", "당신은 아이템이 부족하여 판매가 불가능합니다!");
         config.getConfig().addDefault("error_message.cant_inventory_slot", "인벤토리에 빈공간이 없어, 구매가 불가능합니다!");
