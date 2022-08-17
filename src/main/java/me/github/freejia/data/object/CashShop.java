@@ -145,10 +145,6 @@ public class CashShop implements ConfigurationSerializable {
         player.openInventory(inv);
     }
 
-    public int getLine() {
-        return line;
-    }
-
     public void saveItem() {
         ConfigManager shop = new ConfigManager("shop/" + name);
 
@@ -187,7 +183,6 @@ public class CashShop implements ConfigurationSerializable {
             }
         }
     }
-
     public CashShop getCashShop() {
         ConfigManager shop = new ConfigManager("shop/" + name);
 
@@ -196,28 +191,8 @@ public class CashShop implements ConfigurationSerializable {
         return cashshop;
     }
 
-
-    public void UpdateItem() {
-        ConfigManager shop = new ConfigManager("shop/" + name);
-
-        CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
-
-
-        shop.getConfig().set("shop", cashshop);
-        shop.saveConfig();
-
-    }
-
     public List<Items> getItems() {
         return items;
-    }
-
-    public void setisPrice(boolean price) {
-        isPrice = price;
-    }
-
-    public String getEditorTitle() {
-        return EditorTitle;
     }
 
     public Inventory getEditorInv() {
@@ -247,10 +222,6 @@ public class CashShop implements ConfigurationSerializable {
         this.PriceInv = inv;
     }
 
-    public Inventory getPriceInv() {
-        return PriceInv;
-    }
-
     public boolean isPrice() {
         return isPrice;
     }
@@ -259,29 +230,9 @@ public class CashShop implements ConfigurationSerializable {
         return title;
     }
 
-    public long getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price, int i) {
-
-        ConfigManager shop = new ConfigManager("shop/" + name);
-
-        CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
-
-
-        cashshop.price = price;
-        Items item = getItems().get(i);
-        item.setSellprice(price);
-        cashshop.items.set(i, item);
-
-        shop.saveConfig();
-    }
-
     public CashShop(Map<String, Object> map) {
         this((String) map.get("GUI"), (Integer) map.get("GUI_SIZE"), (List<Items>) map.get("items"));
     }
-
 
     @NotNull
     @Override
