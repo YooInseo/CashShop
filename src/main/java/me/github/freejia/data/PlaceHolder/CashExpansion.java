@@ -30,7 +30,10 @@ public class CashExpansion extends PlaceholderExpansion implements Cacheable, Co
     public @NotNull String getAuthor() {
         return "SkyExcel";
     }
-
+    @Override
+    public boolean persist() {
+        return true; // This is required or else PlaceholderAPI will unregister the Expansion on reload
+    }
     @Override
     public @NotNull String getVersion() {
         return "1.0.0";
