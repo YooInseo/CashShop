@@ -3,9 +3,11 @@ package me.github.freejia.events;
 import me.github.freejia.Main;
 import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Data;
+import me.github.freejia.data.Object.Cash;
 import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Object.Items;
 import me.github.freejia.data.Object.Type;
+import me.github.freejia.util.Util;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -17,6 +19,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
 
 public class ClickEvent implements Listener {
 
@@ -66,12 +70,46 @@ public class ClickEvent implements Listener {
                 }
                 event.setCancelled(true);
             } else if (event.getView().getTitle().equals(Data.cashshop.get(player.getUniqueId()).getTitle())) {
-                if (event.getCurrentItem() != null || event.getCurrentItem().getType() != Material.AIR) {
-                    event.setCancelled(true);
-                } else {
-                    return;
+                cashShop = Data.cashshop.get(player.getUniqueId());
+                Main.Cash = new ConfigManager("data/" + player.getUniqueId());
+                Cash cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+
+                for (Items items : cashShop.getItems()) {
+                    if (items.getSlot() == event.getSlot()) {
+                        int i = cashShop.getItems().indexOf(items);
+                        Data.select.put(player.getUniqueId(), i);
+                    }
                 }
 
+                Items item = cashShop.getItems().get(Data.select.get(player.getUniqueId()));
+
+                switch (event.getClick()) {
+                    case LEFT:
+
+                        int slot = player.getInventory().firstEmpty();
+
+                        if (Util.isInventoryFull(player)) {
+                            player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
+                        } else {
+                            if (event.isShiftClick()) {
+                                cash.Decrease(item.getBuyprice() * 64);
+                            } else {
+                                cash.Decrease(item.getBuyprice());
+                                Main.Cash.getConfig().set("Cash", cash);
+                                Main.Cash.saveConfig();
+                            }
+                        }
+                        break;
+
+                    case RIGHT:
+                        if (event.isShiftClick()) {
+
+                        } else {
+
+                        }
+                        break;
+                }
+                event.setCancelled(true);
             }
         }
     }

@@ -129,9 +129,11 @@ public class CashShop implements ConfigurationSerializable {
     public void Open() {
 
         Inventory inv = Bukkit.createInventory(null, line * 9, name);
+        this.name = name;
         for (Items items : items) {
             ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
             List<String> lores = Main.config.getConfig().getStringList("cash_shop_message.lore");
+
             ItemMeta meta = itemStack.getItemMeta();
             meta.setLore(Util.replace(lores, items.getBuyprice(),items.getSellprice()));
             itemStack.setItemMeta(meta);

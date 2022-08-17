@@ -2,6 +2,7 @@ package me.github.freejia;
 
 import me.github.freejia.cmd.Cashcmd;
 import me.github.freejia.cmd.CashShopCmd;
+import me.github.freejia.data.Data;
 import me.github.freejia.data.Object.Cash;
 import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Config.ConfigManager;
@@ -37,7 +38,7 @@ public class Main extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new CashExpansion(this).register();
             Log.info("§a등록 완료  %cashshop_cash% 키워드로 사용 가능합니다!");
-        } else{
+        } else {
             Log.info("§cPLACEHOLDER API 기능이 해제 됩니다 (API 없음)");
         }
 
@@ -56,12 +57,22 @@ public class Main extends JavaPlugin {
 
         init();
 
-        Listener[] events = {new ClickEvent(), new CloseEvent(), new ChatEvent(),new JoinEvent()};
+        Listener[] events = {new ClickEvent(), new CloseEvent(), new ChatEvent(), new JoinEvent()};
         PluginManager pm = Bukkit.getPluginManager();
         Arrays.stream(events).forEach(classes -> {
             pm.registerEvents(classes, this);
         });
         registerPlaceHolder();
+
+    }
+
+    @Override
+    public void onDisable() {
+        Bukkit.getOnlinePlayers().forEach(players -> {
+            if (Data.cashshop.containsKey(players.getUniqueId())) {
+                players.closeInventory();
+            }
+        });
     }
 
     public void registerPlaceHolder() {
