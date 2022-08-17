@@ -13,6 +13,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class CashShopCmd implements CommandExecutor {
 
     private Main plugin;
@@ -28,7 +30,10 @@ public class CashShopCmd implements CommandExecutor {
         String name;
         CashShop cashShop;
         if (args.length == 0) {
-
+            List<String> messages = Main.config.getConfig().getStringList("cash_shop_message.main");
+            for(String message : messages){
+                player.sendMessage(message);
+            }
         } else {
             ConfigManager shop;
             switch (args[0]) {

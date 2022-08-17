@@ -36,6 +36,7 @@ public class Main extends JavaPlugin {
     public static ConfigManager UserLog;
 
     public static ConfigManager AdminLog;
+
     public void onEnable() {
         super.onEnable();
 
