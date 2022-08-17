@@ -32,11 +32,14 @@ public class Main extends JavaPlugin {
 
     public void onEnable() {
         super.onEnable();
+
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new CashExpansion(this).register();
-            Log.info("CashExpansion is register");
-
+            Log.info("§a등록 완료  %cashshop_cash% 키워드로 사용 가능합니다!");
+        } else{
+            Log.info("§cPLACEHOLDER API 기능이 해제 됩니다 (API 없음)");
         }
+
         config = new ConfigManager("config");
         database = new ConfigManager("database");
         plugin = this;
