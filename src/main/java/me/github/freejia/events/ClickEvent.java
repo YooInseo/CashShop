@@ -88,11 +88,7 @@ public class ClickEvent implements Listener {
                                 if (item.getBuyprice() == -1) {
                                     player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
                                 } else {
-
-
                                     if (event.isShiftClick()) {
-
-
                                         if (item.getBuyprice() > 0) {
                                             if (cash.Decrease(item.getBuyprice() * 64)) {
                                                 Main.Cash.getConfig().set("Cash", cash);

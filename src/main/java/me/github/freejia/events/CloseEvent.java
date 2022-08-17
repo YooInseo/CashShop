@@ -28,8 +28,12 @@ public class CloseEvent implements Listener {
                         });
                     }
 
-                } else if (cashshop.getEditorInv().equals(event.getInventory())) {
-                    cashshop.saveItem();
+                } else if (cashshop.getEditorInv() != null) {
+                    if(cashshop.getEditorInv().equals(event.getInventory())){
+                        cashshop.saveItem();
+                        Data.cashshop.remove(player.getUniqueId());
+                    }
+                } else if(event.getView().getTitle().equalsIgnoreCase(Data.cashshop.get(player.getUniqueId()).getName())){
                     Data.cashshop.remove(player.getUniqueId());
                 }
             }
