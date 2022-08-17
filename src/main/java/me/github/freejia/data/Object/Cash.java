@@ -28,10 +28,12 @@ public class Cash implements ConfigurationSerializable {
         Cash += Amount;
     }
 
-    public void Decrease(long Amount) {
+    public boolean Decrease(long Amount) {
         if(Cash > 0){
             Cash -= Amount;
+            return true;
         }
+        return false;
 
     }
 

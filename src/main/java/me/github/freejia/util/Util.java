@@ -54,6 +54,22 @@ public class Util {
     }
 
 
+    public static String replace(String name, String path, ItemStack item, int price) {
+        String a = Main.config.getString(path);
+
+        Main.Cash = new ConfigManager("shop/" + name);
+        if(item.hasItemMeta()){
+            a = a.replaceAll("%item_order%", item.getItemMeta().getDisplayName());
+        } else{
+            a = a.replaceAll("%item_order%", item.getType().name());
+        }
+
+        a = a.replaceAll("%buy_price%", price + "");
+        return a;
+    }
+
+
+
     public static List<String> replace(List<String> arrays, int buy, int sell) {
 
         List<String> newArray = new ArrayList<>();

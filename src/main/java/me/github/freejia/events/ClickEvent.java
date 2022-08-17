@@ -86,17 +86,32 @@ public class ClickEvent implements Listener {
                 switch (event.getClick()) {
                     case LEFT:
 
-                        int slot = player.getInventory().firstEmpty();
-
                         if (Util.isInventoryFull(player)) {
                             player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
                         } else {
                             if (event.isShiftClick()) {
-                                cash.Decrease(item.getBuyprice() * 64);
+                                if(cash.Decrease(item.getBuyprice() * 64)){
+                                    Main.Cash.getConfig().set("Cash", cash);
+                                    Main.Cash.saveConfig();
+                                    ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                    itemStack.setAmount(64);
+                                    player.getInventory().addItem(itemStack);
+                                } else{
+                                    player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+                                }
+
+
                             } else {
-                                cash.Decrease(item.getBuyprice());
-                                Main.Cash.getConfig().set("Cash", cash);
-                                Main.Cash.saveConfig();
+                                if(cash.Decrease(item.getBuyprice())){
+                                    Main.Cash.getConfig().set("Cash", cash);
+                                    Main.Cash.saveConfig();
+                                    ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                    player.getInventory().addItem(itemStack);
+                                    player.sendMessage(Util.replace("","shop_message.1_buy",itemStack,item.getBuyprice()));
+                                } else{
+                                    player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+                                }
+
                             }
                         }
                         break;

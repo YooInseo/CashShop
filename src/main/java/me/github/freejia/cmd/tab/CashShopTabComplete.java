@@ -21,11 +21,15 @@ public class CashShopTabComplete implements TabCompleter {
         File files[] = dir.listFiles();
 
         if(args.length == 1){
-            results.add("생성");
-            results.add("제거");
-            results.add("GUI이름");
-            results.add("줄");
-            results.add("편집");
+            if(sender.isOp()){
+                results.add("생성");
+                results.add("제거");
+                results.add("GUI이름");
+                results.add("줄");
+                results.add("편집");
+            }
+
+            results.add("열기");
             return results;
         } else if(args.length == 2){
             switch (args[0]){
