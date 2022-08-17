@@ -6,6 +6,7 @@ import me.github.freejia.data.object.CashShop;
 import me.github.freejia.data.Data;
 import me.github.freejia.data.object.Items;
 import me.github.freejia.data.object.Type;
+import me.github.freejia.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,8 +32,10 @@ public class ChatEvent implements Listener {
 
                         if (cashShop.getType().equals(Type.BUY)) {
                             item.setBuyprice(amount);
+                            player.sendMessage(Util.buyreplace(cashShop.getName(),"cash_shop_message.buy_price", amount));
                         } else if (cashShop.getType().equals(Type.SELL)) {
                             item.setSellprice(amount);
+                            player.sendMessage(Util.sellreplace(cashShop.getName(),"cash_shop_message.sell_price", amount));
                         }
 
                         cashShop.getCashShop().getItems().set(Data.select.get(player.getUniqueId()), item);
@@ -41,6 +44,8 @@ public class ChatEvent implements Listener {
 
                         shop.getConfig().set("shop", cashShop);
                         shop.saveConfig();
+
+
 
                         Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
                             @Override

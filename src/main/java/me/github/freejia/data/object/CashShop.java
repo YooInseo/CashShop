@@ -164,7 +164,14 @@ public class CashShop implements ConfigurationSerializable {
                     Items item = new Items(itemStack, i);
                     if (!cashshop.items.contains(item)) {
                         for (int j = 0; j < cashshop.items.size(); j++) {
-                            player.sendMessage(cashshop.items.get(j).getMaterial());
+
+                            item.setBuyprice(cashshop.items.get(j).getBuyprice());
+                            item.setSellprice(cashshop.items.get(j).getSellprice());
+                            cashshop.items.set(j,item);
+
+                            shop.getConfig().set("shop", cashshop);
+                            shop.saveConfig();
+
                         }
 
 

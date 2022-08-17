@@ -97,7 +97,7 @@ public class Main extends JavaPlugin {
         config.getConfig().options().copyDefaults();
 
         config.getConfig().addDefault("shop_message.1_buy", "%item_order%을 1개를 %buy_price%캐시로 구매하였습니다!");
-        config.getConfig().addDefault("shop_message.1_sell", "%item_order% 1개를 %sell_price%캐시로 구매하였습니다!");
+        config.getConfig().addDefault("shop_message.1_sell", "%item_order% 1개를 %sell_price%캐시로 판매하였습니다!");
         config.getConfig().addDefault("shop_message.64_buy", "%item_order%을 64개를 %buy_price%캐시로 판매하였습니다!");
         config.getConfig().addDefault("shop_message.64_sell", "%item_order% 64개를 %sell_price%캐시로 판매하였습니다!");
 
@@ -130,8 +130,8 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("cash_shop_message.delete_shop", "%shopname%의 캐시상점을 제거하였습니다!");
         config.getConfig().addDefault("cash_shop_message.setting_gui_size", "%shopname%의 GUI 사이즈를 %gui_size%로 설정하였습니다!");
         config.getConfig().addDefault("cash_shop_message.setting_gui_name", "%shopname% GUI이름을 %changename%으로 변경하였습니다!");
-        config.getConfig().addDefault("cash_shop_message.buy_price", "아이템 구매 가격을 %buy_price%로 설정하였습니다!");
-        config.getConfig().addDefault("cash_shop_message.sell_price", "아이템 판매 가격을 %sell_price%로 설정하였습니다!");
+        config.getConfig().addDefault("cash_shop_message.buy_price", "아이템 구매 가격을 %buy_price%캐시로 설정하였습니다!");
+        config.getConfig().addDefault("cash_shop_message.sell_price", "아이템 판매 가격을 %sell_price%캐시로 설정하였습니다!");
 
 
         config.getConfig().addDefault("cash_shop_message.lore", Arrays.asList(
