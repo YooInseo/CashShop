@@ -19,9 +19,9 @@ public class AdminLog implements ConfigurationSerializable {
     private String sendername;
 
     private String targetname;
-    int price;
+    private long price;
 
-    public AdminLog(Player sender, Player target, SendType sendtype, int price) {
+    public AdminLog(Player sender, Player target, SendType sendtype, long price) {
         this.sender = sender;
         this.sendername = sender.getDisplayName();
         this.target = target;
@@ -31,16 +31,16 @@ public class AdminLog implements ConfigurationSerializable {
         this.price = price;
     }
 
-    public AdminLog(String sender, String target, String type,int price) {
+
+    public AdminLog(String sender, String target, String type, long price) {
         this.sendername = sender;
         this.targetname = target;
         this.sendtypename = type;
         this.price = price;
-
     }
 
     public AdminLog(Map<String, Object> map) {
-        this((String) map.get("sender"), (String) map.get("target"), (String) map.get("sendType"),(Integer)map.get("price"));
+        this((String) map.get("sender"), (String) map.get("target"), (String) map.get("sendType"),(Long)map.get("price"));
     }
 
 
@@ -53,21 +53,9 @@ public class AdminLog implements ConfigurationSerializable {
         map.put("target", targetname);
 
         map.put("price", price);
-//        switch (sendtypename) {
-//            case "add":
-//                map.put("target", targetname);
-//                map.put("price", price);
-//                break;
-//            case "remove":
-//                map.put("target", targetname);
-//                map.put("price", price);
-//                break;
-//            case "initialization":
-//                map.put("target", targetname);
-//                break;
-//        }
 
 
-        return null;
+
+        return map;
     }
 }

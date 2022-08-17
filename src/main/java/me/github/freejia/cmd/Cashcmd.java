@@ -69,7 +69,7 @@ public class Cashcmd implements CommandExecutor {
 
                                 player.sendMessage(Util.replace(player, amount, "cash_message.send"));
                                 Data.sendType.put(player.getUniqueId(), SendType.add);
-                                saveLog(player,target,SendType.add,0);
+                                saveLog(player,target,SendType.add,amount);
                             } catch (NumberFormatException e) {
                                 return false;
                             }
@@ -113,7 +113,7 @@ public class Cashcmd implements CommandExecutor {
                                     Main.Cash.saveConfig();
                                     player.sendMessage(Util.replace(player, amount, "cash_message.remove"));
                                     Data.sendType.put(player.getUniqueId(), SendType.remove);
-                                    saveLog(player,target,SendType.remove,0);
+                                    saveLog(player,target,SendType.remove,amount);
                                 } else {
                                     player.sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }
@@ -182,7 +182,7 @@ public class Cashcmd implements CommandExecutor {
         return false;
     }
 
-    public void saveLog(Player player, Player target,SendType sendType, int price) {
+    public void saveLog(Player player, Player target,SendType sendType, long price) {
         ConfigManager config = Main.AdminLog = new ConfigManager("log/admin/" + player.getUniqueId());
 
         AdminLog adminLog = new AdminLog(player,target,sendType,price);
