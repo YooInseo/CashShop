@@ -41,6 +41,8 @@ public class CashShopCmd implements CommandExecutor {
                             cashShop.setLine(6);
                             shop.getConfig().set("shop", cashShop);
                             shop.saveConfig();
+                            player.sendMessage(Main.config.getString("cash_shop_message.create_shop"));
+
                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
@@ -58,6 +60,7 @@ public class CashShopCmd implements CommandExecutor {
                                 cashShop.setLine(line);
                                 shop.getConfig().set("shop", cashShop);
                                 shop.saveConfig();
+                                player.sendMessage(Main.config.getString("cash_shop_message.setting_gui_size"));
                             } else {
                                 player.sendMessage(Main.config.getString("error_message.shop_none_line"));
                             }
@@ -130,6 +133,16 @@ public class CashShopCmd implements CommandExecutor {
 
                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
+                        }
+                        break;
+
+                    case "제거":
+                        if(args.length > 1) {
+                            name = args[1];
+                            shop = new ConfigManager("shop/" + name);
+                            shop.delete();
+
+                            player.sendMessage(Main.config.getString("cash_shop_message.delete_shop"));
                         }
                         break;
                 }

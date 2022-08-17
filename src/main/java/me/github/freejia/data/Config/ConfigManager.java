@@ -39,6 +39,11 @@ public class ConfigManager {
         return config.getDefaults().get(path);
     }
 
+    public void delete(){
+        this.file = new File(Main.plugin.getDataFolder(), name + ".yml");
+        this.file.delete();
+    }
+
     public FileConfiguration getConfig() {
         if (this.config == null) reloadConfig();
         return config;
