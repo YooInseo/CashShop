@@ -133,7 +133,7 @@ public class CashShop implements ConfigurationSerializable {
             List<String> lores = Main.config.getConfig().getStringList("cash_shop_message.lore");
 
             ItemMeta meta = itemStack.getItemMeta();
-            meta.setLore(Util.replace(lores, items.getBuyprice(),items.getSellprice()));
+            meta.setLore(Util.replace(lores, items.getBuyprice(), items.getSellprice()));
             itemStack.setItemMeta(meta);
 
             itemStack.setAmount(items.getAmount());
@@ -154,33 +154,23 @@ public class CashShop implements ConfigurationSerializable {
 
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
 
+        List<Items> items = new ArrayList<>();
 
         for (int i = 0; i < line * 9; i++) {
             ItemStack itemStack = EditorInv.getItem(i);
 
             if (itemStack != null) {
+                Items item = new Items(itemStack, i);
 
-                if (cashshop.items.size() != 0) {
-                    Items item = new Items(itemStack, i);
-                    if (!cashshop.items.contains(item)) {
-                        for (int j = 0; j < cashshop.items.size(); j++) {
+                items.add(item);
 
-                            item.setBuyprice(cashshop.items.get(j).getBuyprice());
-                            item.setSellprice(cashshop.items.get(j).getSellprice());
-                            cashshop.items.set(j,item);
+                //인벤토리의 사이즈와, 원래 있던 list의 사이즈를 비교하여 더 커졌으면, 더 커진만큼만 add시킴.
 
-                            shop.getConfig().set("shop", cashshop);
-                            shop.saveConfig();
+                if (i >= cashshop.items.size()) {
+                    int index = items.size() -1;
+                    player.sendMessage("test " + i +  " 인벤토리 사이즈 " + index + " " + items.get(index).getMaterial());
 
-                        }
-
-
-                    }
-
-                } else {
-                    Items item = new Items(itemStack, i);
-                    player.sendMessage("test" + item.getMaterial());
-                    cashshop.items.add(item);
+                    cashshop.items.add(items.get(index));
                     shop.getConfig().set("shop", cashshop);
                     shop.saveConfig();
                 }

@@ -31,7 +31,7 @@ public class CloseEvent implements Listener {
                 } else if (cashshop.getEditorInv() != null) {
                     if(cashshop.getEditorInv().equals(event.getInventory())){
                         cashshop.saveItem();
-                        player.sendMessage("test");
+
                         Data.cashshop.remove(player.getUniqueId());
                     }
                 } else if(event.getView().getTitle().equalsIgnoreCase(Data.cashshop.get(player.getUniqueId()).getName())){
