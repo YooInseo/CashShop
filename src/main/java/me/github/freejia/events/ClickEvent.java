@@ -88,9 +88,8 @@ public class ClickEvent implements Listener {
                                 if (item.getBuyprice() == -1) {
                                     player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
                                 } else {
-                                    player.sendMessage("" + event.isShiftClick());
                                     if (event.isShiftClick()) {
-                                        player.sendMessage("test");
+
                                         if (item.getBuyprice() > 0) {
                                             if (cash.Decrease(item.getBuyprice() * 64)) {
                                                 Main.Cash.getConfig().set("Cash", cash);
@@ -127,10 +126,14 @@ public class ClickEvent implements Listener {
                         if (event.isShiftClick()) {
 
                         } else {
-                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
 
+                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
                             if(itemStack != null){
+                                cash.increase(item.getSellprice());
+                                Main.Cash.getConfig().set("Cash", cash);
+                                Main.Cash.saveConfig();
                                 player.getInventory().removeItem(itemStack);
+
                                 player.sendMessage(Util.sellreplace("", "shop_message.1_sell", itemStack, item.getSellprice()));
 
                             }

@@ -30,10 +30,11 @@ public class CashShopCmd implements CommandExecutor {
         if (args.length == 0) {
 
         } else {
-            if (player.isOp()) {
-                ConfigManager shop;
-                switch (args[0]) {
-                    case "생성":
+            ConfigManager shop;
+            switch (args[0]) {
+                case "생성":
+
+                    if (player.isOp()) {
                         if (args.length > 1) {
                             name = args[1];
                             shop = new ConfigManager("shop/" + name);
@@ -42,26 +43,32 @@ public class CashShopCmd implements CommandExecutor {
                             cashShop.setLine(6);
                             shop.getConfig().set("shop", cashShop);
                             shop.saveConfig();
-                            player.sendMessage (Util.replace(name,"cash_shop_message.create_shop"));
+                            player.sendMessage(Util.replace(name, "cash_shop_message.create_shop"));
 
                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
+                    }
 
-                        break;
-                    case "줄":
+
+                    break;
+                case "줄":
+                    if (player.isOp()) {
                         if (args.length > 1) {
                             name = args[1];
                             if (args.length > 2) {
                                 int line = Integer.parseInt(args[2]);
-                                shop = new ConfigManager("shop/" + name);
+                                if(line <= 6 || line != 0  ){
+                                    shop = new ConfigManager("shop/" + name);
 
-                                cashShop = shop.getConfig().getObject("shop", CashShop.class);
+                                    cashShop = shop.getConfig().getObject("shop", CashShop.class);
 
-                                cashShop.setLine(line);
-                                shop.getConfig().set("shop", cashShop);
-                                shop.saveConfig();
-                                player.sendMessage(Util.replace(name,"cash_shop_message.setting_gui_size",line));
+                                    cashShop.setLine(line);
+                                    shop.getConfig().set("shop", cashShop);
+                                    shop.saveConfig();
+                                    player.sendMessage(Util.replace(name, "cash_shop_message.setting_gui_size", line));
+                                }
+
                             } else {
                                 player.sendMessage(Main.config.getString("error_message.shop_none_line"));
                             }
@@ -69,9 +76,12 @@ public class CashShopCmd implements CommandExecutor {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
 
-                        break;
+                    }
 
-                    case "편집":
+                    break;
+
+                case "편집":
+                    if (player.isOp()) {
                         if (args.length > 1) {
                             if (!Data.cashshop.containsKey(player.getUniqueId())) {
                                 name = args[1];
@@ -87,10 +97,14 @@ public class CashShopCmd implements CommandExecutor {
                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
+                    }
 
-                        break;
 
-                    case "GUI이름":
+                    break;
+
+                case "GUI이름":
+
+                    if (player.isOp()) {
                         if (args.length > 1) {
                             if (args.length > 2) {
                                 name = args[1];
@@ -102,15 +116,18 @@ public class CashShopCmd implements CommandExecutor {
                                 shop.getConfig().set("shop", cashShop);
                                 shop.saveConfig();
                                 shop.rename("shop/" + targetname);
-                                player.sendMessage(Util.replace(name, "cash_shop_message.setting_gui_name",targetname));
+                                player.sendMessage(Util.replace(name, "cash_shop_message.setting_gui_name", targetname));
                             }
                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
+                    }
 
-                        break;
 
-                    case "리로드":
+                    break;
+
+                case "리로드":
+                    if (player.isOp()) {
                         if (args.length > 1) {
                             name = args[1];
                             shop = new ConfigManager("shop/" + name);
@@ -119,40 +136,42 @@ public class CashShopCmd implements CommandExecutor {
                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
+                    }
 
-                        break;
-                    case "열기":
-                        if (args.length > 1) {
-                            if (!Data.cashshop.containsKey(player.getUniqueId())) {
-                                name = args[1];
-                                shop = new ConfigManager("shop/" + name);
-                                cashShop = shop.getConfig().getObject("shop", CashShop.class);
-                                cashShop.setPlayer(player);
-                                cashShop.Open();
-                                Data.cashshop.put(player.getUniqueId(), cashShop);
 
-                            }
+                    break;
+                case "열기":
+                    if (args.length > 1) {
+                        if (!Data.cashshop.containsKey(player.getUniqueId())) {
+                            name = args[1];
+                            shop = new ConfigManager("shop/" + name);
+                            cashShop = shop.getConfig().getObject("shop", CashShop.class);
+                            cashShop.setPlayer(player);
+                            cashShop.Open();
+                            Data.cashshop.put(player.getUniqueId(), cashShop);
 
-                        } else {
-                            player.sendMessage(Main.config.getString("error_message.shop_none_name"));
                         }
-                        break;
 
-                    case "제거":
-                        if(args.length > 1) {
+                    } else {
+                        player.sendMessage(Main.config.getString("error_message.shop_none_name"));
+                    }
+                    break;
+
+                case "제거":
+                    if (player.isOp()) {
+                        if (args.length > 1) {
                             name = args[1];
                             shop = new ConfigManager("shop/" + name);
                             shop.delete();
 
-                            player.sendMessage(Util.replace(name,"cash_shop_message.delete_shop"));
+                            player.sendMessage(Util.replace(name, "cash_shop_message.delete_shop"));
                         }
-                        break;
-                }
-            } else {
-                switch (args[0]) {
+                    }
 
-                }
+
+                    break;
             }
+
 
         }
 

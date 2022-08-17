@@ -29,7 +29,7 @@ public class Cash implements ConfigurationSerializable {
     }
 
     public boolean Decrease(long Amount) {
-        if(Cash > 0){
+        if(Cash - Amount> 0){
             Cash -= Amount;
             return true;
         }

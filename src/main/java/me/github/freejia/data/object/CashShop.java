@@ -127,7 +127,7 @@ public class CashShop implements ConfigurationSerializable {
     public void Open() {
 
         Inventory inv = Bukkit.createInventory(null, line * 9, name);
-        this.name = name;
+
         for (Items items : items) {
             ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
             List<String> lores = Main.config.getConfig().getStringList("cash_shop_message.lore");
@@ -279,8 +279,6 @@ public class CashShop implements ConfigurationSerializable {
     }
 
     public CashShop(Map<String, Object> map) {
-
-
         this((String) map.get("GUI"), (Integer) map.get("GUI_SIZE"), (List<Items>) map.get("items"));
     }
 
@@ -292,8 +290,6 @@ public class CashShop implements ConfigurationSerializable {
         map.put("GUI", title);
         map.put("GUI_SIZE", line);
         map.put("items", items);
-
-//        map.put("inv",inv);
 
         return map;
     }
