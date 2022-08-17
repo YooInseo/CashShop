@@ -3,17 +3,19 @@ package me.github.freejia.data.PlaceHolder;
 import me.clip.placeholderapi.expansion.Cacheable;
 import me.clip.placeholderapi.expansion.Configurable;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import me.clip.placeholderapi.expansion.Relational;
 import me.github.freejia.Main;
 import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Object.Cash;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CashExpansion extends PlaceholderExpansion implements Cacheable, Configurable {
+public class CashExpansion extends PlaceholderExpansion  {
 
     private Main plugin; // The instance is created in the constructor and won't be modified, so it can be final
 
@@ -56,7 +58,7 @@ public class CashExpansion extends PlaceholderExpansion implements Cacheable, Co
             ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
             Cash cash = config.getConfig().getObject("Cash", Cash.class);
 
-            return cash.getCash() + "";
+            return player.getName();
         }
 
 
@@ -64,15 +66,5 @@ public class CashExpansion extends PlaceholderExpansion implements Cacheable, Co
         return null; // Placeholder is unknown by the expansion
     }
 
-    @Override
-    public void clear() {
 
-    }
-
-    @Override
-    public Map<String, Object> getDefaults() {
-        final Map<String, Object> defaults = new HashMap<>();
-        defaults.put("","");
-        return defaults;
-    }
 }
