@@ -34,6 +34,7 @@ public class Main extends JavaPlugin {
         super.onEnable();
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new CashExpansion(this).register();
+            Log.info("CashExpansion is register");
 
         }
         config = new ConfigManager("config");
@@ -62,6 +63,7 @@ public class Main extends JavaPlugin {
     public void registerPlaceHolder() {
 
     }
+
 
     public void init() {
         database.getConfig().options().copyDefaults();

@@ -1,5 +1,6 @@
 package me.github.freejia.events;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.github.freejia.Main;
 import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Object.CashShop;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 public class ChatEvent implements Listener {
 
@@ -60,5 +62,16 @@ public class ChatEvent implements Listener {
                 return;
             }
         }
+    }
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event){
+        Player player = event.getPlayer();
+        String test = "%Cash%";
+
+
+        test = PlaceholderAPI.setPlaceholders(event.getPlayer(), test);
+
+        player.sendMessage(PlaceholderAPI.setPlaceholders(event.getPlayer(), "%CashShop_name%"));
+
     }
 }

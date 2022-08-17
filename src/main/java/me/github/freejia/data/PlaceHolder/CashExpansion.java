@@ -1,5 +1,6 @@
 package me.github.freejia.data.PlaceHolder;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.Cacheable;
 import me.clip.placeholderapi.expansion.Configurable;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -11,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class CashExpansion extends PlaceholderExpansion  {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "Cash";
+        return "CashShop";
     }
 
     @Override
@@ -49,16 +51,17 @@ public class CashExpansion extends PlaceholderExpansion  {
 
     @Override
     public boolean canRegister() {
+
         return (plugin = (Main) Bukkit.getPluginManager().getPlugin(getRequiredPlugin())) != null;
     }
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        if(params.equalsIgnoreCase("Cash")){
+        if(params.equalsIgnoreCase("test")){
             ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
             Cash cash = config.getConfig().getObject("Cash", Cash.class);
 
-            return player.getName();
+            return cash.getCash() + "";
         }
 
 
@@ -66,5 +69,17 @@ public class CashExpansion extends PlaceholderExpansion  {
         return null; // Placeholder is unknown by the expansion
     }
 
+    @Override
+    public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
 
+        switch (params){
+            case "test":
+                ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
+                Cash cash = config.getConfig().getObject("Cash", Cash.class);
+
+                return cash.getCash() + "";
+        }
+
+        return null;
+    }
 }
