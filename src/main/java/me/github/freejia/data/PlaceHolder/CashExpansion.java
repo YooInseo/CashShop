@@ -57,7 +57,7 @@ public class CashExpansion extends PlaceholderExpansion  {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        if(params.equalsIgnoreCase("test")){
+        if(params.equalsIgnoreCase("cash")){
             ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
             Cash cash = config.getConfig().getObject("Cash", Cash.class);
 
@@ -73,7 +73,7 @@ public class CashExpansion extends PlaceholderExpansion  {
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
 
         switch (params){
-            case "test":
+            case "cash":
                 ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
                 Cash cash = config.getConfig().getObject("Cash", Cash.class);
 
