@@ -15,6 +15,15 @@ import java.util.List;
 
 public class Util {
 
+
+    public static String replace(Player player, String path) {
+        String a = Main.config.getString(path);
+
+        a = a.replaceAll("%player%", player.getDisplayName());
+        a =  ChatColor.translateAlternateColorCodes('&', a);
+        return a;
+    }
+
     public static String replace(Player player, long cash, String path) {
         String a = Main.config.getString(path);
 

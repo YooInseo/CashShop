@@ -22,7 +22,7 @@ public class CashTabComplete implements TabCompleter {
 
         if(player.isOp()){
             if (args.length == 1) {
-                StringUtil.copyPartialMatches(args[0], Arrays.asList("지급", "제거", "설정", "확인"), completions);
+                StringUtil.copyPartialMatches(args[0], Arrays.asList("지급", "제거", "설정", "확인","초기화"), completions);
             } else if (args.length == 2) {
                 for (Player online : Bukkit.getOnlinePlayers()) {
                     completions.add(online.getDisplayName());

@@ -2,15 +2,24 @@ package me.github.freejia.cmd;
 
 import me.github.freejia.Main;
 import me.github.freejia.cmd.tab.CashTabComplete;
+import me.github.freejia.data.Data;
 import me.github.freejia.data.object.Cash;
 import me.github.freejia.data.config.ConfigManager;
+import me.github.freejia.data.object.SendType;
+import me.github.freejia.data.object.Type;
+import me.github.freejia.data.object.log.AdminLog;
+import me.github.freejia.data.object.log.UserLog;
 import me.github.freejia.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cashcmd implements CommandExecutor {
     private Main plugin;
@@ -36,7 +45,7 @@ public class Cashcmd implements CommandExecutor {
                 Main.Cash.getConfig().set("Cash", cash);
                 Main.Cash.saveConfig();
 
-                 player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
+                player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
             } else {
                 player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
             }
@@ -47,25 +56,26 @@ public class Cashcmd implements CommandExecutor {
                     if (args.length > 1) {
                         target = Bukkit.getPlayer(args[1]);
 
-                             if (args.length > 2) {
-                                try {
-                                    amount = Long.parseLong(args[2]);
-                                        Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                        if (args.length > 2) {
+                            try {
+                                amount = Long.parseLong(args[2]);
+                                Main.Cash = new ConfigManager("data/" + target.getUniqueId());
 
-                                        cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                                        cash.increase(amount);
+                                cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                                cash.increase(amount);
 
-                                        Main.Cash.getConfig().set("Cash", cash);
-                                        Main.Cash.saveConfig();
+                                Main.Cash.getConfig().set("Cash", cash);
+                                Main.Cash.saveConfig();
 
-                                        player.sendMessage(Util.replace(player, amount, "cash_message.send"));
-
-                                } catch (NumberFormatException e) {
-                                    return false;
-                                }
-                            } else {
-                                player.sendMessage(Main.config.getString("error_message.command_none_cash"));
+                                player.sendMessage(Util.replace(player, amount, "cash_message.send"));
+                                Data.sendType.put(player.getUniqueId(), SendType.add);
+                                saveLog(player,target,SendType.add,0);
+                            } catch (NumberFormatException e) {
+                                return false;
                             }
+                        } else {
+                            player.sendMessage(Main.config.getString("error_message.command_none_cash"));
+                        }
 
                     } else {
                         player.sendMessage(Main.config.getString("error_message.command_none_player"));
@@ -83,7 +93,7 @@ public class Cashcmd implements CommandExecutor {
                         cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
 
                         player.sendMessage(Util.replace(target, cash.getCash(), "cash_message.check_user"));
-                    } else{
+                    } else {
                         player.sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
                     break;
@@ -102,7 +112,8 @@ public class Cashcmd implements CommandExecutor {
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
                                     player.sendMessage(Util.replace(player, amount, "cash_message.remove"));
-
+                                    Data.sendType.put(player.getUniqueId(), SendType.remove);
+                                    saveLog(player,target,SendType.remove,0);
                                 } else {
                                     player.sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }
@@ -151,8 +162,45 @@ public class Cashcmd implements CommandExecutor {
                     }
 
                     break;
+                case "초기화":
+                    if (args.length > 1) {
+                        target = Bukkit.getPlayer(args[1]);
+                        Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                        cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                        cash.setCash(0);
+                        Main.Cash.getConfig().set("Cash", cash);
+                        Main.Cash.saveConfig();
+                        player.sendMessage(Util.replace(target,"cash_message.initalization"));
+                        Data.sendType.put(player.getUniqueId(), SendType.initialization);
+                        saveLog(player,target,SendType.initialization,0);
+                    } else {
+                        player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                    }
+                    break;
             }
         }
         return false;
+    }
+
+    public void saveLog(Player player, Player target,SendType sendType, int price) {
+        ConfigManager config = Main.AdminLog = new ConfigManager("log/admin/" + player.getUniqueId());
+
+        AdminLog adminLog = new AdminLog(player,target,sendType,price);
+
+
+        if (!config.isExist()) {
+            config.getConfig().set("Log", new ArrayList<AdminLog>());
+
+            List<AdminLog> log = (List<AdminLog>) config.getConfig().getList("Log");
+
+            log.add(adminLog);
+
+            config.saveConfig();
+        } else {
+            List<AdminLog> log = (List<AdminLog>) config.getConfig().getList("Log");
+            log.add(adminLog);
+
+            config.saveConfig();
+        }
     }
 }

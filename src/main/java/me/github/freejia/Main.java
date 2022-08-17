@@ -7,6 +7,8 @@ import me.github.freejia.data.object.Cash;
 import me.github.freejia.data.object.CashShop;
 import me.github.freejia.data.config.ConfigManager;
 import me.github.freejia.data.object.Items;
+import me.github.freejia.data.object.log.AdminLog;
+import me.github.freejia.data.object.log.UserLog;
 import me.github.freejia.data.placeHolder.CashExpansion;
 import me.github.freejia.data.sql.MySql;
 import me.github.freejia.events.ChatEvent;
@@ -33,7 +35,7 @@ public class Main extends JavaPlugin {
 
     public static ConfigManager UserLog;
 
-
+    public static ConfigManager AdminLog;
     public void onEnable() {
         super.onEnable();
 
@@ -57,7 +59,12 @@ public class Main extends JavaPlugin {
         ConfigurationSerialization.registerClass(Cash.class);
         ConfigurationSerialization.registerClass(CashShop.class);
         ConfigurationSerialization.registerClass(Items.class);
+
+        /**
+         * 로그 클래스
+         */
         ConfigurationSerialization.registerClass(me.github.freejia.data.object.log.UserLog.class);
+        ConfigurationSerialization.registerClass(AdminLog.class);
 
         init();
 
@@ -108,6 +115,7 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("cash_message.check", "보유중인 캐시: %cash%");
         config.getConfig().addDefault("cash_message.check_user", "%player%님의 보유중인 캐시: %cash%");
         config.getConfig().addDefault("cash_message.send", "%player%님 에게 %cash%만큼의 캐시를 지급하였습니다!%");
+        config.getConfig().addDefault("cash_message.initalization", "%player%님의 캐시를 초기화하였습니다!%");
         config.getConfig().addDefault("cash_message.remove", "%player%님의 캐시를 %cash%만큼 제거하였습니다!%");
         config.getConfig().addDefault("cash_message.set", "%player%님의 캐시를 %cash%로 설정하였습니다!");
 

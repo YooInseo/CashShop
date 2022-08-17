@@ -7,6 +7,7 @@ import me.github.freejia.data.object.Cash;
 import me.github.freejia.data.object.CashShop;
 import me.github.freejia.data.object.Items;
 import me.github.freejia.data.object.Type;
+import me.github.freejia.data.object.log.UserLog;
 import me.github.freejia.util.Util;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,6 +17,9 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClickEvent implements Listener {
@@ -92,6 +96,8 @@ public class ClickEvent implements Listener {
                                     ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
                                     itemStack.setAmount(64);
                                     player.getInventory().addItem(itemStack);
+
+                                    saveLog(player, itemStack, 64, Type.BUY,item.getBuyprice() * 64,itemStack);
                                 } else {
                                     player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
                                 }
@@ -105,6 +111,7 @@ public class ClickEvent implements Listener {
                                 ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
                                 itemStack.setAmount(1);
                                 player.getInventory().addItem(itemStack);
+                                saveLog(player, itemStack, 1,Type.BUY, item.getBuyprice(),itemStack );
                             } else {
                                 player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
                             }
@@ -115,7 +122,8 @@ public class ClickEvent implements Listener {
                                 cash.increase(item.getSellprice() * 64);
                                 Main.Cash.getConfig().set("Cash", cash);
                                 Main.Cash.saveConfig();
-                            } else{
+                                saveLog(player, itemStack, 64, Type.SELL,item.getBuyprice() * 64,itemStack);
+                            } else {
                                 player.sendMessage(Main.config.getString("error_message.cant_buy_item"));
                             }
                         } else if (event.getClick().isRightClick()) {
@@ -124,6 +132,7 @@ public class ClickEvent implements Listener {
                                 cash.increase(item.getSellprice());
                                 Main.Cash.getConfig().set("Cash", cash);
                                 Main.Cash.saveConfig();
+                                saveLog(player, itemStack, 1,Type.SELL,item.getBuyprice(),itemStack);
                             }
                         }
                     }
@@ -133,7 +142,26 @@ public class ClickEvent implements Listener {
         }
     }
 
-    public void Purchase() {
+    public void saveLog(Player player, ItemStack items, int amount, Type type,int price,ItemStack item) {
+        ConfigManager config = Main.UserLog = new ConfigManager("log/user/" + player.getUniqueId());
 
+        UserLog userlog = new UserLog(player,  amount, type,price,item);
+        player.sendMessage(items + "");
+
+        if (!config.isExist()) {
+            config.getConfig().set("Log", new ArrayList<UserLog>());
+
+            List<UserLog> log = (List<UserLog>) config.getConfig().getList("Log");
+
+            log.add(userlog);
+
+            config.saveConfig();
+        } else {
+            List<UserLog> log = (List<UserLog>) config.getConfig().getList("Log");
+            log.add(userlog);
+
+            config.saveConfig();
+        }
     }
+
 }
