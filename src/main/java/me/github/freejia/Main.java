@@ -14,6 +14,7 @@ import me.github.freejia.events.ClickEvent;
 import me.github.freejia.events.CloseEvent;
 import me.github.freejia.events.JoinEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -37,9 +38,10 @@ public class Main extends JavaPlugin {
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new CashExpansion(this).register();
-            Log.info("§a등록 완료  %cashshop_cash% 키워드로 사용 가능합니다!");
+            Bukkit.getConsoleSender().sendMessage("§a등록 완료  §b%cashshop_cash% §a키워드로 사용 가능합니다!");
         } else {
-            Log.info("§cPLACEHOLDER API 기능이 해제 됩니다 (API 없음)");
+
+            Bukkit.getConsoleSender().sendMessage("§cPLACEHOLDER API 기능이 해제 됩니다 (API 없음)");
         }
 
         config = new ConfigManager("config");
