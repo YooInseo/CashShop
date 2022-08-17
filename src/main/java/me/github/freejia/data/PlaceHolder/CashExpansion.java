@@ -1,5 +1,7 @@
 package me.github.freejia.data.PlaceHolder;
 
+import me.clip.placeholderapi.expansion.Cacheable;
+import me.clip.placeholderapi.expansion.Configurable;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.github.freejia.Main;
 import me.github.freejia.data.Config.ConfigManager;
@@ -8,7 +10,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
-public class CashExpansion extends PlaceholderExpansion {
+import java.util.HashMap;
+import java.util.Map;
+
+public class CashExpansion extends PlaceholderExpansion implements Cacheable, Configurable {
 
     private Main plugin; // The instance is created in the constructor and won't be modified, so it can be final
 
@@ -34,7 +39,7 @@ public class CashExpansion extends PlaceholderExpansion {
 
     @Override
     public String getRequiredPlugin() {
-        return "SomePlugin";
+        return "CashShop";
     }
 
     @Override
@@ -54,5 +59,17 @@ public class CashExpansion extends PlaceholderExpansion {
 
 
         return null; // Placeholder is unknown by the expansion
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public Map<String, Object> getDefaults() {
+        final Map<String, Object> defaults = new HashMap<>();
+        defaults.put("","");
+        return defaults;
     }
 }
