@@ -95,6 +95,31 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("error_message.shop_none_name", "상점 이름을 입력해주세요!");
         config.getConfig().addDefault("error_message.shop_none_line", "줄을 입력해 주세요!");
 
+        config.getConfig().addDefault("cash_shop_message.main", Arrays.asList(
+                "/캐시상점 생성 [이름] : 캐시상점을 생성합니다.",
+                "/캐시상점 제거 [이름] : 캐시상점을 제거합니다.",
+                "/캐시상점 줄 [이름] [1~6] : 캐시상점 줄을 설정합니다.",
+                "/캐시상점 GUI이름 [이름] [GUI이름] : GUI이름을 설정합니다.",
+                "/캐시상점 편집 [이름] : 캐시상점을 편집합니다."));
+
+
+        config.getConfig().addDefault("cash_shop_message.create_shop", "%shopname%의 캐시상점을 생성하였습니다!");
+        config.getConfig().addDefault("cash_shop_message.delete_shop", "%shopname%의 캐시상점을 제거하였습니다!");
+        config.getConfig().addDefault("cash_shop_message.setting_gui_size", "%shopname%의 GUI 사이즈를 %gui_size%로 설정하였습니다!");
+        config.getConfig().addDefault("cash_shop_message.setting_gui_name", "%shopname% GUI이름을 %changename%으로 변경하였습니다!");
+        config.getConfig().addDefault("cash_shop_message.buy_price", "아이템 구매 가격을 %buy_price%로 설정하였습니다!");
+        config.getConfig().addDefault("cash_shop_message.sell_price", "아이템 판매 가격을 %sell_price%로 설정하였습니다!");
+
+
+        config.getConfig().addDefault("cash_shop_message.lore", Arrays.asList(
+                "",
+                "&f[&b!&f] 구매 가격: %buy_price% 캐시",
+                "&f[&b!&f] 판매 가격: %sell_price% 캐시",
+                "",
+                "&f[&b!&f] 쉬프트 + 좌클릭: 64개 구매",
+                "&f[&b!&f] 쉬프트 + 우클릭: 64개 판매",
+                ""));
+
         config.getConfig().addDefault("shop_price.gui", "구매가격/판매가격");
         config.getConfig().addDefault("shop_price.gui_size", 27);
         config.getConfig().addDefault("shop_price.buy_settings.item", "LIME_WOOL");

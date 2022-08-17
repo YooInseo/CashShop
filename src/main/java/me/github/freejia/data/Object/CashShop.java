@@ -145,41 +145,28 @@ public class CashShop implements ConfigurationSerializable {
 
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
 
-        List<Items> items = new ArrayList<>();
+
         for (int i = 0; i < line * 9; i++) {
             ItemStack itemStack = EditorInv.getItem(i);
 
             if (itemStack != null) {
-                Items item = new Items(itemStack, i);
-                items.clear();
-                if (!items.contains(item)) {
-                    items.add(item);
-                }
 
-                for (Items newitems : items) {
-                    System.out.println( cashshop.items.add(newitems)  + " :  "+ newitems.getMaterial() );
+                if (cashshop.items.size() != 0) {
+                    Items item = new Items(itemStack, i);
+                    if (!cashshop.items.contains(item)) {
+                        for (int j = 0; j < cashshop.items.size(); j++) {
+                            player.sendMessage(cashshop.items.get(j).getMaterial());
+                        }
 
-                }
 
-                if (cashshop.getItems().size() != 0) {
+                    }
 
-                    player.sendMessage("눌 아님");
-
-//                    for (int size = 0; size < cashshop.getItems().size(); size++) {
-//                        Items newitem = cashshop.getItems().get(size);
-//
-//                        cashshop.items.set(size, newitem);
-//                        shop.getConfig().set("shop", newitem);
-//                        shop.saveConfig();
-//
-//                        player.sendMessage("test" + newitem.getBuyprice());
-//                    }
                 } else {
-
-
+                    Items item = new Items(itemStack, i);
+                    player.sendMessage("test" + item.getMaterial());
+                    cashshop.items.add(item);
                     shop.getConfig().set("shop", cashshop);
                     shop.saveConfig();
-
                 }
 
             } else { // 슬롯 삭제
@@ -191,91 +178,8 @@ public class CashShop implements ConfigurationSerializable {
                         shop.saveConfig();
                     }
                 }
-
             }
-
-//            if (itemStack != null) {
-//
-//
-//                for (Items items : cashshop.getItems()) {
-//                    if(items == null){
-//                        player.sendMessage("아이템 값이 없습니다");
-//                    }
-//                    if(items.getSlot() != i){
-//                        Items item = new Items(itemStack, i);
-//                        cashshop.items.add(item);
-//                        player.sendMessage("Test");
-//                        shop.getConfig().set("shop", cashshop);
-//                        shop.saveConfig();
-//                    }
-//                }
-//
-//                Items item = new Items(itemStack,i);
-//                cashshop.items.clear();
-//                cashshop.items.add(item);
-//                shop.getConfig().set("shop", cashshop);
-//                shop.saveConfig();
-//                player.sendMessage("test");
-//
-//            } else {
-//                player.sendMessage("null");
-//                for (Items items : cashshop.getItems()) {
-//                    if (items.getSlot() != i) {
-//                        Items item = new Items(itemStack, i);
-//
-//                        item.setBuyprice(items.getBuyprice());
-//                        item.setSellprice(items.getSellprice());
-//
-//                        cashshop.items.clear();
-//                        cashshop.items.add(item);
-//                        shop.saveConfig();
-//                    }
-//                }
-//
-//            }
         }
-//        for (Items items : cashshop.getItems()) {
-//            if (items != null) {
-//                int indeex = cashshop.getItems().indexOf(items);
-//
-//                for (int i = 0; i < line * 9; i++) {
-//
-//                    if (items.getSlot() == i) {
-//
-//                        Items item = new Items(EditorInv.getItem(i), i);
-//
-//                        item.setSellprice(items.getSellprice());
-//
-//                        cashshop.items.clear();
-//                        cashshop.items.add(item);
-//                        shop.getConfig().set("shop", cashshop);
-//                        shop.saveConfig();
-//                        player.sendMessage("test");
-//                    }
-//                }
-//            } else {
-//                player.sendMessage("test");
-//            }
-//        }
-////
-//        for (int i = 0; i < line * 9; i++) {
-//            ItemStack itemstack = EditorInv.getItem(i);
-//
-//            if(itemstack != null){
-//
-//                Items item = new Items(itemstack, i);
-//
-//                player.sendMessage(getItems().get(0) + "");
-//
-//                if(!this.getItems().contains(item)){
-//                    cashshop.items.clear();
-//                    cashshop.items.add(item);
-//                }
-//                shop.getConfig().set("shop", cashshop);
-//                shop.saveConfig();
-//            }
-//
-//        }
     }
 
     public CashShop getCashShop() {
