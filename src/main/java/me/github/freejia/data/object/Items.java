@@ -1,13 +1,11 @@
-package me.github.freejia.data.Object;
+package me.github.freejia.data.object;
 
 import me.github.freejia.Main;
-import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

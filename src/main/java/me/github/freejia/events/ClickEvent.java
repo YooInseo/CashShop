@@ -1,26 +1,22 @@
 package me.github.freejia.events;
 
 import me.github.freejia.Main;
-import me.github.freejia.data.Config.ConfigManager;
+import me.github.freejia.data.config.ConfigManager;
 import me.github.freejia.data.Data;
-import me.github.freejia.data.Object.Cash;
-import me.github.freejia.data.Object.CashShop;
-import me.github.freejia.data.Object.Items;
-import me.github.freejia.data.Object.Type;
+import me.github.freejia.data.object.Cash;
+import me.github.freejia.data.object.CashShop;
+import me.github.freejia.data.object.Items;
+import me.github.freejia.data.object.Type;
 import me.github.freejia.util.Util;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
 
 public class ClickEvent implements Listener {
 
@@ -85,35 +81,48 @@ public class ClickEvent implements Listener {
 
                 switch (event.getClick()) {
                     case LEFT:
-
-                        if (Util.isInventoryFull(player)) {
-                            player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
-                        } else {
-                            if (event.isShiftClick()) {
-                                if(cash.Decrease(item.getBuyprice() * 64)){
-                                    Main.Cash.getConfig().set("Cash", cash);
-                                    Main.Cash.saveConfig();
-                                    ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                    itemStack.setAmount(64);
-                                    player.getInventory().addItem(itemStack);
-                                } else{
-                                    player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
-                                }
-
-
+                        if (item.getSlot() == event.getSlot()) {
+                            if (Util.isInventoryFull(player)) {
+                                player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
                             } else {
-                                if(cash.Decrease(item.getBuyprice())){
-                                    Main.Cash.getConfig().set("Cash", cash);
-                                    Main.Cash.saveConfig();
-                                    ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                    player.getInventory().addItem(itemStack);
-                                    player.sendMessage(Util.replace("","shop_message.1_buy",itemStack,item.getBuyprice()));
-                                } else{
-                                    player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
-                                }
+                                if (item.getBuyprice() == -1) {
+                                    player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
+                                } else {
 
+
+                                    if (event.isShiftClick()) {
+
+
+                                        if (item.getBuyprice() > 0) {
+                                            if (cash.Decrease(item.getBuyprice() * 64)) {
+                                                Main.Cash.getConfig().set("Cash", cash);
+                                                Main.Cash.saveConfig();
+                                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                                itemStack.setAmount(64);
+                                                player.getInventory().addItem(itemStack);
+                                            } else {
+                                                player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+                                            }
+                                        }
+
+
+                                    } else {
+                                        if (cash.Decrease(item.getBuyprice())) {
+                                            Main.Cash.getConfig().set("Cash", cash);
+                                            Main.Cash.saveConfig();
+                                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                            itemStack.setItemMeta(item.getMeta());
+                                            player.getInventory().addItem(itemStack);
+                                            player.sendMessage(Util.replace("", "shop_message.1_buy", itemStack, item.getBuyprice()));
+                                        } else {
+                                            player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+                                        }
+
+                                    }
+                                }
                             }
                         }
+
                         break;
 
                     case RIGHT:

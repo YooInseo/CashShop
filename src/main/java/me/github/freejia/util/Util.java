@@ -1,11 +1,10 @@
 package me.github.freejia.util;
 
 import me.github.freejia.Main;
-import me.github.freejia.data.Config.ConfigManager;
+import me.github.freejia.data.config.ConfigManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

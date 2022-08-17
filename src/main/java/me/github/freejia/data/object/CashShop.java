@@ -1,8 +1,7 @@
-package me.github.freejia.data.Object;
+package me.github.freejia.data.object;
 
 import me.github.freejia.Main;
-import me.github.freejia.data.Config.ConfigManager;
-import me.github.freejia.data.Data;
+import me.github.freejia.data.config.ConfigManager;
 import me.github.freejia.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,7 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 public class CashShop implements ConfigurationSerializable {
 

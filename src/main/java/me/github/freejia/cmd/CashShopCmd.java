@@ -2,8 +2,8 @@ package me.github.freejia.cmd;
 
 import me.github.freejia.Main;
 import me.github.freejia.cmd.tab.CashShopTabComplete;
-import me.github.freejia.data.Object.CashShop;
-import me.github.freejia.data.Config.ConfigManager;
+import me.github.freejia.data.object.CashShop;
+import me.github.freejia.data.config.ConfigManager;
 import me.github.freejia.data.Data;
 import me.github.freejia.util.Util;
 import org.bukkit.Bukkit;
@@ -11,7 +11,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class CashShopCmd implements CommandExecutor {
@@ -131,7 +130,7 @@ public class CashShopCmd implements CommandExecutor {
                                 cashShop.setPlayer(player);
                                 cashShop.Open();
                                 Data.cashshop.put(player.getUniqueId(), cashShop);
-                                 
+
                             }
 
                         } else {

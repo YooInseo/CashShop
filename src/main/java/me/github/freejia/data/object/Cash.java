@@ -1,4 +1,4 @@
-package me.github.freejia.data.Object;
+package me.github.freejia.data.object;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;

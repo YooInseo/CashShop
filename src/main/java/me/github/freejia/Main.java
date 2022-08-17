@@ -3,12 +3,12 @@ package me.github.freejia;
 import me.github.freejia.cmd.Cashcmd;
 import me.github.freejia.cmd.CashShopCmd;
 import me.github.freejia.data.Data;
-import me.github.freejia.data.Object.Cash;
-import me.github.freejia.data.Object.CashShop;
-import me.github.freejia.data.Config.ConfigManager;
-import me.github.freejia.data.Object.Items;
-import me.github.freejia.data.PlaceHolder.CashExpansion;
-import me.github.freejia.data.SQL.MySql;
+import me.github.freejia.data.object.Cash;
+import me.github.freejia.data.object.CashShop;
+import me.github.freejia.data.config.ConfigManager;
+import me.github.freejia.data.object.Items;
+import me.github.freejia.data.placeHolder.CashExpansion;
+import me.github.freejia.data.sql.MySql;
 import me.github.freejia.events.ChatEvent;
 import me.github.freejia.events.ClickEvent;
 import me.github.freejia.events.CloseEvent;
@@ -115,6 +115,8 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("error_message.command_none_cash", "금액을 입력해주세요!");
         config.getConfig().addDefault("error_message.shop_none_name", "상점 이름을 입력해주세요!");
         config.getConfig().addDefault("error_message.shop_none_line", "줄을 입력해 주세요!");
+        config.getConfig().addDefault("error_message.cant_buy_impossible_item", "구매가 불가능한 상품입니다!");
+        config.getConfig().addDefault("error_message.cant_sell_impossible_item", "판매가 불가능한 상품입니다!");
 
         config.getConfig().addDefault("cash_shop_message.main", Arrays.asList(
                 "/캐시상점 생성 [이름] : 캐시상점을 생성합니다.",

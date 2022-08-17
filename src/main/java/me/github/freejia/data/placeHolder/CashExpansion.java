@@ -1,21 +1,14 @@
-package me.github.freejia.data.PlaceHolder;
+package me.github.freejia.data.placeHolder;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.expansion.Cacheable;
-import me.clip.placeholderapi.expansion.Configurable;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.clip.placeholderapi.expansion.Relational;
 import me.github.freejia.Main;
-import me.github.freejia.data.Config.ConfigManager;
-import me.github.freejia.data.Object.Cash;
+import me.github.freejia.data.config.ConfigManager;
+import me.github.freejia.data.object.Cash;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CashExpansion extends PlaceholderExpansion  {
 

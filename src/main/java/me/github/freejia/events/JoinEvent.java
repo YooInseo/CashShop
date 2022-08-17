@@ -1,8 +1,8 @@
 package me.github.freejia.events;
 
 import me.github.freejia.Main;
-import me.github.freejia.data.Config.ConfigManager;
-import me.github.freejia.data.Object.Cash;
+import me.github.freejia.data.config.ConfigManager;
+import me.github.freejia.data.object.Cash;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

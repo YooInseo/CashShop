@@ -1,4 +1,4 @@
-package me.github.freejia.data.Object;
+package me.github.freejia.data.object;
 
 public enum Type {
 

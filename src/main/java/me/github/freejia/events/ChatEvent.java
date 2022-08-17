@@ -1,18 +1,16 @@
 package me.github.freejia.events;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.github.freejia.Main;
-import me.github.freejia.data.Config.ConfigManager;
-import me.github.freejia.data.Object.CashShop;
+import me.github.freejia.data.config.ConfigManager;
+import me.github.freejia.data.object.CashShop;
 import me.github.freejia.data.Data;
-import me.github.freejia.data.Object.Items;
-import me.github.freejia.data.Object.Type;
+import me.github.freejia.data.object.Items;
+import me.github.freejia.data.object.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 public class ChatEvent implements Listener {
 
@@ -23,7 +21,7 @@ public class ChatEvent implements Listener {
         if (Data.cashshop.containsKey(player.getUniqueId())) {
             try {
                 Integer amount = Integer.parseInt(event.getMessage());
-                if (amount > 0) {
+                if (amount > 0 || amount  == -1) {
                     CashShop cashShop = Data.cashshop.get(player.getUniqueId());
 
                     if (!cashShop.isDefualt()) {

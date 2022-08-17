@@ -1,4 +1,4 @@
-package me.github.freejia.data.SQL;
+package me.github.freejia.data.sql;
 
 import me.github.freejia.Main;
 import org.bukkit.Bukkit;

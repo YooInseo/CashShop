@@ -1,10 +1,9 @@
 package me.github.freejia.cmd;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.github.freejia.Main;
 import me.github.freejia.cmd.tab.CashTabComplete;
-import me.github.freejia.data.Object.Cash;
-import me.github.freejia.data.Config.ConfigManager;
+import me.github.freejia.data.object.Cash;
+import me.github.freejia.data.config.ConfigManager;
 import me.github.freejia.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
