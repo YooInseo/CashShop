@@ -103,7 +103,6 @@ public class CashShopCmd implements CommandExecutor {
                                 shop.saveConfig();
                                 shop.rename("shop/" + targetname);
                                 player.sendMessage(Util.replace(name, "cash_shop_message.setting_gui_name",targetname));
-
                             }
                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
@@ -144,7 +143,7 @@ public class CashShopCmd implements CommandExecutor {
                             shop = new ConfigManager("shop/" + name);
                             shop.delete();
 
-                            player.sendMessage(Main.config.getString("cash_shop_message.delete_shop"));
+                            player.sendMessage(Util.replace(name,"cash_shop_message.delete_shop"));
                         }
                         break;
                 }

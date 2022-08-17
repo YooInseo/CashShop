@@ -6,6 +6,7 @@ import me.github.freejia.data.Object.Cash;
 import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Object.Items;
+import me.github.freejia.data.PlaceHolder.CashExpansion;
 import me.github.freejia.data.SQL.MySql;
 import me.github.freejia.events.ChatEvent;
 import me.github.freejia.events.ClickEvent;
@@ -31,7 +32,10 @@ public class Main extends JavaPlugin {
 
     public void onEnable() {
         super.onEnable();
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new CashExpansion(this).register();
 
+        }
         config = new ConfigManager("config");
         database = new ConfigManager("database");
         plugin = this;

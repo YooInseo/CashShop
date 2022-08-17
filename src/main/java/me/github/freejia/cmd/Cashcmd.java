@@ -1,5 +1,6 @@
 package me.github.freejia.cmd;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.github.freejia.Main;
 import me.github.freejia.cmd.tab.CashTabComplete;
 import me.github.freejia.data.Object.Cash;
@@ -35,7 +36,8 @@ public class Cashcmd implements CommandExecutor {
                 cash = new Cash(player);
                 Main.Cash.getConfig().set("Cash", cash);
                 Main.Cash.saveConfig();
-                player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
+
+                 player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
             } else {
                 player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
             }

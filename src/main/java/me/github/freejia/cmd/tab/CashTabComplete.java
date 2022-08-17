@@ -13,12 +13,6 @@ import java.util.*;
 
 public class CashTabComplete implements TabCompleter {
 
-
-    private static final String[] COMMANDS = {"지급", "제거", "설정", "확인"};
-
-
-    List<String> results = new ArrayList<>();
-
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -50,9 +44,6 @@ public class CashTabComplete implements TabCompleter {
 
             Collections.sort(completions);
         }
-
-
-
         return completions;
     }
 }

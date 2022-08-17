@@ -4,7 +4,7 @@ version: 1.0
 api-version: 1.13
 
 author: SkyExcel
-
+softdepend: [PlaceholderAPI]
 commands:
   캐시:
   캐시상점:
