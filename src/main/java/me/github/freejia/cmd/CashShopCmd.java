@@ -5,6 +5,7 @@ import me.github.freejia.cmd.tab.CashShopTabComplete;
 import me.github.freejia.data.Object.CashShop;
 import me.github.freejia.data.Config.ConfigManager;
 import me.github.freejia.data.Data;
+import me.github.freejia.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -41,7 +42,7 @@ public class CashShopCmd implements CommandExecutor {
                             cashShop.setLine(6);
                             shop.getConfig().set("shop", cashShop);
                             shop.saveConfig();
-                            player.sendMessage(Main.config.getString("cash_shop_message.create_shop"));
+                            player.sendMessage (Util.replace(name,"cash_shop_message.create_shop"));
 
                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
@@ -60,7 +61,7 @@ public class CashShopCmd implements CommandExecutor {
                                 cashShop.setLine(line);
                                 shop.getConfig().set("shop", cashShop);
                                 shop.saveConfig();
-                                player.sendMessage(Main.config.getString("cash_shop_message.setting_gui_size"));
+                                player.sendMessage(Util.replace(name,"cash_shop_message.setting_gui_size",line));
                             } else {
                                 player.sendMessage(Main.config.getString("error_message.shop_none_line"));
                             }
@@ -96,12 +97,13 @@ public class CashShopCmd implements CommandExecutor {
                                 String targetname = args[2];
 
                                 shop = new ConfigManager("shop/" + name);
-
                                 cashShop = shop.getConfig().getObject("shop", CashShop.class);
                                 cashShop.setTitle(targetname);
                                 shop.getConfig().set("shop", cashShop);
-                                shop = new ConfigManager("shop/" + targetname);
                                 shop.saveConfig();
+                                shop.rename("shop/" + targetname);
+                                player.sendMessage(Util.replace(name, "cash_shop_message.setting_gui_name",targetname));
+
                             }
                         } else {
                             player.sendMessage(Main.config.getString("error_message.shop_none_name"));
