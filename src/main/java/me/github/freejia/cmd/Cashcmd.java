@@ -33,7 +33,7 @@ public class Cashcmd implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         Player target;
-        Long amount;
+        int amount;
 
         Cash cash = new Cash(player);
 
@@ -58,18 +58,24 @@ public class Cashcmd implements CommandExecutor {
 
                         if (args.length > 2) {
                             try {
-                                amount = Long.parseLong(args[2]);
-                                Main.Cash = new ConfigManager("data/" + target.getUniqueId());
-
                                 cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                                cash.increase(amount);
+                                amount = Integer.parseInt(args[2]);
+                                if(amount + cash.getCash()  <= Integer.MAX_VALUE) {
+                                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
 
-                                Main.Cash.getConfig().set("Cash", cash);
-                                Main.Cash.saveConfig();
 
-                                player.sendMessage(Util.replace(player, amount, "cash_message.send"));
+                                    cash.increase(amount);
 
-                                saveLog(player,target,SendType.add,amount);
+                                    Main.Cash.getConfig().set("Cash", cash);
+                                    Main.Cash.saveConfig();
+
+                                    player.sendMessage(Util.replace(player, amount, "cash_message.send"));
+
+                                    saveLog(player,target,SendType.add,amount);
+                                }  else{
+                                    player.sendMessage(Main.config.getString("error_message.overflow"));
+                                }
+
                             } catch (NumberFormatException e) {
                                 return false;
                             }
@@ -106,7 +112,7 @@ public class Cashcmd implements CommandExecutor {
                                 if (args.length > 2) {
                                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                                    amount = Long.parseLong(args[2]);
+                                    amount = Integer.parseInt(args[2]);
                                     cash.Decrease(amount);
 
                                     Main.Cash.getConfig().set("Cash", cash);
@@ -138,14 +144,20 @@ public class Cashcmd implements CommandExecutor {
                                 if (args.length > 2) {
                                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-                                    amount = Long.parseLong(args[2]);
-                                    cash.setCash(amount);
+                                    amount = Integer.parseInt(args[2]);
+                                    player.sendMessage(Integer.MAX_VALUE + "");
+                                    if(amount <= Integer.MAX_VALUE){
+                                        cash.setCash(amount);
 
 
-                                    Main.Cash.getConfig().set("Cash", cash);
-                                    Main.Cash.saveConfig();
+                                        Main.Cash.getConfig().set("Cash", cash);
+                                        Main.Cash.saveConfig();
 
-                                    player.sendMessage(Util.replace(player, amount, "cash_message.set"));
+                                        player.sendMessage(Util.replace(player, amount, "cash_message.set"));
+                                    } else{
+                                        player.sendMessage(Main.config.getString("error_message.overflow"));
+                                    }
+
                                 } else {
                                     player.sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }

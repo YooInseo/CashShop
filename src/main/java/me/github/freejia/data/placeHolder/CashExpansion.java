@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CashExpansion extends PlaceholderExpansion  {
+public class CashExpansion extends PlaceholderExpansion {
 
     private Main plugin; // The instance is created in the constructor and won't be modified, so it can be final
 
@@ -27,10 +27,12 @@ public class CashExpansion extends PlaceholderExpansion  {
     public @NotNull String getAuthor() {
         return "SkyExcel";
     }
+
     @Override
     public boolean persist() {
         return true; // This is required or else PlaceholderAPI will unregister the Expansion on reload
     }
+
     @Override
     public @NotNull String getVersion() {
         return "1.0.0";
@@ -50,13 +52,12 @@ public class CashExpansion extends PlaceholderExpansion  {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        if(params.equalsIgnoreCase("cash")){
+        if (params.equalsIgnoreCase("cash")) {
             ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
             Cash cash = config.getConfig().getObject("Cash", Cash.class);
 
-            return cash.getCash() + "";
+            return String.valueOf(cash.getCash());
         }
-
 
 
         return null; // Placeholder is unknown by the expansion
@@ -65,12 +66,12 @@ public class CashExpansion extends PlaceholderExpansion  {
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
 
-        switch (params){
+        switch (params) {
             case "cash":
                 ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
                 Cash cash = config.getConfig().getObject("Cash", Cash.class);
 
-                return cash.getCash() + "";
+                return String.valueOf(cash.getCash());
         }
 
         return null;
