@@ -127,68 +127,6 @@ public class ClickEvent implements Listener {
                             }
                         }
                     }
-
-
-//                    switch (event.getClick()) {
-//                        case LEFT:
-//                            if (item.getSlot() == event.getSlot()) {
-//                                if (Util.isInventoryFull(player)) {
-//                                    player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
-//                                } else {
-//                                    if (item.getBuyprice() == -1) {
-//                                        player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
-//                                    } else {
-//
-//                                        if (item.getBuyprice() >= 0 || item.getBuyprice() != 0) {
-//                                            if (cash.Decrease(item.getBuyprice() * 64)) {
-//                                                Main.Cash.getConfig().set("Cash", cash);
-//                                                Main.Cash.saveConfig();
-//                                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-//                                                itemStack.setAmount(64);
-//                                                player.getInventory().addItem(itemStack);
-//                                            } else {
-//                                                player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
-//                                            }
-//
-//
-//                                        } else {
-//                                            if (cash.Decrease(item.getBuyprice())) {
-//                                                Main.Cash.getConfig().set("Cash", cash);
-//                                                Main.Cash.saveConfig();
-//                                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-//                                                itemStack.setItemMeta(item.getMeta());
-//                                                player.getInventory().addItem(itemStack);
-//                                                player.sendMessage(Util.replace("", "shop_message.1_buy", itemStack, item.getBuyprice()));
-//                                            } else {
-//                                                player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
-//                                            }
-//
-//                                        }
-//                                    }
-//                                }
-//                            }
-//
-//                            break;
-//
-//                        case RIGHT:
-//                            if (event.isShiftClick()) {
-//
-//                            } else {
-//
-//                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-//                                if (itemStack != null) {
-//                                    cash.increase(item.getSellprice());
-//                                    Main.Cash.getConfig().set("Cash", cash);
-//                                    Main.Cash.saveConfig();
-//                                    player.getInventory().removeItem(itemStack);
-//
-//                                    player.sendMessage(Util.sellreplace("", "shop_message.1_sell", itemStack, item.getSellprice()));
-//
-//                                }
-//
-//                            }
-//                            break;
-//                    }
                     event.setCancelled(true);
                 }
             }

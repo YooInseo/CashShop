@@ -8,7 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Util {
@@ -20,6 +22,7 @@ public class Util {
 
         a = a.replaceAll("%cash%", cash + "");
         a = a.replaceAll("%player%", player.getDisplayName());
+        a =  ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -29,7 +32,7 @@ public class Util {
         Main.Cash = new ConfigManager("shop/" + name);
 
         a = a.replaceAll("%shopname%", name);
-
+        a =  ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -40,6 +43,7 @@ public class Util {
 
         a = a.replaceAll("%shopname%", name);
         a = a.replaceAll("%gui_size%", line + "");
+        a =  ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -51,6 +55,7 @@ public class Util {
 
 
         a = a.replaceAll("%buy_price%", buy_price + "");
+        a =  ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -69,6 +74,7 @@ public class Util {
 
         a = a.replaceAll("%shopname%", name);
         a = a.replaceAll("%changename%", target + "");
+        a =  ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -84,6 +90,7 @@ public class Util {
         }
 
         a = a.replaceAll("%buy_price%", price + "");
+        a =  ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -98,6 +105,7 @@ public class Util {
             a = a.replaceAll("%item_order%", item.getType().name());
         }
         a = a.replaceAll("%sell_price%", price + "");
+        a =  ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -156,5 +164,11 @@ public class Util {
             }
         }
         return false;
+    }
+    public static String getDate() {
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy년 MM월dd일 HH시mm분ss초");
+        Date date = new Date();
+        String nowTime = format2.format(date);
+        return nowTime;
     }
 }

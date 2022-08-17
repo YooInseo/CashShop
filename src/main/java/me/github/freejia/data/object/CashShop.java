@@ -164,14 +164,13 @@ public class CashShop implements ConfigurationSerializable {
 
                 if (i >= cashshop.items.size()) {
                     int index = items.size() -1;
-                    player.sendMessage("test " + i +  " 인벤토리 사이즈 " + index + " " + items.get(index).getMaterial());
 
                     cashshop.items.add(items.get(index));
                     shop.getConfig().set("shop", cashshop);
                     shop.saveConfig();
                 }
 
-            } else { // 슬롯 삭제
+            } else { // Inventory 아이템이 null일 경우, 원래 list에 있던 아이템인지 체크 후 있으면 원래 list에서 삭제.
                 for (int size = 0; size < cashshop.getItems().size(); size++) {
                     Items item = cashshop.getItems().get(size);
                     if (i == item.getSlot()) {

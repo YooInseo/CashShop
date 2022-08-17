@@ -111,12 +111,13 @@ public class Items implements ConfigurationSerializable {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("name", name);
         map.put("slot", slot);
+        map.put("lore", lore);
         map.put("Amount", Amount);
         map.put("type", material.toString());
-        map.put("lore", lore);
+
+        map.put("itemmeta", meta);
         map.put("sellprice", sellprice);
         map.put("buyprice", buyprice);
-        map.put("itemmeta", meta);
 
         return map;
     }

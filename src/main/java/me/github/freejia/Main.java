@@ -14,7 +14,6 @@ import me.github.freejia.events.ClickEvent;
 import me.github.freejia.events.CloseEvent;
 import me.github.freejia.events.JoinEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -31,6 +30,8 @@ public class Main extends JavaPlugin {
     public static ConfigManager config;
     public static ConfigManager database;
     public static ConfigManager Cash;
+
+    public static ConfigManager UserLog;
 
 
     public void onEnable() {
@@ -56,6 +57,7 @@ public class Main extends JavaPlugin {
         ConfigurationSerialization.registerClass(Cash.class);
         ConfigurationSerialization.registerClass(CashShop.class);
         ConfigurationSerialization.registerClass(Items.class);
+        ConfigurationSerialization.registerClass(me.github.freejia.data.object.log.UserLog.class);
 
         init();
 
