@@ -28,17 +28,50 @@ public class ClickEvent implements Listener {
 
 
         if (Data.cashshop.containsKey(player.getUniqueId())) {
-            if (inv.equals(Data.cashshop.get(player.getUniqueId()).getEditorInv())) {
-                cashShop = Data.cashshop.get(player.getUniqueId());
+            if (inv != null) {
 
-                if (event.getClick().equals(ClickType.RIGHT) || event.getClick().equals(ClickType.LEFT)) {
-
+                if (inv.equals(Data.cashshop.get(player.getUniqueId()).getEditorInv())) {
                     cashShop = Data.cashshop.get(player.getUniqueId());
 
+                    if (event.getClick().equals(ClickType.RIGHT) || event.getClick().equals(ClickType.LEFT)) {
 
-                }
-                if (event.getClick().isShiftClick()) {
+                        cashShop = Data.cashshop.get(player.getUniqueId());
+
+
+                    }
+                    if (event.getClick().isShiftClick()) {
+                        event.setCancelled(true);
+
+                        for (Items items : cashShop.getItems()) {
+                            if (items.getSlot() == event.getSlot()) {
+                                int i = cashShop.getItems().indexOf(items);
+                                Data.select.put(player.getUniqueId(), i);
+                                cashShop.PriceGUI();
+                            }
+                        }
+
+                    }
+
+
+                } else if (event.getView().getTitle().equals(Main.config.getConfig().getString("shop_price.gui"))) {
+                    cashShop = Data.cashshop.get(player.getUniqueId());
+                    switch (event.getSlot()) {
+                        case 12:
+                            cashShop.setType(Type.BUY);
+                            player.closeInventory();
+                            player.sendMessage("§a구매 가격을 입력해 주세요!");
+                            break;
+                        case 14:
+                            cashShop.setType(Type.SELL);
+                            player.sendMessage("§a판매 가격을 입력해 주세요!");
+                            player.closeInventory();
+                            break;
+                    }
                     event.setCancelled(true);
+                } else if (event.getView().getTitle().equals(Data.cashshop.get(player.getUniqueId()).getTitle())) {
+                    cashShop = Data.cashshop.get(player.getUniqueId());
+                    Main.Cash = new ConfigManager("data/" + player.getUniqueId());
+                    Cash cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
 
                     for (Items items : cashShop.getItems()) {
                         if (items.getSlot() == event.getSlot()) {
@@ -46,103 +79,107 @@ public class ClickEvent implements Listener {
                             Data.select.put(player.getUniqueId(), i);
                         }
                     }
-                    cashShop.PriceGUI();
-                }
+
+                    Items item = cashShop.getItems().get(Data.select.get(player.getUniqueId()));
 
 
-            } else if (event.getView().getTitle().equals(Main.config.getConfig().getString("shop_price.gui"))) {
-                cashShop = Data.cashshop.get(player.getUniqueId());
-                switch (event.getSlot()) {
-                    case 12:
-                        cashShop.setType(Type.BUY);
-                        player.closeInventory();
-                        player.sendMessage("§a구매 가격을 입력해 주세요!");
-                        break;
-                    case 14:
-                        cashShop.setType(Type.SELL);
-                        player.sendMessage("§a판매 가격을 입력해 주세요!");
-                        player.closeInventory();
-                        break;
-                }
-                event.setCancelled(true);
-            } else if (event.getView().getTitle().equals(Data.cashshop.get(player.getUniqueId()).getTitle())) {
-                cashShop = Data.cashshop.get(player.getUniqueId());
-                Main.Cash = new ConfigManager("data/" + player.getUniqueId());
-                Cash cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-
-                for (Items items : cashShop.getItems()) {
-                    if (items.getSlot() == event.getSlot()) {
-                        int i = cashShop.getItems().indexOf(items);
-                        Data.select.put(player.getUniqueId(), i);
-                    }
-                }
-
-                Items item = cashShop.getItems().get(Data.select.get(player.getUniqueId()));
-
-                switch (event.getClick()) {
-                    case LEFT:
-                        if (item.getSlot() == event.getSlot()) {
-                            if (Util.isInventoryFull(player)) {
-                                player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
-                            } else {
-                                if (item.getBuyprice() == -1) {
-                                    player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
+                    if (item.getSlot() == event.getSlot()) {
+                        if (event.getClick().isLeftClick() && event.getClick().isShiftClick()) {
+                            if (!Util.isInventoryFull(player)) {
+                                if (cash.Decrease(item.getBuyprice() * 64)) {
+                                    Main.Cash.getConfig().set("Cash", cash);
+                                    Main.Cash.saveConfig();
+                                    ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                    itemStack.setAmount(64);
+                                    player.getInventory().addItem(itemStack);
                                 } else {
-                                    if (event.isShiftClick()) {
-
-                                        if (item.getBuyprice() > 0) {
-                                            if (cash.Decrease(item.getBuyprice() * 64)) {
-                                                Main.Cash.getConfig().set("Cash", cash);
-                                                Main.Cash.saveConfig();
-                                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                                itemStack.setAmount(64);
-                                                player.getInventory().addItem(itemStack);
-                                            } else {
-                                                player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
-                                            }
-                                        }
-
-
-                                    } else {
-                                        if (cash.Decrease(item.getBuyprice())) {
-                                            Main.Cash.getConfig().set("Cash", cash);
-                                            Main.Cash.saveConfig();
-                                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                            itemStack.setItemMeta(item.getMeta());
-                                            player.getInventory().addItem(itemStack);
-                                            player.sendMessage(Util.replace("", "shop_message.1_buy", itemStack, item.getBuyprice()));
-                                        } else {
-                                            player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
-                                        }
-
-                                    }
+                                    player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
                                 }
+                            } else {
+                                player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
                             }
-                        }
+                        } else if (event.getClick().isLeftClick()) {
 
-                        break;
+                        } else if (event.getClick().isRightClick() && event.getClick().isShiftClick()) {
+                            cash.increase(item.getSellprice() * 64);
+                            Main.Cash.getConfig().set("Cash", cash);
+                            Main.Cash.saveConfig();
 
-                    case RIGHT:
-                        if (event.isShiftClick()) {
+                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()),64);
+                            Util.removeOne(player.getInventory(),itemStack,64);
 
-                        } else {
-
-                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                            if(itemStack != null){
-                                cash.increase(item.getSellprice());
-                                Main.Cash.getConfig().set("Cash", cash);
-                                Main.Cash.saveConfig();
-                                player.getInventory().removeItem(itemStack);
-
-                                player.sendMessage(Util.sellreplace("", "shop_message.1_sell", itemStack, item.getSellprice()));
-
-                            }
 
                         }
-                        break;
+                    }
+
+
+//                    switch (event.getClick()) {
+//                        case LEFT:
+//                            if (item.getSlot() == event.getSlot()) {
+//                                if (Util.isInventoryFull(player)) {
+//                                    player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
+//                                } else {
+//                                    if (item.getBuyprice() == -1) {
+//                                        player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
+//                                    } else {
+//
+//                                        if (item.getBuyprice() >= 0 || item.getBuyprice() != 0) {
+//                                            if (cash.Decrease(item.getBuyprice() * 64)) {
+//                                                Main.Cash.getConfig().set("Cash", cash);
+//                                                Main.Cash.saveConfig();
+//                                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+//                                                itemStack.setAmount(64);
+//                                                player.getInventory().addItem(itemStack);
+//                                            } else {
+//                                                player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+//                                            }
+//
+//
+//                                        } else {
+//                                            if (cash.Decrease(item.getBuyprice())) {
+//                                                Main.Cash.getConfig().set("Cash", cash);
+//                                                Main.Cash.saveConfig();
+//                                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+//                                                itemStack.setItemMeta(item.getMeta());
+//                                                player.getInventory().addItem(itemStack);
+//                                                player.sendMessage(Util.replace("", "shop_message.1_buy", itemStack, item.getBuyprice()));
+//                                            } else {
+//                                                player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+//                                            }
+//
+//                                        }
+//                                    }
+//                                }
+//                            }
+//
+//                            break;
+//
+//                        case RIGHT:
+//                            if (event.isShiftClick()) {
+//
+//                            } else {
+//
+//                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+//                                if (itemStack != null) {
+//                                    cash.increase(item.getSellprice());
+//                                    Main.Cash.getConfig().set("Cash", cash);
+//                                    Main.Cash.saveConfig();
+//                                    player.getInventory().removeItem(itemStack);
+//
+//                                    player.sendMessage(Util.sellreplace("", "shop_message.1_sell", itemStack, item.getSellprice()));
+//
+//                                }
+//
+//                            }
+//                            break;
+//                    }
+                    event.setCancelled(true);
                 }
-                event.setCancelled(true);
             }
         }
+    }
+
+    public void Purchase() {
+
     }
 }

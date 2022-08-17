@@ -153,7 +153,7 @@ public class Main extends JavaPlugin {
 
         config.getConfig().addDefault("shop_price.sell_settings.item", "RED_WOOL");
         config.getConfig().addDefault("shop_price.sell_settings.slot", 14);
-        config.getConfig().addDefault("shop_price.sell_settings.lore", Arrays.asList("", "&f[&b!&f] 클릭시 구매가격을 설정합니다!", ""));
+        config.getConfig().addDefault("shop_price.sell_settings.lore", Arrays.asList("", "&f[&b!&f] 클릭시 판매가격을 설정합니다!", ""));
 
         config.getConfig().options().copyDefaults(true);
         config.saveConfig();

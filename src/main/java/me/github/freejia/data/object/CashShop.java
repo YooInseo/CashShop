@@ -207,12 +207,21 @@ public class CashShop implements ConfigurationSerializable {
 
         ItemMeta sellmeta = sell.getItemMeta();
         sellmeta.setDisplayName("§c판매가격");
+
+        List<String> sell_lore = Main.config.getConfig().getStringList("shop_price.sell_settings.lore");
+
+        sellmeta.setLore(Util.replace(sell_lore));
+
         sell.setItemMeta(sellmeta);
 
 
         ItemStack buy = new ItemStack(Material.valueOf(Main.config.getConfig().getString("shop_price.buy_settings.item")));
         ItemMeta buymeta = sell.getItemMeta();
+        
+        List<String> buy_lore = Main.config.getConfig().getStringList("shop_price.buy_settings.lore");
         buymeta.setDisplayName("§a구매가격");
+
+        buymeta.setLore(Util.replace(buy_lore));
         buy.setItemMeta(buymeta);
 
         inv.setItem(Main.config.getConfig().getInt("shop_price.sell_settings.slot"), sell);

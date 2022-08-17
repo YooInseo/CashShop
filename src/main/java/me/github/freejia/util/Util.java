@@ -5,6 +5,7 @@ import me.github.freejia.data.config.ConfigManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -115,10 +116,36 @@ public class Util {
         return newArray;
     }
 
+    public static List<String> replace(List<String> arrays ) {
+
+        List<String> newArray = new ArrayList<>();
+        for (String array : arrays) {
+            array = ChatColor.translateAlternateColorCodes('&', array);
+            newArray.add(array);
+        }
+
+        return newArray;
+    }
     public static boolean isInventoryFull(Player p)
     {
         int slot = p.getInventory().firstEmpty();
 
         return slot == -1;
+    }
+
+    public static void removeOne(Inventory inventory, ItemStack item, int amount) {
+        int size = inventory.getSize();
+        for (int i = 0; i < size; i ++) {
+            ItemStack other = inventory.getItem(i);
+            if (item.isSimilar(other)) {
+                if (amount > 1) {
+                    other.setAmount(other.getAmount() - amount);
+                } else {
+                    other = null;
+                }
+                inventory.setItem(i, other);
+                break;
+            }
+        }
     }
 }
