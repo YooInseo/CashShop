@@ -104,7 +104,7 @@ public class ClickEvent implements Listener {
                                         player.sendMessage(Util.buyreplace(cashShop.getName(), itemStack, "shop_message.64_buy", item.getBuyprice() * 64));
 
                                     } else {
-                                        Sound(player,"cash_shop_message.cash_shop_message.buy_sound");
+                                        Sound(player,"cash_shop_message.buy_sound");
                                         player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
                                     }
                                 } else {
@@ -127,7 +127,7 @@ public class ClickEvent implements Listener {
                                     saveLog(player, itemStack, 1, Type.BUY, item.getBuyprice(), itemStack);
 
                                 } else {
-                                    Sound(player,"cash_shop_message.cash_shop_message.buy_sound");
+                                    Sound(player,"cash_shop_message.buy_sound");
                                     player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
                                 }
                             } else {

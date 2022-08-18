@@ -131,7 +131,7 @@ public class CashShop implements ConfigurationSerializable {
         for (Items items : items) {
 
             ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
-            List<String> lores = Main.config.getConfig().getStringList("cash_shop_message.lore");
+            List<String> lores = Main.config.getConfig().getStringList("cash_shop_message.defualt_lore");
 
             ItemMeta meta = itemStack.getItemMeta();
             meta.setLore(Util.replace(lores, items.getBuyprice(), items.getSellprice()));
@@ -156,7 +156,7 @@ public class CashShop implements ConfigurationSerializable {
 
                 inv.setItem(items.getSlot(), itemStack);
             } else if (items.getSellprice() == -1) {
-                player.sendMessage("Test");
+
                 ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
                 List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.cant_sell");
 
@@ -168,7 +168,7 @@ public class CashShop implements ConfigurationSerializable {
                 inv.setItem(items.getSlot(), itemStack);
 
             } else if (items.getBuyprice() == -1 ) {
-                player.sendMessage("Test");
+
                 ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
                 List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.cant_buy");
 
@@ -206,7 +206,8 @@ public class CashShop implements ConfigurationSerializable {
 
                 if (i >= cashshop.items.size()) {
                     int index = items.size() - 1;
-
+                    items.get(index).setSellprice(-1);
+                    items.get(index).setBuyprice(-1);
                     cashshop.items.add(items.get(index));
                     shop.getConfig().set("shop", cashshop);
                     shop.saveConfig();

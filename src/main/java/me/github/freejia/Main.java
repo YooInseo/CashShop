@@ -115,6 +115,7 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("shop_message.64_buy", "%item_order%을 64개를 %buy_price%캐시로 판매하였습니다!");
         config.getConfig().addDefault("shop_message.64_sell", "%item_order% 64개를 %sell_price%캐시로 판매하였습니다!");
 
+
         config.getConfig().addDefault("cash_message.check", "보유중인 캐시: %cash%");
         config.getConfig().addDefault("cash_message.check_user", "%player%님의 보유중인 캐시: %cash%");
         config.getConfig().addDefault("cash_message.send", "%player%님 에게 %cash%만큼의 캐시를 지급하였습니다!%");
@@ -149,7 +150,7 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("cash_shop_message.sell_price", "아이템 판매 가격을 %sell_price%캐시로 설정하였습니다!");
 
 
-        config.getConfig().addDefault("cash_shop_message.lore", Arrays.asList(
+        config.getConfig().addDefault("cash_shop_message.defualt_lore", Arrays.asList(
                 "",
                 "&f[&b!&f] 구매 가격: %buy_price% 캐시",
                 "&f[&b!&f] 판매 가격: %sell_price% 캐시",
