@@ -158,6 +158,34 @@ public class Main extends JavaPlugin {
                 "&f[&b!&f] 쉬프트 + 우클릭: 64개 판매",
                 ""));
 
+
+        config.getConfig().addDefault("cash_shop_message.cant_buy", Arrays.asList(
+                "",
+                "&f[&b!&f] 구매 불가 상품입니다.",
+                "&f[&b!&f] 판매 가격: %sell_price% 캐시",
+                "",
+                "&f[&b!&f] 쉬프트 + 좌클릭: 64개 구매",
+                "&f[&b!&f] 쉬프트 + 우클릭: 64개 판매",
+                ""));
+
+        config.getConfig().addDefault("cash_shop_message.cant_sell", Arrays.asList(
+                "",
+                "&f[&b!&f] 구매 가격: %buy_price% 캐시",
+                "&f[&b!&f] 판매 불가 상품입니다.",
+                "",
+                "&f[&b!&f] 쉬프트 + 좌클릭: 64개 구매",
+                "&f[&b!&f] 쉬프트 + 우클릭: 64개 판매",
+                ""));
+
+        config.getConfig().addDefault("cash_shop_message.both", Arrays.asList(
+                "",
+                "&f[&b!&f] 구매 불가 상품입니다.",
+                "&f[&b!&f] 판매 불가 상품입니다.",
+                "",
+                "&f[&b!&f] 쉬프트 + 좌클릭: 64개 구매",
+                "&f[&b!&f] 쉬프트 + 우클릭: 64개 판매",
+                ""));
+
         config.getConfig().addDefault("cash_shop_message.lore", "");
 
         config.getConfig().addDefault("cash_shop_message.buy_sound", Sound.ENTITY_VILLAGER_NO.name());

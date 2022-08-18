@@ -129,6 +129,7 @@ public class CashShop implements ConfigurationSerializable {
         Inventory inv = Bukkit.createInventory(null, line * 9, name);
 
         for (Items items : items) {
+
             ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
             List<String> lores = Main.config.getConfig().getStringList("cash_shop_message.lore");
 
@@ -140,6 +141,47 @@ public class CashShop implements ConfigurationSerializable {
 
 
             inv.setItem(items.getSlot(), itemStack);
+
+            if(items.getBuyprice() == -1 && items.getSellprice() == -1 ){
+
+                ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+                List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.both");
+
+                ItemMeta cantmeta = cantitemStack.getItemMeta();
+                cantmeta.setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()));
+                itemStack.setItemMeta(cantmeta);
+
+                itemStack.setAmount(items.getAmount());
+
+
+                inv.setItem(items.getSlot(), itemStack);
+            } else if (items.getSellprice() == -1) {
+                player.sendMessage("Test");
+                ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+                List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.cant_sell");
+
+                ItemMeta cantmeta = cantitemStack.getItemMeta();
+                cantmeta.setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()));
+                itemStack.setItemMeta(cantmeta);
+
+                itemStack.setAmount(items.getAmount());
+                inv.setItem(items.getSlot(), itemStack);
+
+            } else if (items.getBuyprice() == -1 ) {
+                player.sendMessage("Test");
+                ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+                List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.cant_buy");
+
+                ItemMeta cantmeta = cantitemStack.getItemMeta();
+                cantmeta.setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()));
+                itemStack.setItemMeta(cantmeta);
+
+                itemStack.setAmount(items.getAmount());
+
+
+                inv.setItem(items.getSlot(), itemStack);
+            }
+
         }
 
         player.openInventory(inv);
@@ -163,7 +205,7 @@ public class CashShop implements ConfigurationSerializable {
                 //인벤토리의 사이즈와, 원래 있던 list의 사이즈를 비교하여 더 커졌으면, 더 커진만큼만 add시킴.
 
                 if (i >= cashshop.items.size()) {
-                    int index = items.size() -1;
+                    int index = items.size() - 1;
 
                     cashshop.items.add(items.get(index));
                     shop.getConfig().set("shop", cashshop);
@@ -182,6 +224,7 @@ public class CashShop implements ConfigurationSerializable {
             }
         }
     }
+
     public CashShop getCashShop() {
         ConfigManager shop = new ConfigManager("shop/" + name);
 
@@ -216,7 +259,7 @@ public class CashShop implements ConfigurationSerializable {
 
         ItemStack buy = new ItemStack(Material.valueOf(Main.config.getConfig().getString("shop_price.buy_settings.item")));
         ItemMeta buymeta = sell.getItemMeta();
-        
+
         List<String> buy_lore = Main.config.getConfig().getStringList("shop_price.buy_settings.lore");
         buymeta.setDisplayName("§a구매가격");
 
