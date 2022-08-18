@@ -110,6 +110,7 @@ public class Main extends JavaPlugin {
 
         config.getConfig().addDefault("shop_message.1_buy", "%item_order%을 1개를 %buy_price%캐시로 구매하였습니다!");
         config.getConfig().addDefault("shop_message.1_sell", "%item_order% 1개를 %sell_price%캐시로 판매하였습니다!");
+
         config.getConfig().addDefault("shop_message.64_buy", "%item_order%을 64개를 %buy_price%캐시로 판매하였습니다!");
         config.getConfig().addDefault("shop_message.64_sell", "%item_order% 64개를 %sell_price%캐시로 판매하였습니다!");
 

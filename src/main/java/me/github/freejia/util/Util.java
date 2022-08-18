@@ -69,6 +69,35 @@ public class Util {
         return a;
     }
 
+    public static String buyreplace(String name, ItemStack item, String path, int buy_price) {
+        String a = Main.config.getString(path);
+
+        Main.Cash = new ConfigManager("shop/" + name);
+        if(item.hasItemMeta()){
+            a = a.replaceAll("%item_order%", item.getItemMeta().getDisplayName() + "");
+        } else{
+            a = a.replaceAll("%item_order%", item.getType().name() + "");
+
+        }
+        a = a.replaceAll("%buy_price%", buy_price + "");
+        a =  ChatColor.translateAlternateColorCodes('&', a);
+        return a;
+    }
+
+    public static String sellreplace(String name, ItemStack item, String path, int sell_price) {
+        String a = Main.config.getString(path);
+
+        Main.Cash = new ConfigManager("shop/" + name);
+        if(item.hasItemMeta()){
+            a = a.replaceAll("%item_order%", item.getItemMeta().getDisplayName() + "");
+        } else{
+            a = a.replaceAll("%item_order%", item.getType().name() + "");
+
+        }
+        a = a.replaceAll("%sell_price%", sell_price + "");
+        a =  ChatColor.translateAlternateColorCodes('&', a);
+        return a;
+    }
     public static String sellreplace(String name, String path, int sell_price) {
         String a = Main.config.getString(path);
 
