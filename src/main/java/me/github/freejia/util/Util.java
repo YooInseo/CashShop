@@ -117,6 +117,15 @@ public class Util {
         return a;
     }
 
+    public static String replace(String path ) {
+        String a = Main.config.getString(path);
+
+
+
+        a =  ChatColor.translateAlternateColorCodes('&', a);
+        return a;
+    }
+
 
     public static String replace(String name, String path, ItemStack item, int price) {
         String a = Main.config.getString(path);

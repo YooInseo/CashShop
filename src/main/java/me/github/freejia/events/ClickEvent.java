@@ -64,11 +64,12 @@ public class ClickEvent implements Listener {
                         case 12:
                             cashShop.setType(Type.BUY);
                             player.closeInventory();
-                            player.sendMessage("§a구매 가격을 입력해 주세요!");
+
+                            player.sendMessage(Util.replace("shop_message.chat_setting_buy_price"));
                             break;
                         case 14:
                             cashShop.setType(Type.SELL);
-                            player.sendMessage("§a판매 가격을 입력해 주세요!");
+                            player.sendMessage(Util.replace("shop_message.chat_setting_sell_price"));
                             player.closeInventory();
                             break;
                     }

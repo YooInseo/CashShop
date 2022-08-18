@@ -10,7 +10,7 @@ import me.github.freejia.data.object.Items;
 import me.github.freejia.data.object.log.AdminLog;
 import me.github.freejia.data.object.log.UserLog;
 import me.github.freejia.data.placeHolder.CashExpansion;
-import me.github.freejia.data.sql.MySql;
+
 import me.github.freejia.events.ChatEvent;
 import me.github.freejia.events.ClickEvent;
 import me.github.freejia.events.CloseEvent;
@@ -31,7 +31,6 @@ public class Main extends JavaPlugin {
     public static Main plugin;
 
     public static ConfigManager config;
-    public static ConfigManager database;
     public static ConfigManager Cash;
 
     public static ConfigManager UserLog;
@@ -50,10 +49,8 @@ public class Main extends JavaPlugin {
         }
 
         config = new ConfigManager("config");
-        database = new ConfigManager("database");
         plugin = this;
-        MySql mysql = new MySql();
-        mysql.Connect();
+
 
         new Cashcmd(this);
         new CashShopCmd(this);
@@ -75,7 +72,7 @@ public class Main extends JavaPlugin {
         Arrays.stream(events).forEach(classes -> {
             pm.registerEvents(classes, this);
         });
-        registerPlaceHolder();
+
 
     }
 
@@ -88,25 +85,9 @@ public class Main extends JavaPlugin {
         });
     }
 
-    public void registerPlaceHolder() {
-
-    }
 
 
     public void init() {
-        database.getConfig().options().copyDefaults();
-
-        database.getConfig().addDefault("Mysql.enabled", false);
-        database.getConfig().addDefault("Mysql.type", "HeidiSQL");
-        database.getConfig().addDefault("Mysql.mysql.host", "localhost");
-        database.getConfig().addDefault("Mysql.mysql.port", 3306);
-        database.getConfig().addDefault("Mysql.mysql.database", "minecraft");
-        database.getConfig().addDefault("Mysql.mysql.username", "admin");
-        database.getConfig().addDefault("Mysql.mysql.password", "");
-
-        database.getConfig().options().copyDefaults(true);
-        database.saveConfig();
-
         config.getConfig().options().copyDefaults();
 
         config.getConfig().addDefault("shop_message.1_buy", "%item_order%을 1개를 %buy_price%캐시로 구매하였습니다!");
@@ -115,6 +96,8 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("shop_message.64_buy", "%item_order%을 64개를 %buy_price%캐시로 판매하였습니다!");
         config.getConfig().addDefault("shop_message.64_sell", "%item_order% 64개를 %sell_price%캐시로 판매하였습니다!");
 
+        config.getConfig().addDefault("shop_message.chat_setting_buy_price", "&a구매가격을 입력해주세요!");
+        config.getConfig().addDefault("shop_message.chat_setting_sell_price", "&a판매가격을 입력해주세요!");
 
         config.getConfig().addDefault("cash_message.check", "보유중인 캐시: %cash%");
         config.getConfig().addDefault("cash_message.check_user", "%player%님의 보유중인 캐시: %cash%");
