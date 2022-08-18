@@ -103,9 +103,9 @@ public class Main extends JavaPlugin {
 
         config.getConfig().addDefault("cash_message.check", "보유중인 캐시: %cash%");
         config.getConfig().addDefault("cash_message.check_user", "%player%님의 보유중인 캐시: %cash%");
-        config.getConfig().addDefault("cash_message.send", "%player%님 에게 %cash%만큼의 캐시를 지급하였습니다!%");
-        config.getConfig().addDefault("cash_message.initalization", "%player%님의 캐시를 초기화하였습니다!%");
-        config.getConfig().addDefault("cash_message.remove", "%player%님의 캐시를 %cash%만큼 제거하였습니다!%");
+        config.getConfig().addDefault("cash_message.send", "%player%님 에게 %cash%만큼의 캐시를 지급하였습니다!");
+        config.getConfig().addDefault("cash_message.initalization", "%player%님의 캐시를 초기화하였습니다!");
+        config.getConfig().addDefault("cash_message.remove", "%player%님의 캐시를 %cash%만큼 제거하였습니다!");
         config.getConfig().addDefault("cash_message.set", "%player%님의 캐시를 %cash%로 설정하였습니다!");
 
         config.getConfig().addDefault("error_message.overflow", "캐시가 2147483647이상이 될 수 없습니다!");
