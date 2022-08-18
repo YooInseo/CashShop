@@ -117,7 +117,7 @@ public class CashShop implements ConfigurationSerializable {
 
     public void setType(Type type) {
         this.type = type;
-        Main.plugin.getLogger().info("" + type + isDefualt());
+
     }
 
     public boolean isDefualt() {

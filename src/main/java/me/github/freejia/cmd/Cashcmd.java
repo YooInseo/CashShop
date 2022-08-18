@@ -150,7 +150,7 @@ public class Cashcmd implements CommandExecutor {
                                         cash.setCash(amount);
                                         Main.Cash.getConfig().set("Cash", cash);
                                         Main.Cash.saveConfig();
-
+                                        saveLog(player,target,SendType.set,amount);
                                         player.sendMessage(Util.replace(player, amount, "cash_message.set"));
                                     } else{
                                         player.sendMessage(Main.config.getString("error_message.overflow"));
@@ -192,7 +192,7 @@ public class Cashcmd implements CommandExecutor {
         return false;
     }
 
-    public void saveLog(Player player, Player target,SendType sendType, long price) {
+    public void saveLog(Player player, Player target,SendType sendType, int price) {
         ConfigManager config = Main.AdminLog = new ConfigManager("log/admin/" + player.getUniqueId());
 
         AdminLog adminLog = new AdminLog(player,target,sendType,price);
