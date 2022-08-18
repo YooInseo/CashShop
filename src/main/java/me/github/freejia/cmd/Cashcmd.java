@@ -60,6 +60,7 @@ public class Cashcmd implements CommandExecutor {
 
                         if (args.length > 2) {
                             try {
+                                Main.Cash = new ConfigManager("data/" + target.getUniqueId());
                                 cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
                                 amount = Integer.parseInt(args[2]);
                                 if (amount + cash.getCash() <= Integer.MAX_VALUE - 1) {
@@ -189,7 +190,7 @@ public class Cashcmd implements CommandExecutor {
                         player.sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
                     break;
-                    
+
             }
         }
         return false;
