@@ -10,6 +10,7 @@ import me.github.freejia.data.object.Type;
 import me.github.freejia.data.object.log.UserLog;
 import me.github.freejia.util.Util;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -86,6 +87,7 @@ public class ClickEvent implements Listener {
 
                     Items item = cashShop.getItems().get(Data.select.get(player.getUniqueId()));
 
+
                     if (item.getSlot() == event.getSlot()) {
                         if (event.getClick().isLeftClick() && event.getClick().isShiftClick()) {
                             if (!Util.isInventoryFull(player)) {
@@ -102,10 +104,11 @@ public class ClickEvent implements Listener {
                                         player.sendMessage(Util.buyreplace(cashShop.getName(), itemStack, "shop_message.64_buy", item.getBuyprice() * 64));
 
                                     } else {
+                                        Sound(player,"cash_shop_message.cash_shop_message.buy_sound");
                                         player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
                                     }
                                 } else {
-
+                                    Sound(player,"cash_shop_message.imposibble_sound");
                                     player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
                                 }
 
@@ -124,9 +127,12 @@ public class ClickEvent implements Listener {
                                     saveLog(player, itemStack, 1, Type.BUY, item.getBuyprice(), itemStack);
 
                                 } else {
+                                    Sound(player,"cash_shop_message.cash_shop_message.buy_sound");
                                     player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
                                 }
                             } else {
+                                Sound(player,"cash_shop_message.imposibble_sound");
+
                                 player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
                             }
 
@@ -141,9 +147,12 @@ public class ClickEvent implements Listener {
                                     saveLog(player, itemStack, 64, Type.SELL, item.getBuyprice() * 64, itemStack);
                                     player.sendMessage(Util.sellreplace(cashShop.getName(), itemStack, "shop_message.64_sell", item.getSellprice() * 64));
                                 } else {
-                                    player.sendMessage(Main.config.getString("error_message.cant_buy_item"));
+                                    Sound(player,"cash_shop_message.sell_sound");
+                                    player.sendMessage(Main.config.getString("error_message.cant_sell_item"));
                                 }
                             } else {
+
+                                Sound(player,"cash_shop_message.imposibble_sound");
                                 player.sendMessage(Main.config.getString("error_message.cant_sell_impossible_item"));
                             }
 
@@ -156,8 +165,12 @@ public class ClickEvent implements Listener {
                                     Main.Cash.saveConfig();
                                     saveLog(player, itemStack, 1, Type.SELL, item.getBuyprice(), itemStack);
                                     player.sendMessage(Util.sellreplace(cashShop.getName(), itemStack, "shop_message.1_sell", item.getSellprice()));
+                                } else{
+                                    Sound(player,"cash_shop_message.sell_sound");
+                                    player.sendMessage(Main.config.getString("error_message.cant_sell_item"));
                                 }
                             } else {
+                                Sound(player,"cash_shop_message.imposibble_sound");
                                 player.sendMessage(Main.config.getString("error_message.cant_sell_impossible_item"));
                             }
 
@@ -189,6 +202,11 @@ public class ClickEvent implements Listener {
 
             config.saveConfig();
         }
+    }
+
+    public void Sound(Player player,String path){
+        Sound sound = Sound.valueOf(Main.config.getString(path));
+        player.playSound(player, sound, 1, 1);
     }
 
 }

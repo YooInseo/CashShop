@@ -16,6 +16,7 @@ import me.github.freejia.events.ClickEvent;
 import me.github.freejia.events.CloseEvent;
 import me.github.freejia.events.JoinEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -123,7 +124,7 @@ public class Main extends JavaPlugin {
 
         config.getConfig().addDefault("error_message.overflow", "캐시가 2147483647이상이 될 수 없습니다!");
         config.getConfig().addDefault("error_message.cant_buy_cash", "당신은 캐시가 부족하여 구매가 불가능합니다!");
-        config.getConfig().addDefault("error_message.cant_buy_item", "당신은 아이템이 부족하여 판매가 불가능합니다!");
+        config.getConfig().addDefault("error_message.cant_sell_item", "당신은 아이템이 부족하여 판매가 불가능합니다!");
         config.getConfig().addDefault("error_message.cant_inventory_slot", "인벤토리에 빈공간이 없어, 구매가 불가능합니다!");
         config.getConfig().addDefault("error_message.command_none_player", "플레이어 닉네임을 입력해주세요!");
         config.getConfig().addDefault("error_message.command_none_cash", "금액을 입력해주세요!");
@@ -157,6 +158,11 @@ public class Main extends JavaPlugin {
                 "&f[&b!&f] 쉬프트 + 우클릭: 64개 판매",
                 ""));
 
+        config.getConfig().addDefault("cash_shop_message.lore", "");
+
+        config.getConfig().addDefault("cash_shop_message.buy_sound", Sound.ENTITY_VILLAGER_NO.name());
+        config.getConfig().addDefault("cash_shop_message.sell_sound", Sound.ENTITY_VILLAGER_NO.name());
+        config.getConfig().addDefault("cash_shop_message.imposibble_sound", Sound.ENTITY_VILLAGER_NO.name());
         config.getConfig().addDefault("shop_price.gui", "구매가격/판매가격");
         config.getConfig().addDefault("shop_price.gui_size", 27);
         config.getConfig().addDefault("shop_price.buy_settings.item", "LIME_WOOL");
