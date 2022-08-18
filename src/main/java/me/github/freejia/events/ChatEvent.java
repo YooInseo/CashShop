@@ -22,7 +22,7 @@ public class ChatEvent implements Listener {
         if (Data.cashshop.containsKey(player.getUniqueId())) {
             try {
                 Integer amount = Integer.parseInt(event.getMessage());
-                if (amount > 0 || amount  == -1) {
+                if (amount >= 0 || amount  == -1) {
                     CashShop cashShop = Data.cashshop.get(player.getUniqueId());
 
                     if (!cashShop.isDefualt()) {

@@ -35,7 +35,10 @@ public class CashShopTabComplete implements TabCompleter {
             results.add("열기");
             return results;
         } else if (args.length == 2) {
-            add(files, results);
+            if(files != null){
+                add(files, results);
+            }
+
             return results;
         } else if (args.length == 3) {
 
@@ -56,9 +59,12 @@ public class CashShopTabComplete implements TabCompleter {
 
     public void add(File[] files, ArrayList<String> results) {
         for (File file : files) {
-            String name = FilenameUtils.getName(file.getPath());
-            name = name.replaceAll(".yml", "");
-            results.add(name);
+            if(file != null){
+                String name = FilenameUtils.getName(file.getPath());
+                name = name.replaceAll(".yml", "");
+                results.add(name);
+            }
+
         }
     }
 }

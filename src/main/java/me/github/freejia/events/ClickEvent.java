@@ -86,54 +86,74 @@ public class ClickEvent implements Listener {
 
                     Items item = cashShop.getItems().get(Data.select.get(player.getUniqueId()));
 
-
                     if (item.getSlot() == event.getSlot()) {
                         if (event.getClick().isLeftClick() && event.getClick().isShiftClick()) {
                             if (!Util.isInventoryFull(player)) {
-                                if (cash.Decrease(item.getBuyprice() * 64)) {
-                                    Main.Cash.getConfig().set("Cash", cash);
-                                    Main.Cash.saveConfig();
-                                    ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                    itemStack.setAmount(64);
-                                    player.getInventory().addItem(itemStack);
+                                if (item.getBuyprice() != -1 || item.getBuyprice() != 0) {
+                                    if (cash.Decrease(item.getBuyprice() * 64)) {
+                                        Main.Cash.getConfig().set("Cash", cash);
+                                        Main.Cash.saveConfig();
+                                        ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                        itemStack.setAmount(64);
+                                        player.getInventory().addItem(itemStack);
 
-                                    saveLog(player, itemStack, 64, Type.BUY,item.getBuyprice() * 64,itemStack);
+                                        saveLog(player, itemStack, 64, Type.BUY, item.getBuyprice() * 64, itemStack);
+                                    } else {
+                                        player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+                                    }
                                 } else {
-                                    player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+
+                                    player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
                                 }
+
                             } else {
                                 player.sendMessage(Main.config.getString("error_message.cant_inventory_slot"));
                             }
                         } else if (event.getClick().isLeftClick()) {
-                            if (cash.Decrease(item.getBuyprice())) {
-                                Main.Cash.getConfig().set("Cash", cash);
-                                Main.Cash.saveConfig();
-                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                itemStack.setAmount(1);
-                                player.getInventory().addItem(itemStack);
-                                saveLog(player, itemStack, 1,Type.BUY, item.getBuyprice(),itemStack );
-                            } else {
-                                player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+                            if (item.getBuyprice() != -1 || item.getBuyprice() != 0) {
+                                if (cash.Decrease(item.getBuyprice())) {
+                                    Main.Cash.getConfig().set("Cash", cash);
+                                    Main.Cash.saveConfig();
+                                    ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                    itemStack.setAmount(1);
+                                    player.getInventory().addItem(itemStack);
+                                    saveLog(player, itemStack, 1, Type.BUY, item.getBuyprice(), itemStack);
+                                } else {
+                                    player.sendMessage(Main.config.getString("error_message.cant_buy_cash"));
+                                }
+                            } else{
+                                player.sendMessage(Main.config.getString("error_message.cant_buy_impossible_item"));
                             }
 
+
                         } else if (event.getClick().isRightClick() && event.getClick().isShiftClick()) {
-                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                            if (Util.removeOne(player.getInventory(), itemStack, 64)) {
-                                cash.increase(item.getSellprice() * 64);
-                                Main.Cash.getConfig().set("Cash", cash);
-                                Main.Cash.saveConfig();
-                                saveLog(player, itemStack, 64, Type.SELL,item.getBuyprice() * 64,itemStack);
-                            } else {
-                                player.sendMessage(Main.config.getString("error_message.cant_buy_item"));
+                            if (item.getSellprice() != -1 || item.getBuyprice() != 0) {
+                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                if (Util.removeOne(player.getInventory(), itemStack, 64)) {
+                                    cash.increase(item.getSellprice() * 64);
+                                    Main.Cash.getConfig().set("Cash", cash);
+                                    Main.Cash.saveConfig();
+                                    saveLog(player, itemStack, 64, Type.SELL, item.getBuyprice() * 64, itemStack);
+                                } else {
+                                    player.sendMessage(Main.config.getString("error_message.cant_buy_item"));
+                                }
+                            } else{
+                                player.sendMessage(Main.config.getString("error_message.cant_sell_impossible_item"));
                             }
+
                         } else if (event.getClick().isRightClick()) {
-                            ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                            if (Util.removeOne(player.getInventory(), itemStack, 1)) {
-                                cash.increase(item.getSellprice());
-                                Main.Cash.getConfig().set("Cash", cash);
-                                Main.Cash.saveConfig();
-                                saveLog(player, itemStack, 1,Type.SELL,item.getBuyprice(),itemStack);
+                            if (item.getSellprice() != -1 || item.getBuyprice() != 0) {
+                                ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
+                                if (Util.removeOne(player.getInventory(), itemStack, 1)) {
+                                    cash.increase(item.getSellprice());
+                                    Main.Cash.getConfig().set("Cash", cash);
+                                    Main.Cash.saveConfig();
+                                    saveLog(player, itemStack, 1, Type.SELL, item.getBuyprice(), itemStack);
+                                }
+                            } else{
+                                player.sendMessage(Main.config.getString("error_message.cant_sell_impossible_item"));
                             }
+
                         }
                     }
                     event.setCancelled(true);
@@ -142,11 +162,11 @@ public class ClickEvent implements Listener {
         }
     }
 
-    public void saveLog(Player player, ItemStack items, int amount, Type type,int price,ItemStack item) {
+    public void saveLog(Player player, ItemStack items, int amount, Type type, int price, ItemStack item) {
         ConfigManager config = Main.UserLog = new ConfigManager("log/user/" + player.getUniqueId());
 
-        UserLog userlog = new UserLog(player,  amount, type,price,item);
-        player.sendMessage(items + "");
+        UserLog userlog = new UserLog(player, amount, type, price, item);
+
 
         if (!config.isExist()) {
             config.getConfig().set("Log", new ArrayList<UserLog>());

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -179,5 +180,13 @@ public class Util {
         Date date = new Date();
         String nowTime = format2.format(date);
         return nowTime;
+    }
+    public static String decal(long amount){
+        DecimalFormat decFormat = new DecimalFormat("###,###");
+
+        String str = decFormat.format(amount);
+        System.out.println(str);
+
+        return str;
     }
 }

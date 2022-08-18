@@ -4,6 +4,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.github.freejia.Main;
 import me.github.freejia.data.config.ConfigManager;
 import me.github.freejia.data.object.Cash;
+import me.github.freejia.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -56,7 +57,7 @@ public class CashExpansion extends PlaceholderExpansion {
             ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
             Cash cash = config.getConfig().getObject("Cash", Cash.class);
 
-            return String.valueOf(cash.getCash());
+            return Util.decal(cash.getCash());
         }
 
 
@@ -71,7 +72,7 @@ public class CashExpansion extends PlaceholderExpansion {
                 ConfigManager config = new ConfigManager("data/" + player.getUniqueId());
                 Cash cash = config.getConfig().getObject("Cash", Cash.class);
 
-                return String.valueOf(cash.getCash());
+                return Util.decal(cash.getCash()) ;
         }
 
         return null;
