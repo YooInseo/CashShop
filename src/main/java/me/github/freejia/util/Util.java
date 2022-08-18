@@ -214,7 +214,7 @@ public class Util {
         DecimalFormat decFormat = new DecimalFormat("###,###");
 
         String str = decFormat.format(amount);
-        System.out.println(str);
+
 
         return str;
     }
