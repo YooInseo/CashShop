@@ -10,6 +10,7 @@ import me.github.freejia.data.object.Type;
 import me.github.freejia.data.object.log.AdminLog;
 import me.github.freejia.data.object.log.UserLog;
 import me.github.freejia.util.Util;
+import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +62,7 @@ public class Cashcmd implements CommandExecutor {
                             try {
                                 cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
                                 amount = Integer.parseInt(args[2]);
-                                if(amount + cash.getCash()  <= Integer.MAX_VALUE - 1) {
+                                if (amount + cash.getCash() <= Integer.MAX_VALUE - 1) {
                                     Main.Cash = new ConfigManager("data/" + target.getUniqueId());
 
 
@@ -71,8 +73,8 @@ public class Cashcmd implements CommandExecutor {
 
                                     player.sendMessage(Util.replace(player, amount, "cash_message.send"));
 
-                                    saveLog(player,target,SendType.add,amount);
-                                }  else{
+                                    saveLog(player, target, SendType.add, amount);
+                                } else {
                                     player.sendMessage(Main.config.getString("error_message.overflow"));
                                 }
 
@@ -119,7 +121,7 @@ public class Cashcmd implements CommandExecutor {
                                     Main.Cash.saveConfig();
                                     player.sendMessage(Util.replace(player, amount, "cash_message.remove"));
 
-                                    saveLog(player,target,SendType.remove,amount);
+                                    saveLog(player, target, SendType.remove, amount);
                                 } else {
                                     player.sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }
@@ -146,13 +148,13 @@ public class Cashcmd implements CommandExecutor {
                                     cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
                                     amount = Integer.parseInt(args[2]);
 
-                                    if(amount <= Integer.MAX_VALUE - 1){
+                                    if (amount <= Integer.MAX_VALUE - 1) {
                                         cash.setCash(amount);
                                         Main.Cash.getConfig().set("Cash", cash);
                                         Main.Cash.saveConfig();
-                                        saveLog(player,target,SendType.set,amount);
+                                        saveLog(player, target, SendType.set, amount);
                                         player.sendMessage(Util.replace(player, amount, "cash_message.set"));
-                                    } else{
+                                    } else {
                                         player.sendMessage(Main.config.getString("error_message.overflow"));
                                     }
 
@@ -180,22 +182,23 @@ public class Cashcmd implements CommandExecutor {
                         cash.setCash(0);
                         Main.Cash.getConfig().set("Cash", cash);
                         Main.Cash.saveConfig();
-                        player.sendMessage(Util.replace(target,"cash_message.initalization"));
+                        player.sendMessage(Util.replace(target, "cash_message.initalization"));
 
-                        saveLog(player,target,SendType.initialization,0);
+                        saveLog(player, target, SendType.initialization, 0);
                     } else {
                         player.sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
                     break;
+                    
             }
         }
         return false;
     }
 
-    public void saveLog(Player player, Player target,SendType sendType, int price) {
+    public void saveLog(Player player, Player target, SendType sendType, int price) {
         ConfigManager config = Main.AdminLog = new ConfigManager("log/admin/" + player.getUniqueId());
 
-        AdminLog adminLog = new AdminLog(player,target,sendType,price);
+        AdminLog adminLog = new AdminLog(player, target, sendType, price);
 
 
         if (!config.isExist()) {

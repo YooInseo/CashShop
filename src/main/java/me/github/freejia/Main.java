@@ -99,6 +99,8 @@ public class Main extends JavaPlugin {
         config.getConfig().addDefault("shop_message.chat_setting_buy_price", "&a구매가격을 입력해주세요!");
         config.getConfig().addDefault("shop_message.chat_setting_sell_price", "&a판매가격을 입력해주세요!");
 
+        config.getConfig().addDefault("shop_message.reload_message", "&a콘피그를 정상적으로 리로드하였습니다!");
+
         config.getConfig().addDefault("cash_message.check", "보유중인 캐시: %cash%");
         config.getConfig().addDefault("cash_message.check_user", "%player%님의 보유중인 캐시: %cash%");
         config.getConfig().addDefault("cash_message.send", "%player%님 에게 %cash%만큼의 캐시를 지급하였습니다!%");

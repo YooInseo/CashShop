@@ -6,6 +6,7 @@ import me.github.freejia.data.object.CashShop;
 import me.github.freejia.data.config.ConfigManager;
 import me.github.freejia.data.Data;
 import me.github.freejia.util.Util;
+import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.List;
 
 public class CashShopCmd implements CommandExecutor {
@@ -31,7 +33,7 @@ public class CashShopCmd implements CommandExecutor {
         CashShop cashShop;
         if (args.length == 0) {
             List<String> messages = Main.config.getConfig().getStringList("cash_shop_message.main");
-            for(String message : messages){
+            for (String message : messages) {
                 player.sendMessage(message);
             }
         } else {
@@ -63,7 +65,7 @@ public class CashShopCmd implements CommandExecutor {
                             name = args[1];
                             if (args.length > 2) {
                                 int line = Integer.parseInt(args[2]);
-                                if(line <= 6 || line != 0  ){
+                                if (line <= 6 || line != 0) {
                                     shop = new ConfigManager("shop/" + name);
 
                                     cashShop = shop.getConfig().getObject("shop", CashShop.class);
@@ -130,19 +132,20 @@ public class CashShopCmd implements CommandExecutor {
 
 
                     break;
-
                 case "리로드":
-                    if (player.isOp()) {
-                        if (args.length > 1) {
-                            name = args[1];
-                            shop = new ConfigManager("shop/" + name);
 
-                            shop.reloadConfig();
-                        } else {
-                            player.sendMessage(Main.config.getString("error_message.shop_none_name"));
+                    File dir = new File(Main.plugin.getDataFolder() + "/shop/");
+                    File files[] = dir.listFiles();
+
+                    if (files != null) {
+                        for (File file : files) {
+                            String filename = FilenameUtils.getName(file.getPath());
+                            filename = filename.replaceAll(".yml", "");
+                            ConfigManager config = new ConfigManager("/shop/" + filename);
+                            config.reloadConfig();
                         }
+                        player.sendMessage(Util.replace("shop_message.reload_message"));
                     }
-
 
                     break;
                 case "열기":
@@ -172,8 +175,6 @@ public class CashShopCmd implements CommandExecutor {
                             player.sendMessage(Util.replace(name, "cash_shop_message.delete_shop"));
                         }
                     }
-
-
                     break;
             }
 

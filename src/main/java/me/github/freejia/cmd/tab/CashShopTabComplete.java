@@ -30,14 +30,20 @@ public class CashShopTabComplete implements TabCompleter {
                 results.add("GUI이름");
                 results.add("줄");
                 results.add("편집");
+                results.add("리로드");
             }
-
             results.add("열기");
             return results;
         } else if (args.length == 2) {
-            if(files != null){
-                add(files, results);
+
+            if(!args[0].equalsIgnoreCase("리로드")){
+                
+                if (files != null) {
+                    add(files, results);
+                }
             }
+
+
 
             return results;
         } else if (args.length == 3) {
@@ -59,7 +65,7 @@ public class CashShopTabComplete implements TabCompleter {
 
     public void add(File[] files, ArrayList<String> results) {
         for (File file : files) {
-            if(file != null){
+            if (file != null) {
                 String name = FilenameUtils.getName(file.getPath());
                 name = name.replaceAll(".yml", "");
                 results.add(name);
