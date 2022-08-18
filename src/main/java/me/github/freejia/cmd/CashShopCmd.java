@@ -122,7 +122,7 @@ public class CashShopCmd implements CommandExecutor {
                                 cashShop.setTitle(targetname);
                                 shop.getConfig().set("shop", cashShop);
                                 shop.saveConfig();
-                                shop.rename("shop/" + targetname);
+
                                 player.sendMessage(Util.replace(name, "cash_shop_message.setting_gui_name", targetname));
                             }
                         } else {
