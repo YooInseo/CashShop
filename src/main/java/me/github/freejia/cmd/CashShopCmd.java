@@ -136,7 +136,7 @@ public class CashShopCmd implements CommandExecutor {
 
                     File dir = new File(Main.plugin.getDataFolder() + "/shop/");
                     File files[] = dir.listFiles();
-
+                    Main.config.reloadConfig();
                     if (files != null) {
                         for (File file : files) {
                             String filename = FilenameUtils.getName(file.getPath());
