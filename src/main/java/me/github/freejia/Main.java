@@ -174,8 +174,8 @@ public class Main extends JavaPlugin {
 
         config.getConfig().addDefault("cash_shop_message.lore", "");
 
-        config.getConfig().addDefault("cash_shop_message.buy_sound", Sound.ENTITY_VILLAGER_NO.name());
-        config.getConfig().addDefault("cash_shop_message.sell_sound", Sound.ENTITY_VILLAGER_NO.name());
+        config.getConfig().addDefault("cash_shop_message.buy_sound", Sound.ENTITY_VILLAGER_YES.name());
+        config.getConfig().addDefault("cash_shop_message.sell_sound", Sound.ENTITY_VILLAGER_YES.name());
         config.getConfig().addDefault("cash_shop_message.imposibble_sound", Sound.ENTITY_VILLAGER_NO.name());
         config.getConfig().addDefault("shop_price.gui", "구매가격/판매가격");
         config.getConfig().addDefault("shop_price.gui_size", 27);
