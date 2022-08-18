@@ -72,7 +72,7 @@ public class Cashcmd implements CommandExecutor {
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
 
-                                    player.sendMessage(Util.replace(player, amount, "cash_message.send"));
+                                    player.sendMessage(Util.replace(target, amount, "cash_message.send"));
 
                                     saveLog(player, target, SendType.add, amount);
                                 } else {
@@ -120,7 +120,7 @@ public class Cashcmd implements CommandExecutor {
 
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
-                                    player.sendMessage(Util.replace(player, amount, "cash_message.remove"));
+                                    player.sendMessage(Util.replace(target, amount, "cash_message.remove"));
 
                                     saveLog(player, target, SendType.remove, amount);
                                 } else {
@@ -154,7 +154,7 @@ public class Cashcmd implements CommandExecutor {
                                         Main.Cash.getConfig().set("Cash", cash);
                                         Main.Cash.saveConfig();
                                         saveLog(player, target, SendType.set, amount);
-                                        player.sendMessage(Util.replace(player, amount, "cash_message.set"));
+                                        player.sendMessage(Util.replace(target, amount, "cash_message.set"));
                                     } else {
                                         player.sendMessage(Main.config.getString("error_message.overflow"));
                                     }
