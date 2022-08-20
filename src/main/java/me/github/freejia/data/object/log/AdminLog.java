@@ -48,6 +48,7 @@ public class AdminLog implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         HashMap<String, Object> map = new HashMap<>();
+
         map.put("sender", sendername);
         map.put("sendType", sendtypename);
         map.put("target", targetname);

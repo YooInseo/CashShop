@@ -12,9 +12,11 @@ import me.github.freejia.data.object.log.UserLog;
 import me.github.freejia.util.Util;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -29,30 +31,178 @@ public class Cashcmd implements CommandExecutor {
     public Cashcmd(Main plugin) {
         Bukkit.getPluginCommand("캐시").setExecutor(this);
         Bukkit.getPluginCommand("캐시").setTabCompleter(new CashTabComplete());
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "캐시 지급");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "캐시 설정");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "캐시 제거");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "캐시 초기화");
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player) sender;
+
         Player target;
         int amount;
 
-        Cash cash = new Cash(player);
 
-        if (args.length == 0) {
-            Main.Cash = new ConfigManager("data/" + player.getUniqueId());
-            cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
-            if (cash == null) {
-                cash = new Cash(player);
-                Main.Cash.getConfig().set("Cash", cash);
-                Main.Cash.saveConfig();
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            Cash cash = new Cash(player);
+            if (args.length == 0) {
+                Main.Cash = new ConfigManager("data/" + player.getUniqueId());
+                cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                if (cash == null) {
+                    cash = new Cash(player);
+                    Main.Cash.getConfig().set("Cash", cash);
+                    Main.Cash.saveConfig();
 
-                player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
-            } else {
-                player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
+                    player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
+                } else {
+                    player.sendMessage(Util.replace(player, cash.getCash(), "cash_message.check"));
+                }
+
+            } else if (player.isOp()) {
+                switch (args[0]) {
+                    case "지급":
+                        if (args.length > 1) {
+                            target = Bukkit.getPlayer(args[1]);
+
+                            if (args.length > 2) {
+                                try {
+                                    Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                                    cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                                    amount = Integer.parseInt(args[2]);
+                                    if (amount + cash.getCash() <= Integer.MAX_VALUE - 1) {
+                                        Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+
+
+                                        cash.increase(amount);
+
+                                        Main.Cash.getConfig().set("Cash", cash);
+                                        Main.Cash.saveConfig();
+
+                                        player.sendMessage(Util.replace(target, amount, "cash_message.send"));
+
+                                        saveLog(player, target, SendType.add, amount);
+                                    } else {
+                                        player.sendMessage(Main.config.getString("error_message.overflow"));
+                                    }
+
+                                } catch (NumberFormatException e) {
+                                    return false;
+                                }
+                            } else {
+                                player.sendMessage(Main.config.getString("error_message.command_none_cash"));
+                            }
+
+                        } else {
+                            player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        }
+
+
+                        break;
+
+                    case "확인":
+                        if (args.length > 1) {
+                            target = Bukkit.getPlayer(args[1]);
+
+                            Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+
+                            cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+
+                            player.sendMessage(Util.replace(target, cash.getCash(), "cash_message.check_user"));
+                        } else {
+                            player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        }
+                        break;
+
+                    case "제거":
+                        if (args.length > 1) {
+                            target = Bukkit.getPlayer(args[1]);
+                            try {
+                                if (target != null) {
+                                    if (args.length > 2) {
+                                        Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                                        cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                                        amount = Integer.parseInt(args[2]);
+                                        cash.Decrease(amount);
+
+                                        Main.Cash.getConfig().set("Cash", cash);
+                                        Main.Cash.saveConfig();
+                                        player.sendMessage(Util.replace(target, amount, "cash_message.remove"));
+
+                                        saveLog(player, target, SendType.remove, amount);
+                                    } else {
+                                        player.sendMessage(Main.config.getString("error_message.command_none_cash"));
+                                    }
+
+                                } else {
+                                    return false;
+                                }
+
+                            } catch (NumberFormatException e) {
+                                return false;
+                            }
+                        } else {
+                            player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        }
+                        break;
+                    case "설정":
+                        if (args.length > 1) {
+                            target = Bukkit.getPlayer(args[1]);
+
+                            try {
+                                if (target != null) {
+                                    if (args.length > 2) {
+                                        Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                                        cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                                        amount = Integer.parseInt(args[2]);
+
+                                        if (amount <= Integer.MAX_VALUE - 1) {
+                                            cash.setCash(amount);
+                                            Main.Cash.getConfig().set("Cash", cash);
+                                            Main.Cash.saveConfig();
+                                            saveLog(player, target, SendType.set, amount);
+                                            player.sendMessage(Util.replace(target, amount, "cash_message.set"));
+                                        } else {
+                                            player.sendMessage(Main.config.getString("error_message.overflow"));
+                                        }
+
+                                    } else {
+                                        player.sendMessage(Main.config.getString("error_message.command_none_cash"));
+                                    }
+
+                                } else {
+                                    return false;
+                                }
+
+                            } catch (NumberFormatException e) {
+                                return false;
+                            }
+                        } else {
+                            player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        }
+
+                        break;
+                    case "초기화":
+                        if (args.length > 1) {
+                            target = Bukkit.getPlayer(args[1]);
+                            Main.Cash = new ConfigManager("data/" + target.getUniqueId());
+                            cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
+                            cash.setCash(0);
+                            Main.Cash.getConfig().set("Cash", cash);
+                            Main.Cash.saveConfig();
+                            player.sendMessage(Util.replace(target, "cash_message.initalization"));
+
+                            saveLog(player, target, SendType.initialization, 0);
+                        } else {
+                            player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        }
+                        break;
+
+                }
             }
-
-        } else if (player.isOp()) {
+        } else if (sender instanceof ConsoleCommandSender) {
+            Cash cash;
             switch (args[0]) {
                 case "지급":
                     if (args.length > 1) {
@@ -72,22 +222,21 @@ public class Cashcmd implements CommandExecutor {
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
 
-                                    player.sendMessage(Util.replace(target, amount, "cash_message.send"));
-
-                                    saveLog(player, target, SendType.add, amount);
+                                    Bukkit.getConsoleSender().sendMessage(Util.replace(target, amount, "cash_message.send"));
+                                    savecmdLog(target,SendType.add,amount);
                                 } else {
-                                    player.sendMessage(Main.config.getString("error_message.overflow"));
+                                    Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.overflow"));
                                 }
 
                             } catch (NumberFormatException e) {
                                 return false;
                             }
                         } else {
-                            player.sendMessage(Main.config.getString("error_message.command_none_cash"));
+                            Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_cash"));
                         }
 
                     } else {
-                        player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
 
 
@@ -101,9 +250,9 @@ public class Cashcmd implements CommandExecutor {
 
                         cash = Main.Cash.getConfig().getObject("Cash", Cash.class);
 
-                        player.sendMessage(Util.replace(target, cash.getCash(), "cash_message.check_user"));
+                        Bukkit.getConsoleSender().sendMessage(Util.replace(target, cash.getCash(), "cash_message.check_user"));
                     } else {
-                        player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
                     break;
 
@@ -120,11 +269,10 @@ public class Cashcmd implements CommandExecutor {
 
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
-                                    player.sendMessage(Util.replace(target, amount, "cash_message.remove"));
-
-                                    saveLog(player, target, SendType.remove, amount);
+                                    Bukkit.getConsoleSender().sendMessage(Util.replace(target, amount, "cash_message.remove"));
+                                    savecmdLog(target,SendType.remove,amount);
                                 } else {
-                                    player.sendMessage(Main.config.getString("error_message.command_none_cash"));
+                                    Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }
 
                             } else {
@@ -135,7 +283,7 @@ public class Cashcmd implements CommandExecutor {
                             return false;
                         }
                     } else {
-                        player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
                     break;
                 case "설정":
@@ -153,14 +301,15 @@ public class Cashcmd implements CommandExecutor {
                                         cash.setCash(amount);
                                         Main.Cash.getConfig().set("Cash", cash);
                                         Main.Cash.saveConfig();
-                                        saveLog(player, target, SendType.set, amount);
-                                        player.sendMessage(Util.replace(target, amount, "cash_message.set"));
+
+                                        Bukkit.getConsoleSender().sendMessage(Util.replace(target, amount, "cash_message.set"));
+                                        savecmdLog(target,SendType.set,amount);
                                     } else {
-                                        player.sendMessage(Main.config.getString("error_message.overflow"));
+                                        Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.overflow"));
                                     }
 
                                 } else {
-                                    player.sendMessage(Main.config.getString("error_message.command_none_cash"));
+                                    Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }
 
                             } else {
@@ -171,7 +320,7 @@ public class Cashcmd implements CommandExecutor {
                             return false;
                         }
                     } else {
-                        player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
 
                     break;
@@ -183,16 +332,16 @@ public class Cashcmd implements CommandExecutor {
                         cash.setCash(0);
                         Main.Cash.getConfig().set("Cash", cash);
                         Main.Cash.saveConfig();
-                        player.sendMessage(Util.replace(target, "cash_message.initalization"));
-
-                        saveLog(player, target, SendType.initialization, 0);
+                        Bukkit.getConsoleSender().sendMessage(Util.replace(target, "cash_message.initalization"));
+                        savecmdLog(target,SendType.initialization,0);
                     } else {
-                        player.sendMessage(Main.config.getString("error_message.command_none_player"));
+                        Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
                     break;
-
             }
         }
+
+
         return false;
     }
 
@@ -213,6 +362,37 @@ public class Cashcmd implements CommandExecutor {
         } else {
             List<AdminLog> log = (List<AdminLog>) config.getConfig().getList("Log");
             log.add(adminLog);
+
+            config.saveConfig();
+        }
+    }
+
+    public void savecmdLog(OfflinePlayer target, SendType sendType, int price) {
+        ConfigManager config = Main.AdminLog = new ConfigManager("log/cmd/cmd");
+
+
+        if (!config.isExist()) {
+            config.getConfig().set("Log.target", new ArrayList<Player>());
+            config.getConfig().set("Log.type", new ArrayList<SendType>());
+            config.getConfig().set("Log.price", new ArrayList<Integer>());
+            List<String> targets = (List<String>) config.getConfig().getList("Log.target");
+            targets.add(target.getName());
+            List<String> types = (List<String>) config.getConfig().getList("Log.type");
+            types.add(sendType.name());
+            List<Integer> prices = (List<Integer>) config.getConfig().getList("Log.price");
+            prices.add(price);
+            Bukkit.getConsoleSender().sendMessage("test");
+            config.saveConfig();
+        } else {
+
+            List<String> targets = (List<String >) config.getConfig().getList("Log.target");
+            targets.add(target.getName());
+            List<String> types = (List<String>) config.getConfig().getList("Log.type");
+            types.add(sendType.name());
+            List<Integer> prices = (List<Integer>) config.getConfig().getList("Log.price");
+            prices.add(price);
+            Bukkit.getConsoleSender().sendMessage("test");
+            config.saveConfig();
 
             config.saveConfig();
         }
