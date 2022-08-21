@@ -31,10 +31,7 @@ public class Cashcmd implements CommandExecutor {
     public Cashcmd(Main plugin) {
         Bukkit.getPluginCommand("캐시").setExecutor(this);
         Bukkit.getPluginCommand("캐시").setTabCompleter(new CashTabComplete());
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "캐시 지급");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "캐시 설정");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "캐시 제거");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "캐시 초기화");
+
     }
 
     @Override
@@ -223,7 +220,7 @@ public class Cashcmd implements CommandExecutor {
                                     Main.Cash.saveConfig();
 
                                     Bukkit.getConsoleSender().sendMessage(Util.replace(target, amount, "cash_message.send"));
-                                    savecmdLog(target,SendType.add,amount);
+                                    savecmdLog(args[0],args[1],args[2]);
                                 } else {
                                     Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.overflow"));
                                 }
@@ -270,7 +267,7 @@ public class Cashcmd implements CommandExecutor {
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
                                     Bukkit.getConsoleSender().sendMessage(Util.replace(target, amount, "cash_message.remove"));
-                                    savecmdLog(target,SendType.remove,amount);
+                                    savecmdLog(args[0],args[1],args[2]);
                                 } else {
                                     Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_cash"));
                                 }
@@ -303,7 +300,7 @@ public class Cashcmd implements CommandExecutor {
                                         Main.Cash.saveConfig();
 
                                         Bukkit.getConsoleSender().sendMessage(Util.replace(target, amount, "cash_message.set"));
-                                        savecmdLog(target,SendType.set,amount);
+                                        savecmdLog(args[0],args[1],args[2]);
                                     } else {
                                         Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.overflow"));
                                     }
@@ -333,7 +330,7 @@ public class Cashcmd implements CommandExecutor {
                         Main.Cash.getConfig().set("Cash", cash);
                         Main.Cash.saveConfig();
                         Bukkit.getConsoleSender().sendMessage(Util.replace(target, "cash_message.initalization"));
-                        savecmdLog(target,SendType.initialization,0);
+                        savecmdLog(args[0],args[1],"");
                     } else {
                         Bukkit.getConsoleSender().sendMessage(Main.config.getString("error_message.command_none_player"));
                     }
@@ -367,31 +364,21 @@ public class Cashcmd implements CommandExecutor {
         }
     }
 
-    public void savecmdLog(OfflinePlayer target, SendType sendType, int price) {
+    public void savecmdLog(String args0,String args1,String args2) {
         ConfigManager config = Main.AdminLog = new ConfigManager("log/cmd/cmd");
 
 
         if (!config.isExist()) {
-            config.getConfig().set("Log.target", new ArrayList<Player>());
-            config.getConfig().set("Log.type", new ArrayList<SendType>());
-            config.getConfig().set("Log.price", new ArrayList<Integer>());
-            List<String> targets = (List<String>) config.getConfig().getList("Log.target");
-            targets.add(target.getName());
-            List<String> types = (List<String>) config.getConfig().getList("Log.type");
-            types.add(sendType.name());
-            List<Integer> prices = (List<Integer>) config.getConfig().getList("Log.price");
-            prices.add(price);
-            Bukkit.getConsoleSender().sendMessage("test");
+            config.getConfig().set("Log", new ArrayList<Player>());
+            List<String> targets = (List<String>) config.getConfig().getList("Log");
+            targets.add("/캐시 " + args0 + " " + args1 + " " + args2);
+
             config.saveConfig();
         } else {
 
-            List<String> targets = (List<String >) config.getConfig().getList("Log.target");
-            targets.add(target.getName());
-            List<String> types = (List<String>) config.getConfig().getList("Log.type");
-            types.add(sendType.name());
-            List<Integer> prices = (List<Integer>) config.getConfig().getList("Log.price");
-            prices.add(price);
-            Bukkit.getConsoleSender().sendMessage("test");
+            List<String> targets = (List<String >) config.getConfig().getList("Log");
+            targets.add("/캐시 " + args0 + " " + args1 + " " + args2);
+
             config.saveConfig();
 
             config.saveConfig();
