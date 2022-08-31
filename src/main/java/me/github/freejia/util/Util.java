@@ -1,5 +1,7 @@
 package me.github.freejia.util;
 
+import de.tr7zw.nbtapi.NBTCompound;
+import de.tr7zw.nbtapi.NBTItem;
 import me.github.freejia.Main;
 import me.github.freejia.data.config.ConfigManager;
 
@@ -16,12 +18,25 @@ import java.util.List;
 
 public class Util {
 
+    public static ItemStack AddNBTItem(ItemStack itemStack) {
+
+        NBTItem nbtItem = new NBTItem(itemStack);
+
+        if (nbtItem.hasCustomNbtData()) {
+             Object data = nbtItem.getItem();
+
+
+            return nbtItem.getItem();
+        } else {
+            return null;
+        }
+    }
 
     public static String replace(Player player, String path) {
         String a = Main.config.getString(path);
 
         a = a.replaceAll("%player%", player.getDisplayName());
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -32,7 +47,7 @@ public class Util {
 
         a = a.replaceAll("%cash%", cash + "");
         a = a.replaceAll("%player%", player.getDisplayName());
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -42,7 +57,7 @@ public class Util {
         Main.Cash = new ConfigManager("shop/" + name);
 
         a = a.replaceAll("%shopname%", name);
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -53,7 +68,7 @@ public class Util {
 
         a = a.replaceAll("%shopname%", name);
         a = a.replaceAll("%gui_size%", line + "");
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -65,7 +80,7 @@ public class Util {
 
 
         a = a.replaceAll("%buy_price%", buy_price + "");
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -73,14 +88,14 @@ public class Util {
         String a = Main.config.getString(path);
 
         Main.Cash = new ConfigManager("shop/" + name);
-        if(item.hasItemMeta()){
+        if (item.hasItemMeta()) {
             a = a.replaceAll("%item_order%", item.getItemMeta().getDisplayName() + "");
-        } else{
+        } else {
             a = a.replaceAll("%item_order%", item.getType().name() + "");
 
         }
         a = a.replaceAll("%buy_price%", buy_price + "");
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -88,16 +103,17 @@ public class Util {
         String a = Main.config.getString(path);
 
         Main.Cash = new ConfigManager("shop/" + name);
-        if(item.hasItemMeta()){
+        if (item.hasItemMeta()) {
             a = a.replaceAll("%item_order%", item.getItemMeta().getDisplayName() + "");
-        } else{
+        } else {
             a = a.replaceAll("%item_order%", item.getType().name() + "");
 
         }
         a = a.replaceAll("%sell_price%", sell_price + "");
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
+
     public static String sellreplace(String name, String path, int sell_price) {
         String a = Main.config.getString(path);
 
@@ -106,6 +122,7 @@ public class Util {
         a = a.replaceAll("%sell_price%", sell_price + "");
         return a;
     }
+
     public static String replace(String name, String path, String target) {
         String a = Main.config.getString(path);
 
@@ -113,16 +130,15 @@ public class Util {
 
         a = a.replaceAll("%shopname%", name);
         a = a.replaceAll("%changename%", target + "");
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
-    public static String replace(String path ) {
+    public static String replace(String path) {
         String a = Main.config.getString(path);
 
 
-
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -131,14 +147,14 @@ public class Util {
         String a = Main.config.getString(path);
 
         Main.Cash = new ConfigManager("shop/" + name);
-        if(item.hasItemMeta()){
+        if (item.hasItemMeta()) {
             a = a.replaceAll("%item_order%", item.getItemMeta().getDisplayName());
-        } else{
+        } else {
             a = a.replaceAll("%item_order%", item.getType().name());
         }
 
         a = a.replaceAll("%buy_price%", price + "");
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -147,13 +163,13 @@ public class Util {
 
         Main.Cash = new ConfigManager("shop/" + name);
 
-        if(item.hasItemMeta()){
+        if (item.hasItemMeta()) {
             a = a.replaceAll("%item_order%", item.getItemMeta().getDisplayName());
-        } else{
+        } else {
             a = a.replaceAll("%item_order%", item.getType().name());
         }
         a = a.replaceAll("%sell_price%", price + "");
-        a =  ChatColor.translateAlternateColorCodes('&', a);
+        a = ChatColor.translateAlternateColorCodes('&', a);
         return a;
     }
 
@@ -172,7 +188,7 @@ public class Util {
         return newArray;
     }
 
-    public static List<String> replace(List<String> arrays ) {
+    public static List<String> replace(List<String> arrays) {
 
         List<String> newArray = new ArrayList<>();
         for (String array : arrays) {
@@ -182,8 +198,8 @@ public class Util {
 
         return newArray;
     }
-    public static boolean isInventoryFull(Player p)
-    {
+
+    public static boolean isInventoryFull(Player p) {
         int slot = p.getInventory().firstEmpty();
 
         return slot == -1;
@@ -191,19 +207,19 @@ public class Util {
 
     public static boolean removeOne(Inventory inventory, ItemStack item, int amount) {
         int size = inventory.getSize();
-        for (int i = 0; i < size; i ++) {
+        for (int i = 0; i < size; i++) {
             ItemStack other = inventory.getItem(i);
             if (item.isSimilar(other)) {
 
                 if (amount == 64) {
-                    if(other.getAmount() == 64){
+                    if (other.getAmount() == 64) {
                         other.setAmount(other.getAmount() - amount);
                         return true;
-                    } else{
+                    } else {
                         return false;
                     }
 
-                } else if(amount == 1){
+                } else if (amount == 1) {
                     other.setAmount(other.getAmount() - amount);
                     return true;
                 }
@@ -213,13 +229,15 @@ public class Util {
         }
         return false;
     }
+
     public static String getDate() {
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy년 MM월dd일 HH시mm분ss초");
         Date date = new Date();
         String nowTime = format2.format(date);
         return nowTime;
     }
-    public static String decal(long amount){
+
+    public static String decal(long amount) {
         DecimalFormat decFormat = new DecimalFormat("###,###");
 
         String str = decFormat.format(amount);

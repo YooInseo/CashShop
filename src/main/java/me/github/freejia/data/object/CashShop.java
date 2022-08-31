@@ -85,9 +85,12 @@ public class CashShop implements ConfigurationSerializable {
 
                 for (Items items : items) {
                     if (items != null) {
-                        ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
-                        itemStack.setAmount(items.getAmount());
 
+                        ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+                        ItemMeta itemmeta = itemStack.getItemMeta();
+                        itemmeta.setDisplayName(items.getName());
+                        itemStack.setAmount(items.getAmount());
+                        itemStack.setItemMeta(itemmeta);
                         inv.setItem(items.getSlot(), itemStack);
                     }
 
@@ -133,22 +136,22 @@ public class CashShop implements ConfigurationSerializable {
             ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
             List<String> lores = Main.config.getConfig().getStringList("cash_shop_message.defualt_lore");
 
+
             ItemMeta meta = itemStack.getItemMeta();
+            meta.setDisplayName(items.getName());
             meta.setLore(Util.replace(lores, items.getBuyprice(), items.getSellprice()));
             itemStack.setItemMeta(meta);
-
             itemStack.setAmount(items.getAmount());
-
-
             inv.setItem(items.getSlot(), itemStack);
 
-            if(items.getBuyprice() == -1 && items.getSellprice() == -1 ){
+            if (items.getBuyprice() == -1 && items.getSellprice() == -1) {
 
                 ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
                 List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.both");
 
                 ItemMeta cantmeta = cantitemStack.getItemMeta();
                 cantmeta.setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()));
+                cantmeta.setDisplayName(items.getName());
                 itemStack.setItemMeta(cantmeta);
 
                 itemStack.setAmount(items.getAmount());
@@ -162,12 +165,13 @@ public class CashShop implements ConfigurationSerializable {
 
                 ItemMeta cantmeta = cantitemStack.getItemMeta();
                 cantmeta.setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()));
+                cantmeta.setDisplayName(items.getName());
                 itemStack.setItemMeta(cantmeta);
 
                 itemStack.setAmount(items.getAmount());
                 inv.setItem(items.getSlot(), itemStack);
 
-            } else if (items.getBuyprice() == -1 ) {
+            } else if (items.getBuyprice() == -1) {
 
                 ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
                 List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.cant_buy");
@@ -193,26 +197,52 @@ public class CashShop implements ConfigurationSerializable {
         CashShop cashshop = shop.getConfig().getObject("shop", CashShop.class);
 
         List<Items> items = new ArrayList<>();
-
+        int index = cashshop.items.size();
         for (int i = 0; i < line * 9; i++) {
+
             ItemStack itemStack = EditorInv.getItem(i);
-
             if (itemStack != null) {
-                Items item = new Items(itemStack, i);
+                List<Items> array = cashshop.items; // 아이템을 지우기 전, 정보를 전달
 
+                Items item;
+
+                item = new Items(itemStack, i);
+
+                item.setSlot(i);
+                for (Items newarray : array) {
+                    if (newarray.getSlot() == item.getSlot()) {
+                        item.setBuyprice(newarray.getBuyprice());
+                        item.setSellprice(newarray.getSellprice());
+                    }
+                }
                 items.add(item);
 
-                //인벤토리의 사이즈와, 원래 있던 list의 사이즈를 비교하여 더 커졌으면, 더 커진만큼만 add시킴.
+                if (cashshop.items.size() != 0) {
+                    if (items.size() == cashshop.items.size()) { // 아이템이 증가 혹은 감소가 되지 않았을 경우.
 
-                if (i >= cashshop.items.size()) {
-                    int index = items.size() - 1;
-                    items.get(index).setSellprice(-1);
-                    items.get(index).setBuyprice(-1);
-                    cashshop.items.add(items.get(index));
-                    shop.getConfig().set("shop", cashshop);
-                    shop.saveConfig();
+
+                        cashshop.items.clear();
+                        for (Items newitems : items) {
+
+                            cashshop.items.add(newitems);
+                            player.sendMessage(newitems.getBuyprice() + "");
+                        }
+                    } else {
+                        if (items.size() >= cashshop.items.size()) { // GUI에 있는 아이템 사이즈가 List에 있는 사이즈보다 클때
+                            index++;
+                            cashshop.items.add(item);
+                        }
+                    }
+                } else { // List에 있는 사이즈가 0 일때
+                    index = 0;
+                    if (items.size() != index) {
+                        index++;
+                        Items newitem = items.get(index - 1);
+                        cashshop.items.add(newitem);
+                    }
                 }
-
+                shop.getConfig().set("shop", cashshop);
+                shop.saveConfig();
             } else { // Inventory 아이템이 null일 경우, 원래 list에 있던 아이템인지 체크 후 있으면 원래 list에서 삭제.
                 for (int size = 0; size < cashshop.getItems().size(); size++) {
                     Items item = cashshop.getItems().get(size);
@@ -220,6 +250,7 @@ public class CashShop implements ConfigurationSerializable {
                         cashshop.items.remove(item);
                         shop.getConfig().set("shop", cashshop);
                         shop.saveConfig();
+
                     }
                 }
             }

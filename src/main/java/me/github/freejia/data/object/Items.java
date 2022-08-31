@@ -45,7 +45,12 @@ public class Items implements ConfigurationSerializable {
         this.sellprice = sellprice;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Items(ItemStack item, int slot) {
+
         if(item.hasItemMeta()){
             ItemMeta itemmeta = item.getItemMeta();
             name = itemmeta.getDisplayName();
@@ -95,6 +100,7 @@ public class Items implements ConfigurationSerializable {
     public String getMaterial() {
         return material;
     }
+
 
     public String getName() {
         return name;

@@ -6,11 +6,12 @@ import me.github.freejia.data.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
 public class CloseEvent implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         if (Data.cashshop.containsKey(player.getUniqueId())) {
@@ -29,6 +30,8 @@ public class CloseEvent implements Listener {
                     }
 
                 } else if (cashshop.getEditorInv() != null) {
+
+
                     if(cashshop.getEditorInv().equals(event.getInventory())){
                         cashshop.saveItem();
 
