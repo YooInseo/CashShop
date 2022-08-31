@@ -97,8 +97,7 @@ public class ClickEvent implements Listener {
                                         Main.Cash.getConfig().set("Cash", cash);
                                         Main.Cash.saveConfig();
                                         ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                        itemStack.setAmount(64);
-                                        player.getInventory().addItem(itemStack);
+                                        addItem(player,itemStack,item,64);
 
                                         saveLog(player, itemStack, 64, Type.BUY, item.getBuyprice() * 64, itemStack);
 
@@ -122,8 +121,7 @@ public class ClickEvent implements Listener {
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
                                     ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                    itemStack.setAmount(1);
-                                    player.getInventory().addItem(itemStack);
+                                    addItem(player,itemStack,item,1);
                                     player.sendMessage(Util.buyreplace(cashShop.getName(), itemStack, "shop_message.1_buy", item.getBuyprice()));
                                     saveLog(player, itemStack, 1, Type.BUY, item.getBuyprice(), itemStack);
                                     Sound(player,"cash_shop_message.buy_sound");
@@ -210,6 +208,11 @@ public class ClickEvent implements Listener {
     public void Sound(Player player,String path){
         Sound sound = Sound.valueOf(Main.config.getString(path));
         player.playSound(player, sound, 1, 1);
+    }
+    public void addItem(Player player,ItemStack itemStack,Items item, int amount){
+        itemStack.setItemMeta(item.getMeta());
+        itemStack.setAmount(amount);
+        player.getInventory().addItem(itemStack);
     }
 
 }

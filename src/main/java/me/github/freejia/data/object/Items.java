@@ -28,6 +28,7 @@ public class Items implements ConfigurationSerializable {
 
     private int buyprice;
 
+    private ItemStack item;
     public void setBuyprice(int buyprice) {
         this.buyprice = buyprice;
 
@@ -45,12 +46,14 @@ public class Items implements ConfigurationSerializable {
         this.sellprice = sellprice;
     }
 
-    public void setName(String name) {
-        this.name = name;
+
+
+    public ItemStack getItem() {
+        return item;
     }
 
     public Items(ItemStack item, int slot) {
-
+        this.item = item;
         if(item.hasItemMeta()){
             ItemMeta itemmeta = item.getItemMeta();
             name = itemmeta.getDisplayName();
@@ -65,6 +68,10 @@ public class Items implements ConfigurationSerializable {
         this.slot = slot;
     }
 
+    public void setItem(ItemStack item) {
+        this.item = item;
+    }
+
     public Items(String name, String material, List<String> lore, ItemMeta meta, int slot, int Amount, int sellprice, int buyprice) {
         this.name = name;
         this.material = material;
@@ -75,6 +82,11 @@ public class Items implements ConfigurationSerializable {
         this.sellprice = sellprice;
         this.buyprice = buyprice;
     }
+
+    public void setMeta(ItemMeta meta) {
+        this.meta = meta;
+    }
+
 
     public void setSlot(int slot) {
         slot = slot;

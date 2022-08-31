@@ -85,12 +85,9 @@ public class CashShop implements ConfigurationSerializable {
 
                 for (Items items : items) {
                     if (items != null) {
-
                         ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
-                        ItemMeta itemmeta = itemStack.getItemMeta();
-                        itemmeta.setDisplayName(items.getName());
                         itemStack.setAmount(items.getAmount());
-                        itemStack.setItemMeta(itemmeta);
+                        itemStack.setItemMeta(items.getMeta());
                         inv.setItem(items.getSlot(), itemStack);
                     }
 
@@ -100,14 +97,10 @@ public class CashShop implements ConfigurationSerializable {
                 player.openInventory(EditorInv);
             }
         } else {
-
             Inventory inv = Bukkit.createInventory(null, line * 9, "Editor : " + name);
-
 
             this.EditorTitle = "Editor : " + name;
             this.EditorInv = inv;
-
-            player.sendMessage("test");
 
             player.openInventory(inv);
         }
@@ -202,30 +195,27 @@ public class CashShop implements ConfigurationSerializable {
 
             ItemStack itemStack = EditorInv.getItem(i);
             if (itemStack != null) {
-                List<Items> array = cashshop.items; // 아이템을 지우기 전, 정보를 전달
-
+                List<Items> original = cashshop.items; // 아이템을 지우기 전, 정보를 전달
                 Items item;
-
-                item = new Items(itemStack, i);
-
+                item = new Items(Util.AddNBTItem(itemStack, "meta"), i);
                 item.setSlot(i);
-                for (Items newarray : array) {
-                    if (newarray.getSlot() == item.getSlot()) {
+                items.add(item);
+
+                int indexof = items.indexOf(item); //새로운 아이템의 index를 불러온다.
+                for (Items newarray : original) { //original의 모든 값을 불러온다.
+                    int newindexof = original.indexOf(newarray); //기존의 아이템의 index를 불러온다.
+                    if (newindexof == indexof) { //새로운 아이템의 index와 기존 리스트의 index가 같을 경우,
+                        item.setMeta(newarray.getMeta());
                         item.setBuyprice(newarray.getBuyprice());
                         item.setSellprice(newarray.getSellprice());
                     }
                 }
-                items.add(item);
 
                 if (cashshop.items.size() != 0) {
                     if (items.size() == cashshop.items.size()) { // 아이템이 증가 혹은 감소가 되지 않았을 경우.
-
-
                         cashshop.items.clear();
                         for (Items newitems : items) {
-
                             cashshop.items.add(newitems);
-                            player.sendMessage(newitems.getBuyprice() + "");
                         }
                     } else {
                         if (items.size() >= cashshop.items.size()) { // GUI에 있는 아이템 사이즈가 List에 있는 사이즈보다 클때

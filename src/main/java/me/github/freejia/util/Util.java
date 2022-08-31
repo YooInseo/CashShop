@@ -6,6 +6,7 @@ import me.github.freejia.Main;
 import me.github.freejia.data.config.ConfigManager;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -18,18 +19,22 @@ import java.util.List;
 
 public class Util {
 
-    public static ItemStack AddNBTItem(ItemStack itemStack) {
+    public static ItemStack AddNBTItem(ItemStack itemStack,String name) {
 
         NBTItem nbtItem = new NBTItem(itemStack);
+        if(!itemStack.getType().equals(Material.AIR)){
+            if (nbtItem.hasCustomNbtData()) {
+                NBTCompound comp = nbtItem.getCompound(name);
+                comp.getString("Time");
+                comp.getBoolean("forever");
+                System.out.println(comp.getBoolean("forever"));
 
-        if (nbtItem.hasCustomNbtData()) {
-             Object data = nbtItem.getItem();
-
-
-            return nbtItem.getItem();
-        } else {
-            return null;
+                return nbtItem.getItem();
+            } else {
+                return itemStack;
+            }
         }
+        return null;
     }
 
     public static String replace(Player player, String path) {
