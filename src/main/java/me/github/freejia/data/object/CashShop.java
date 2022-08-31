@@ -195,19 +195,22 @@ public class CashShop implements ConfigurationSerializable {
 
             ItemStack itemStack = EditorInv.getItem(i);
             if (itemStack != null) {
-                List<Items> original = cashshop.items; // 아이템을 지우기 전, 정보를 전달
+                List<Items> originals = cashshop.items; // 아이템을 지우기 전, 정보를 전달
                 Items item;
-                item = new Items(Util.AddNBTItem(itemStack, "meta"), i);
+                item = new Items(Util.AddNBTItem(itemStack), i);
                 item.setSlot(i);
                 items.add(item);
 
                 int indexof = items.indexOf(item); //새로운 아이템의 index를 불러온다.
-                for (Items newarray : original) { //original의 모든 값을 불러온다.
-                    int newindexof = original.indexOf(newarray); //기존의 아이템의 index를 불러온다.
+                for (Items original : originals) { //original의 모든 값을 불러온다.
+                    int newindexof = originals.indexOf(original); //기존의 아이템의 index를 불러온다.
                     if (newindexof == indexof) { //새로운 아이템의 index와 기존 리스트의 index가 같을 경우,
-                        item.setMeta(newarray.getMeta());
-                        item.setBuyprice(newarray.getBuyprice());
-                        item.setSellprice(newarray.getSellprice());
+                        if(item.getMeta() != null){
+                            item.setMeta(original.getMeta());
+                        }
+
+                        item.setBuyprice(original.getBuyprice());
+                        item.setSellprice(original.getSellprice());
                     }
                 }
 

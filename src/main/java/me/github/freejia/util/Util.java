@@ -19,15 +19,11 @@ import java.util.List;
 
 public class Util {
 
-    public static ItemStack AddNBTItem(ItemStack itemStack,String name) {
+    public static ItemStack AddNBTItem(ItemStack itemStack) {
 
         NBTItem nbtItem = new NBTItem(itemStack);
         if(!itemStack.getType().equals(Material.AIR)){
             if (nbtItem.hasCustomNbtData()) {
-                NBTCompound comp = nbtItem.getCompound(name);
-                comp.getString("Time");
-                comp.getBoolean("forever");
-                System.out.println(comp.getBoolean("forever"));
 
                 return nbtItem.getItem();
             } else {

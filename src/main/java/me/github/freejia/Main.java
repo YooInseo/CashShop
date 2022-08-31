@@ -49,7 +49,7 @@ public class Main extends JavaPlugin {
         }
 
         config = new ConfigManager("config");
-         plugin = this;
+        plugin = this;
 
 
         new Cashcmd(this);
@@ -84,7 +84,6 @@ public class Main extends JavaPlugin {
             }
         });
     }
-
 
 
     public void init() {

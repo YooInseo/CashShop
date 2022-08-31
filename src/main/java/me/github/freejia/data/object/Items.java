@@ -84,6 +84,7 @@ public class Items implements ConfigurationSerializable {
     }
 
     public void setMeta(ItemMeta meta) {
+
         this.meta = meta;
     }
 
