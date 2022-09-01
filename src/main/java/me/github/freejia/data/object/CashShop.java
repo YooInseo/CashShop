@@ -86,8 +86,11 @@ public class CashShop implements ConfigurationSerializable {
                 for (Items items : items) {
                     if (items != null) {
                         ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+
                         itemStack.setAmount(items.getAmount());
+
                         itemStack.setItemMeta(items.getMeta());
+
                         inv.setItem(items.getSlot(), itemStack);
                     }
 
@@ -125,63 +128,41 @@ public class CashShop implements ConfigurationSerializable {
         Inventory inv = Bukkit.createInventory(null, line * 9, name);
 
         for (Items items : items) {
-
-            ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
             List<String> lores = Main.config.getConfig().getStringList("cash_shop_message.defualt_lore");
 
-
-            ItemMeta meta = itemStack.getItemMeta();
-            meta.setDisplayName(items.getName());
-            meta.setLore(Util.replace(lores, items.getBuyprice(), items.getSellprice()));
-            itemStack.setItemMeta(meta);
-            itemStack.setAmount(items.getAmount());
-            inv.setItem(items.getSlot(), itemStack);
+            setLore(Util.replace(lores), items, inv);
 
             if (items.getBuyprice() == -1 && items.getSellprice() == -1) {
-
-                ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
                 List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.both");
 
-                ItemMeta cantmeta = cantitemStack.getItemMeta();
-                cantmeta.setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()));
-                cantmeta.setDisplayName(items.getName());
-                itemStack.setItemMeta(cantmeta);
-
-                itemStack.setAmount(items.getAmount());
-
-
-                inv.setItem(items.getSlot(), itemStack);
+                setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()), items, inv);
             } else if (items.getSellprice() == -1) {
-
-                ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
                 List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.cant_sell");
-
-                ItemMeta cantmeta = cantitemStack.getItemMeta();
-                cantmeta.setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()));
-                cantmeta.setDisplayName(items.getName());
-                itemStack.setItemMeta(cantmeta);
-
-                itemStack.setAmount(items.getAmount());
-                inv.setItem(items.getSlot(), itemStack);
+                setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()), items, inv);
 
             } else if (items.getBuyprice() == -1) {
-
-                ItemStack cantitemStack = new ItemStack(Material.valueOf(items.getMaterial()));
                 List<String> cantlores = Main.config.getConfig().getStringList("cash_shop_message.cant_buy");
-
-                ItemMeta cantmeta = cantitemStack.getItemMeta();
-                cantmeta.setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()));
-                itemStack.setItemMeta(cantmeta);
-
-                itemStack.setAmount(items.getAmount());
-
-
-                inv.setItem(items.getSlot(), itemStack);
+                setLore(Util.replace(cantlores, items.getBuyprice(), items.getSellprice()), items, inv);
             }
+        }
+        player.openInventory(inv);
+    }
 
+    public void setLore(List<String> lores, Items items, Inventory inv) {
+
+        ItemStack itemStack = new ItemStack(Material.valueOf(items.getMaterial()));
+        if (items.getMeta() != null) {
+            ItemMeta meta = items.getMeta();
+            meta.setLore(Util.replace(lores, items.getBuyprice(), items.getSellprice()));
+            itemStack.setItemMeta(meta);
+        } else{
+            ItemMeta meta = itemStack.getItemMeta();
+            meta.setLore(Util.replace(lores, items.getBuyprice(), items.getSellprice()));
+            itemStack.setAmount(items.getAmount());
+            itemStack.setItemMeta(meta);
         }
 
-        player.openInventory(inv);
+        inv.setItem(items.getSlot(), itemStack);
     }
 
     public void saveItem() {
@@ -202,22 +183,19 @@ public class CashShop implements ConfigurationSerializable {
                 items.add(item);
 
                 int indexof = items.indexOf(item); //새로운 아이템의 index를 불러온다.
-                for (Items original : originals) { //original의 모든 값을 불러온다.
-                    int newindexof = originals.indexOf(original); //기존의 아이템의 index를 불러온다.
-                    if (newindexof == indexof) { //새로운 아이템의 index와 기존 리스트의 index가 같을 경우,
-                        if(item.getMeta() != null){
-                            item.setMeta(original.getMeta());
-                        }
 
-                        item.setBuyprice(original.getBuyprice());
-                        item.setSellprice(original.getSellprice());
-                    }
+                if (originals.size() > indexof) {
+                    Items Original = originals.get(indexof);
+                    item.setBuyprice(Original.getBuyprice());
+                    item.setSellprice(Original.getSellprice());
                 }
+
 
                 if (cashshop.items.size() != 0) {
                     if (items.size() == cashshop.items.size()) { // 아이템이 증가 혹은 감소가 되지 않았을 경우.
                         cashshop.items.clear();
                         for (Items newitems : items) {
+
                             cashshop.items.add(newitems);
                         }
                     } else {
@@ -236,6 +214,7 @@ public class CashShop implements ConfigurationSerializable {
                 }
                 shop.getConfig().set("shop", cashshop);
                 shop.saveConfig();
+
             } else { // Inventory 아이템이 null일 경우, 원래 list에 있던 아이템인지 체크 후 있으면 원래 list에서 삭제.
                 for (int size = 0; size < cashshop.getItems().size(); size++) {
                     Items item = cashshop.getItems().get(size);

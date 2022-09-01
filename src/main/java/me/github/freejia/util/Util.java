@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -22,9 +23,10 @@ public class Util {
     public static ItemStack AddNBTItem(ItemStack itemStack) {
 
         NBTItem nbtItem = new NBTItem(itemStack);
+        ItemMeta meta = itemStack.getItemMeta();
         if(!itemStack.getType().equals(Material.AIR)){
             if (nbtItem.hasCustomNbtData()) {
-
+                itemStack.setItemMeta(meta);
                 return nbtItem.getItem();
             } else {
                 return itemStack;

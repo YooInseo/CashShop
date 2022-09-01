@@ -19,6 +19,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +98,9 @@ public class ClickEvent implements Listener {
                                         Main.Cash.getConfig().set("Cash", cash);
                                         Main.Cash.saveConfig();
                                         ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                        addItem(player,itemStack,item,64);
+
+                                        Price(player,event.getSlot(),64);
+                                        player.sendMessage("Test");
 
                                         saveLog(player, itemStack, 64, Type.BUY, item.getBuyprice() * 64, itemStack);
 
@@ -120,8 +123,9 @@ public class ClickEvent implements Listener {
                                 if (cash.Decrease(item.getBuyprice())) {
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
+                                    Price(player,event.getSlot(),1);
                                     ItemStack itemStack = new ItemStack(Material.valueOf(item.getMaterial()));
-                                    addItem(player,itemStack,item,1);
+
                                     player.sendMessage(Util.buyreplace(cashShop.getName(), itemStack, "shop_message.1_buy", item.getBuyprice()));
                                     saveLog(player, itemStack, 1, Type.BUY, item.getBuyprice(), itemStack);
                                     Sound(player,"cash_shop_message.buy_sound");
@@ -143,7 +147,7 @@ public class ClickEvent implements Listener {
                                     cash.increase(item.getSellprice() * 64);
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
-                                    saveLog(player, itemStack, 64, Type.SELL, item.getBuyprice() * 64, itemStack);
+                                    saveLog(player, itemStack, 64, Type.SELL, item.getSellprice() * 64, itemStack);
                                     player.sendMessage(Util.sellreplace(cashShop.getName(), itemStack, "shop_message.64_sell", item.getSellprice() * 64));
                                     Sound(player,"cash_shop_message.sell_sound");
                                 } else {
@@ -163,7 +167,7 @@ public class ClickEvent implements Listener {
                                     cash.increase(item.getSellprice());
                                     Main.Cash.getConfig().set("Cash", cash);
                                     Main.Cash.saveConfig();
-                                    saveLog(player, itemStack, 1, Type.SELL, item.getBuyprice(), itemStack);
+                                    saveLog(player, itemStack, 1, Type.SELL, item.getSellprice(), itemStack);
                                     player.sendMessage(Util.sellreplace(cashShop.getName(), itemStack, "shop_message.1_sell", item.getSellprice()));
                                     Sound(player,"cash_shop_message.sell_sound");
                                 } else{
@@ -209,10 +213,24 @@ public class ClickEvent implements Listener {
         Sound sound = Sound.valueOf(Main.config.getString(path));
         player.playSound(player, sound, 1, 1);
     }
-    public void addItem(Player player,ItemStack itemStack,Items item, int amount){
-        itemStack.setItemMeta(item.getMeta());
-        itemStack.setAmount(amount);
-        player.getInventory().addItem(itemStack);
+    public void Price(Player player, int slot,int amount){
+
+        CashShop cashShop = Data.cashshop.get(player.getUniqueId());
+
+        for (Items items : cashShop.getItems()) {
+            if (items.getSlot() == slot) {
+                int i = cashShop.getItems().indexOf(items);
+                ItemStack itemstack = new ItemStack(Material.valueOf(items.getMaterial()));
+                if(items.getMeta() != null){
+                    ItemMeta meta = items.getMeta();
+                    meta.setLore(items.getLore());
+                    itemstack.setItemMeta(meta);
+                }
+                itemstack.setAmount(amount);
+                player.getInventory().addItem(itemstack);
+            }
+
+        }
     }
 
 }
